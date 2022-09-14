@@ -1,11 +1,8 @@
 # config.py
-from turtle import clear
-
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cakd_erp',
+        'NAME': 'test4',
         'USER': 'root',
         'PASSWORD': '1234',
         'HOST': '127.0.0.1',
@@ -13,5 +10,6 @@ DATABASES = {
     }
 }
 
-SECRET_KEY
+# SECRET_KEY
 # ALGORITHMS='HS256'
+2

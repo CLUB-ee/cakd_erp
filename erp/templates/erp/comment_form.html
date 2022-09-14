@@ -1,0 +1,13 @@
+{% extends 'base_full_width.html' %}
+{% load crispy_forms_tags %}
+{% block head_title %}Edit Comment - Blog{% endblock %}
+
+{% block main %}
+    <h1>Edit Comment</h1>
+    <hr/>
+    <form method="post" id="comment-form">{% csrf_token %}
+        {{ form | crispy }}
+        <br/>
+        <button type="submit" class="btn btn-primary float-right" style="float:right">Submit</button>
+    </form>
+{% endblock %}

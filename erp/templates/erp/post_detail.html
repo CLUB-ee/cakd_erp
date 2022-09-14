@@ -1,0 +1,147 @@
+{% extends 'base.html'%}
+{% load crispy_forms_tags %}
+{% load static %}
+<head>
+{% block head_title %}
+{{post.title}} - Blog
+{% endblock %}
+
+{% block main %}
+    <!-- Page content-->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-8 mb-5">
+                <!-- Post content-->
+                <article id="post-area">
+                    <header class="mb-4">
+                        <!-- Post header-->
+                        <!-- category-->
+                        {%if post.category%}
+                            <span class="badge badge-secondary float-right">{{post.category}}</span>
+                        {% else %}
+                            <span class="badge badge-secondary float-right">미분류</span>
+                        {% endif%}
+                        <!-- Post title-->
+                        <h1 class="fw-bolder mb-1">{{post.title}}</h1>
+                        <!-- hook_text-->
+                        <h5 class="text-muted">{{post.hook_text}}</h5>
+                        <!-- Post meta content-->
+                        <div class="text-muted fst-italic mb-2">Posted on {{post.created_at}} by Start Bootstrap</div>
+                        <!-- author-->
+                        <div>
+                            By <a href='#'>{{post.author | upper}}</a>
+                            {% if user.is_authenticated and user == post.author%}
+                            <a class="btn btn-info btn-sm float-right" href="/blog/update_post/{{post.pk}}/" role="button"><i class="fas fa-pen"></i> Edit Post</a>
+                            {% endif %}
+                        </div>
+                    </header>
+                    <!-- Preview image figure-->
+                    {% if post.head_image %}
+                        <figure class="mb-4"><img class="img-fluid rounded" src="{{ post.head_image.url }}" alt="{{ post.title}} - head image" /></figure>
+                    {% else %}
+                        <figure class="mb-4"><img class="img-fluid rounded" src="https://picsum.photos/seed/{{post.id}}}/800/200" alt="rnadom_image" /></figure>
+                    {% endif %}
+                    <!-- Post content-->
+                    <section class="mb-5">
+                        <!-- content-->
+                        <p class="fs-5 mb-4">{{post.get_content_markdown | safe}}</p>
+                        <!-- tag-->
+                        {% if post.tags.exists %}
+                            <i class="fas fa-tags"></i>
+                        {% for tag in post.tags.iterator %}
+                            <a href="{{ tag.get_absolute_url }}"><span class="badge badge-pill badge-light text-dark">{{ tag }}</span></a>
+                        {% endfor %}
+                        <br/>
+                        <br/>
+                        {% endif %}
+                        <!-- File download-->
+                        {%if post.file_upload %}
+                            <a href="{{post.file_upload.url}}" class="btn btn-primary" role="button" download>Download:
+                            {% if post.get_file_ext == 'csv' %}
+                                <i class="fas fa-file-csv"></i>
+                            {% elif post.get_file_ext == 'xlsx' or post.get_file_ext == 'xls' %}
+                                <i class="fas fa-file-excel"></i>
+                            {% elif post.get_file_ext == 'docx' or post.get_file_ext == 'doc' %}
+                                <i class="fas fa-file-word"></i>
+                            {% else %}
+                                <i class="for fa-file"></i>
+                            {% endif %}
+                            {{post.get_file_name}}
+                            </a>
+                        {% endif%}
+                    </section>
+                </article>
+                <!-- Comments section-->
+                <section id="comment-area">
+                    <!-- Comment form-->
+                    <div class="mt-2 card bg-light">
+                        <h5 class="card-header">Leave a Comment:</h5>
+                        <div class="card-body card bg-light">
+                            {% if user.is_authenticated %}
+                            <form id="comment-form" method="POST" action="{{post.get_absolute_url}}new_comment/">
+                                {% csrf_token%}
+                                <div class="form-group">
+                                    {{ comment_form | crispy }}
+                                </div>
+                                <button type="submit" class="btn btn-primary mt-2 float-right">Submit</button>
+                            </form>
+                            {% else %}
+                                <a role="button" class="btn btn-outline-dark btn-block btn-sm" href="#" data-toggle="modal" data-target="#loginModal">Log in and leave a comment</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!-- Comment-->
+                    <div class="px-3 pt-3 mb-3 card bg-light">
+                        {% if post.comment_set.exists %}
+                        {% for comment in post.comment_set.iterator %}
+                        <div class="d-flex mb-4" id="comment-{{comment.pk}}">
+                            <div class="media-body">
+                                {% if user.is_authenticated and comment.author == user %}
+                                    <div class="float-right">
+                                        <a role="button" class="btn btn-sm btn-info" id="comment-{{comment.pk}}-update-btn" href="/blog/update_comment/{{ comment.pk }}/">
+                                            Edit
+                                        </a>
+                                        <a role="button" class="btn btn-sm btn-danger" id="comment-{{ comment.pk }}-delete-modal-btn" href="#" data-toggle="modal" data-target="#deleteCommentModal-{{ comment.pk }}">
+                                            delete
+                                        </a>
+                                    </div>
+                                    <!-- Modal-->
+                                    <div class="modal fade" id="deleteCommentModal-{{ comment.pk }}" tabindex="-1" aria-labelledby="deleteCommentModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="deleteModalLabel">Are You Sure?</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <del>{{ comment | linebreaks }}</del>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                    <a role="button" class="btn btn-danger" href="/blog/delete_comment/{{ comment.pk }}/">Delete</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                <h5 class="mt-0">
+                                    {{comment.author.username}} &nbsp;&nbsp;<small class="text-muted">{{comment.created_at}}</small>
+                                </h5>
+                                <p>{{ comment.content | linebreaks}}</p>
+                                {% if comment.created_at != comment.modified_at %}
+                                    <p class="text-muted float-right" style="float:right"><small>Updated: {{ comment.modified_at }}</small></p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <hr/>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </section>
+            </div>
+            <aside class="col-lg-4 fixed-">
+                {% include 'blog/aside.html' %}
+            </aside>
+        </div>
+    </div>
+{% endblock %}
