@@ -20,6 +20,9 @@ class Cusord(models.Model):
     class Meta:
         db_table = 'cusOrd'
 
+    def __str__(self):
+        return str(self.cus_ord_num)
+
 
 class Instock(models.Model):
     in_num = models.AutoField(db_column='inNum', primary_key=True)
@@ -31,6 +34,9 @@ class Instock(models.Model):
 
     class Meta:
         db_table = 'inStock'
+
+    def __str__(self):
+        return str(self.in_num)
 
 
 class Manager(models.Model):
@@ -47,6 +53,9 @@ class Manager(models.Model):
 
     class Meta:
         db_table = 'manager'
+
+    def __str__(self):
+        return self.man_name
 
 
 class Material(models.Model):
@@ -65,6 +74,9 @@ class Material(models.Model):
     class Meta:
         db_table = 'material'
 
+    def __str__(self):
+        return self.mate_name
+
 
 class Menu(models.Model):
     menu_id = models.AutoField(db_column='menuId', primary_key=True)
@@ -76,6 +88,9 @@ class Menu(models.Model):
     class Meta:
         db_table = 'menu'
 
+    def __str__(self):
+        return f"{self.menu_id}:{self.menu_name}"
+
 
 class Ord(models.Model):
     ord_num = models.AutoField(db_column='ordNum', primary_key=True)
@@ -83,6 +98,9 @@ class Ord(models.Model):
 
     class Meta:
         db_table = 'ord'
+
+    def __str__(self):
+        return str(self.ord_num)
 
 
 class Outstock(models.Model):
@@ -97,6 +115,9 @@ class Outstock(models.Model):
     class Meta:
         db_table = 'outStock'
 
+    def __str__(self):
+        return str(self.out_num)
+
 
 class Recipe(models.Model):
     menu_id = models.ForeignKey(Menu, models.DO_NOTHING, db_column='menuId')
@@ -107,3 +128,6 @@ class Recipe(models.Model):
 
     class Meta:
         db_table = 'recipe'
+
+    def __str__(self):
+        return str(self.menu_id)
