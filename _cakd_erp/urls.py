@@ -34,4 +34,5 @@ router.register(r'api_outstock', views.OutstockList)
 urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^admin/', admin.site.urls),
+    url('tmep/', include('template.urls'))
 ]
