@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'rest_framework',
+
     'app',
     'erp',
     'kiosk',
@@ -123,5 +125,4 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, '_media')
 
-DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
-# django.db.models.BigAutoField
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
