@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.urls import path, include
 import template.views
+import kiosk.views
 
 app_name = 'template'
 
@@ -27,4 +28,5 @@ urlpatterns = [
     path('my/', template.views.my, name='my'),
     path('login/', template.views.login, name='login'),
     path('register/', template.views.register, name='register'),
+    path('kiosk/', kiosk.views.index, name='kiosk'),
 ]

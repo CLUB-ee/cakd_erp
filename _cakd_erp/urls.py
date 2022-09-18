@@ -44,4 +44,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     path('tmep/', include('template.urls')),
     # path('erp/', include('erp.urls')),
+    path('kiosk/', include('kiosk.urls')),
 ]
