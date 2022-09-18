@@ -28,8 +28,14 @@ from erp import views
 from rest_framework import routers
 
 router = routers.DefaultRouter()
+router.register(r'api_cusord', views.CusordList)
 router.register(r'api_instock', views.InstockList)
+router.register(r'api_manager', views.ManagerList)
+router.register(r'api_material', views.MaterialList)
+router.register(r'api_menu', views.MenuList)
+router.register(r'api_Ord', views.OrdList)
 router.register(r'api_outstock', views.OutstockList)
+router.register(r'api_recipe', views.RecipeList)
 
 urlpatterns = [
     url(r'^', include(router.urls)),

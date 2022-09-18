@@ -123,7 +123,7 @@ class Outstock(models.Model):
 class Recipe(models.Model):
     menu_id = models.ForeignKey(Menu, models.DO_NOTHING, db_column='menuId')
     mate_id = models.ForeignKey(
-        'Material', models.DO_NOTHING, db_column='mateId')
+        Material, models.DO_NOTHING, db_column='mateId')
     mate_usage = models.IntegerField(
         db_column='mateUsage', blank=True, null=True)
 
