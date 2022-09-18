@@ -42,6 +42,6 @@ router.register(r'api_recipe', views.RecipeList)
 urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^admin/', admin.site.urls),
-    url('tmep/', include('template.urls')),
-    path('erp/', include('erp.urls'))
+    path('tmep/', include('template.urls')),
+    # path('erp/', include('erp.urls')),
 ]
