@@ -1,5 +1,6 @@
 from configparser import MAX_INTERPOLATION_DEPTH
 from django.db import models
+from django.db.models import Q
 
 # This is an auto-generated Django model module.
 # You'll have to do the following manually to clean this up:
@@ -130,4 +131,4 @@ class Recipe(models.Model):
         db_table = 'recipe'
 
     def __str__(self):
-        return str(self.menu_id)
+        return Q(Menu.menu_name)

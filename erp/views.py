@@ -13,11 +13,18 @@ class InstockList(viewsets.ModelViewSet):
     queryset = Instock.objects.all()
     serializer_class = InstockSerializer
 
+# class InstockList(generics.ListCreateAPIView):
+#     queryset = Instock.objects.all()
+#     serializer_class = InstockSerializer
+
 
 class OutstockList(viewsets.ModelViewSet):
     queryset = Outstock.objects.all()
     serializer_class = OutstockSerializer
 
+# class OutstockList(generics.ListCreateAPIView):
+#     queryset = Outstock.objects.all()
+#     serializer_class = OutstockSerializer
 
 # from django.shortcuts import get_object_or_404
 # # from .models import Post, Category, Tag, Comment
