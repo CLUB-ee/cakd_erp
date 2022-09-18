@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+from rest_framework.response import Response
+# from django.http import JsonResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 # 클래스 기반의 Rest CRUD 처리
@@ -6,12 +8,35 @@ from .models import Cusord, Instock, Manager, Material, Menu, Ord, Outstock, Rec
 from .serializers import CusordSerializer, InstockSerializer, ManagerSerializer, MaterialSerializer, MenuSerializer, OrdSerializer, OutstockSerializer, RecipeSerializer
 from rest_framework import generics
 from rest_framework import viewsets
+
+
+def test(request):
+    cusord = Cusord.objects
+    return render(request, 'erp/test.html', {'test': cusord})
+
+# get json
+
+
+def get_json(arr):
+    if arr:
+        return arr[0]
+    return arr
+
+# time parsing
+
+
+def time_str(timestamp):
+    timestamp = timestamp.strftime("%Y.%m.%d. %H:%M:%S")
+    return timestamp
+
 # generics 에 목록과 생성 API가 정의되어 있음
 
 
-class CusordList(viewsets.ModelViewSet):
+class CusordViewset(viewsets.ModelViewSet):
     queryset = Cusord.objects.all()
     serializer_class = CusordSerializer
+    response = Response(serializer_class.data)
+    print(response)
 
 
 class InstockList(viewsets.ModelViewSet):

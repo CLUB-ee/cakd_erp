@@ -1,3 +1,4 @@
+from dataclasses import field
 from rest_framework import serializers
 from erp.models import Cusord, Instock, Manager, Material, Menu, Ord, Outstock, Recipe
 from drf_queryfields import QueryFieldsMixin
@@ -7,7 +8,8 @@ from drf_queryfields import QueryFieldsMixin
 class CusordSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cusord
-        fields = ('cus_ord_num', 'out_time', 'menu_id')
+        fields = '__all__'
+        # template_name = 'erp/test.html'
 
     def create(self, validated_data):
         return Cusord.objects.create(**validated_data)
@@ -17,7 +19,8 @@ class CusordSerializer(serializers.ModelSerializer):
 class InstockSerializer(QueryFieldsMixin, serializers.ModelSerializer):
     class Meta:
         model = Instock
-        fields = ('in_num', 'in_time', 'ord_num', 'mate_id', 'in_quan')
+        fields = '__all__'
+        # fields = ('in_num', 'in_time', 'ord_num', 'mate_id', 'in_quan')
 
     # 신규 instance를 생성해서 리턴해준다
     def create(self, validated_data):
@@ -37,8 +40,7 @@ class InstockSerializer(QueryFieldsMixin, serializers.ModelSerializer):
 class ManagerSerializer(QueryFieldsMixin, serializers.ModelSerializer):
     class Meta:
         model = Manager
-        fields = ('man_id', 'man_name', 'man_pw', 'man_phone',
-                  'man_addr', 'man_mail', 'man_safe', 'biz_num')
+        fields = '__all__'
 
     # 신규 instance를 생성해서 리턴해준다
     # def create(self, validated_data):
@@ -62,8 +64,7 @@ class ManagerSerializer(QueryFieldsMixin, serializers.ModelSerializer):
 class MaterialSerializer(QueryFieldsMixin, serializers.ModelSerializer):
     class Meta:
         model = Material
-        fields = ('mate_id', 'mate_name', 'l_cat',
-                  'm_cat', 's_cat', 'unit_cost', 'stock')
+        fields = '__all__'
 
     # 신규 instance를 생성해서 리턴해준다
     def create(self, validated_data):
@@ -87,7 +88,7 @@ class MaterialSerializer(QueryFieldsMixin, serializers.ModelSerializer):
 class MenuSerializer(QueryFieldsMixin, serializers.ModelSerializer):
     class Meta:
         model = Menu
-        fields = ('menu_id', 'menu_pic', 'menu_name', 'menu_pri')
+        fields = '__all__'
 
     # 신규 instance를 생성해서 리턴해준다
     def create(self, validated_data):
@@ -108,7 +109,7 @@ class MenuSerializer(QueryFieldsMixin, serializers.ModelSerializer):
 class OrdSerializer(QueryFieldsMixin, serializers.ModelSerializer):
     class Meta:
         model = Ord
-        fields = ('ord_num', 'in_time')
+        fields = '__all__'
 
     # 신규 instance를 생성해서 리턴해준다
     def create(self, validated_data):
@@ -126,7 +127,7 @@ class OrdSerializer(QueryFieldsMixin, serializers.ModelSerializer):
 class OutstockSerializer(QueryFieldsMixin, serializers.ModelSerializer):
     class Meta:
         model = Outstock
-        fields = ('out_num', 'out_time', 'mate_id', 'out_quan')
+        fields = '__all__'
 
 # Recipe 는 admin에서만 추가 수정 가능하면 충분하기 때문에 CRUD가 필요하지 않다.
 
@@ -134,4 +135,5 @@ class OutstockSerializer(QueryFieldsMixin, serializers.ModelSerializer):
 class RecipeSerializer(QueryFieldsMixin, serializers.ModelSerializer):
     class Meta:
         model = Recipe
-        fields = ('menu_id', 'mate_id', 'mate_usage')
+        fields = '__all__'
+        # fields = ('menu_id', 'mate_id', 'mate_usage')
