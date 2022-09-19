@@ -35,8 +35,8 @@ def time_str(timestamp):
 class CusordViewset(viewsets.ModelViewSet):
     queryset = Cusord.objects.all()
     serializer_class = CusordSerializer
-    response = Response(serializer_class.data)
-    print(response)
+    # response = Response(serializer_class.data)
+    # print(response)
 
 
 class InstockList(viewsets.ModelViewSet):

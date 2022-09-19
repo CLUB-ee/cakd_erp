@@ -4,8 +4,30 @@ from erp.models import Cusord, Instock, Manager, Material, Menu, Ord, Outstock, 
 from drf_queryfields import QueryFieldsMixin
 
 
+# Menu Serializer
+class MenuSerializer(QueryFieldsMixin, serializers.ModelSerializer):
+    class Meta:
+        model = Menu
+        fields = '__all__'
+
+    # 신규 instance를 생성해서 리턴해준다
+    def create(self, validated_data):
+        return Menu.objects.create(**validated_data)
+
+    # 생성되어 있는 instance 를 저장한 후 리턴해준다
+    def update(self, instance, validated_data):
+        instance.menu_pic = validated_data.get('menu_pic', instance.menu_pic)
+        instance.menu_name = validated_data.get(
+            'menu_name', instance.menu_name)
+        instance.menu_pri = validated_data.get('menu_pri', instance.menu_pri)
+        instance.save()
+        return instance
+
+
 # CusOrd Serializer
 class CusordSerializer(serializers.ModelSerializer):
+    menu_id = MenuSerializer(read_only=True)
+
     class Meta:
         model = Cusord
         fields = '__all__'
@@ -83,25 +105,6 @@ class MaterialSerializer(QueryFieldsMixin, serializers.ModelSerializer):
         instance.save()
         return instance
 
-
-# Menu Serializer
-class MenuSerializer(QueryFieldsMixin, serializers.ModelSerializer):
-    class Meta:
-        model = Menu
-        fields = '__all__'
-
-    # 신규 instance를 생성해서 리턴해준다
-    def create(self, validated_data):
-        return Menu.objects.create(**validated_data)
-
-    # 생성되어 있는 instance 를 저장한 후 리턴해준다
-    def update(self, instance, validated_data):
-        instance.menu_pic = validated_data.get('menu_pic', instance.menu_pic)
-        instance.menu_name = validated_data.get(
-            'menu_name', instance.menu_name)
-        instance.menu_pri = validated_data.get('menu_pri', instance.menu_pri)
-        instance.save()
-        return instance
 
 # Ord 는 create 만 필요하고 수정은 필요하지 않다.
 

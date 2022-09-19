@@ -18,29 +18,36 @@ from rest_framework.response import Response
 def dash(request):
     return render(request, 'dash.html')
 
+
 def orders(request):
     return render(request, 'orders.html')
+
 
 def orderapp(request):
     return render(request, 'orderapp.html')
 
+
 def stock(request):
     return render(request, 'stock.html')
+
 
 def sale(request):
     return render(request, 'sale.html')
 
+
 def my(request):
     return render(request, 'my.html')
+
 
 def login(request):
     return render(request, 'login.html')
 
+
 def register(request):
     return render(request, 'register.html')
 
-class OrderAPIView(APIView):
 
+class OrderAPIView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'my.html'
     serializer_class = ManagerSerializer
@@ -48,9 +55,9 @@ class OrderAPIView(APIView):
     # def get(self, menu_id):
     #     menu = get_object_or_404(Menu, menu_id=menu_id)
     #     content = {'menu': menu.menu_id}
-        # return Response(content)
+    # return Response(content)
     def get(self, request):
         queryset = Manager.objects.get(man_id=1)
         return Response({'man': queryset})
-    
+
 # Create your views here.
