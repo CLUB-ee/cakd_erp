@@ -36,7 +36,7 @@ class MyAPIView(APIView):
     # serializer_class = ManagerSerializer
 
     def get(self, request):
-        queryset = Manager.objects.all()
+        queryset = Manager.objects.get(man_id =1)
         return Response({'man': queryset})
 
 class OrderAPIView(APIView):
