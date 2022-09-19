@@ -20,12 +20,12 @@ import kiosk.views
 app_name = 'template'
 
 urlpatterns = [
-    path('', template.views.dash, name='dash'),
-    path('orders/', template.views.orders, name='orders'),
-    path('orderapp/', template.views.orderapp, name='orderapp'),
+    path('', template.views.DashAPIView.as_view(), name='dash'),
+    path('orders/', template.views.OrderAPIView.as_view(), name='orders'),
+    path('orderapp/', template.views.OrdappAPIView.as_view(), name='orderapp'),
     path('stock/', template.views.stock, name='stock'),
-    path('sale/', template.views.sale, name='sale'),
-    path('my/', template.views.OrderAPIView.as_view(), name='my'),
+    path('sale/', template.views.SaleAPIView.as_view(), name='sale'),
+    path('my/', template.views.MyAPIView.as_view(), name='my'),
     path('login/', template.views.login, name='login'),
     path('register/', template.views.register, name='register'),
     path('kiosk/', kiosk.views.index, name='kiosk'),

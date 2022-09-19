@@ -63,7 +63,7 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">사용량 추이</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">월 매출량 추이</h6>
                                     <div class="dropdown no-arrow">
                                         <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             날짜
@@ -93,7 +93,7 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">재료별 발주량</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">월 메뉴 판매량</h6>
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -128,16 +128,57 @@
                             <!-- Project Card Example -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">내알 예상 주문</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">내일 예상 주문</h6>
                                 </div>
                                 <div class="card-body">
-                                    <h4 class="small font-weight-bold">Server Migration <span
-                                            class="float-right">20%</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 20%"
-                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="chart-pie pt-4 pb-2">
+                                        <canvas id="myPieChart"></canvas>
                                     </div>
-                                   
+                                </div>
+                            </div>
+
+                            <!-- Color System -->
+                            
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6">
+
+                            <!-- Project Card Example -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">내일 예상 주문</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>발주 번호</th>
+                                                    <th>대분류</th>
+                                                    <th>중분류</th>
+                                                    
+                                                </tr>
+                                            </thead>
+                                            <tfoot>
+                                                <tr>
+                                                    
+                                                    <th>발주 번호</th>
+                                                    <th>대분류</th>
+                                                    <th>중분류</th>
+                                                    
+                                                </tr>
+                                            </tfoot>
+                                            <tbody>
+                                                <tr>
+                                                    
+                                                    <td>600000001</td>
+                                                    <td>신선제품</td>
+                                                    <td>채소</td>
+                                                    
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
 
@@ -187,7 +228,7 @@
     <script src="{%static 'js/demo/chart-area-demo.js'%}"></script>
     <script src="{%static 'js/demo/chart-pie-demo.js'%}"></script>
     <script src="{%static 'js/demo/chart-bar-demo.js'%}"></script>
-
+   
 </body>
 
 </html>

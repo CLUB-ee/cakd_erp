@@ -15,28 +15,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 
-def dash(request):
-    return render(request, 'dash.html')
 
-
-def orders(request):
-    return render(request, 'orders.html')
-
-
-def orderapp(request):
-    return render(request, 'orderapp.html')
 
 
 def stock(request):
     return render(request, 'stock.html')
-
-
-def sale(request):
-    return render(request, 'sale.html')
-
-
-def my(request):
-    return render(request, 'my.html')
 
 
 def login(request):
@@ -46,18 +29,63 @@ def login(request):
 def register(request):
     return render(request, 'register.html')
 
+class MyAPIView(APIView):
 
-class OrderAPIView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'my.html'
-    serializer_class = ManagerSerializer
+    # serializer_class = ManagerSerializer
 
-    # def get(self, menu_id):
-    #     menu = get_object_or_404(Menu, menu_id=menu_id)
-    #     content = {'menu': menu.menu_id}
-    # return Response(content)
     def get(self, request):
-        queryset = Manager.objects.get(man_id=1)
+        queryset = Manager.objects.all()
         return Response({'man': queryset})
+
+class OrderAPIView(APIView):
+
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'orders.html'
+ 
+    # serializer_class = ManagerSerializer
+
+    def get(self, request):
+        queryset = Material.objects.all()
+        return Response({'mate': queryset})
+
+class OrdappAPIView(APIView):
+
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'orderapp.html'
+ 
+    # serializer_class = ManagerSerializer
+
+    def get(self, request):
+        queryset = Material.objects.all()
+        return Response({'mate': queryset})
+
+class DashAPIView(APIView):
+
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'dash.html'
+    # serializer_class = ManagerSerializer
+
+    def get(self, request):
+        queryset = Material.objects.all()
+        return Response({'mate': queryset})
+
+class SaleAPIView(APIView):
+
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'sale.html'
+    # serializer_class = ManagerSerializer
+
+    def get(self, request):
+        queryset = Menu.objects.all()
+        return Response({'menu': queryset})
+    def get(self, request):
+        queryset = Material.objects.all()
+        return Response({'mate': queryset})
+
+
+
+
 
 # Create your views here.
