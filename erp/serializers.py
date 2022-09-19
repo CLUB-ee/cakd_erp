@@ -72,7 +72,6 @@ class CusordSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cusord
         fields = '__all__'
-        # template_name = 'erp/test.html'
 
     def create(self, validated_data):
         return Cusord.objects.create(**validated_data)
@@ -119,10 +118,10 @@ class RecipeSerializer(QueryFieldsMixin, serializers.ModelSerializer):
     class Meta:
         model = Recipe
         fields = '__all__'
-        # fields = ('menu_id', 'mate_id', 'mate_usage')
-
 
 # Manager Serializer
+
+
 class ManagerSerializer(QueryFieldsMixin, serializers.ModelSerializer):
     class Meta:
         model = Manager
