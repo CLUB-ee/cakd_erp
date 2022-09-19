@@ -4,8 +4,8 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 # 클래스 기반의 Rest CRUD 처리
-from .models import Cusord, Instock, Manager, Material, Menu, Ord, Outstock, Recipe
-from .serializers import CusordSerializer, InstockSerializer, OutstockSerializer, ManagerSerializer
+from erp.models import Cusord, Instock, Manager, Material, Menu, Ord, Outstock, Recipe
+from erp.serializers import CusordSerializer, InstockSerializer, OutstockSerializer, ManagerSerializer
 
 from rest_framework import generics
 from rest_framework import viewsets
@@ -50,6 +50,7 @@ class OrderAPIView(APIView):
     #     content = {'menu': menu.menu_id}
         # return Response(content)
     def get(self, request):
-        queryset = Manager.objects.all()
+        queryset = Manager.objects.get(man_id=1)
         return Response({'man': queryset})
+    
 # Create your views here.
