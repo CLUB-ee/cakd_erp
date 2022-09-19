@@ -25,7 +25,7 @@ urlpatterns = [
     path('orderapp/', template.views.orderapp, name='orderapp'),
     path('stock/', template.views.stock, name='stock'),
     path('sale/', template.views.sale, name='sale'),
-    path('my/', template.views.my, name='my'),
+    path('my/', template.views.OrderAPIView.as_view(template_name = 'my.html'), name='my'),
     path('login/', template.views.login, name='login'),
     path('register/', template.views.register, name='register'),
     path('kiosk/', kiosk.views.index, name='kiosk'),
