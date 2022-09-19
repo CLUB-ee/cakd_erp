@@ -131,4 +131,4 @@ class Recipe(models.Model):
         db_table = 'recipe'
 
     def __str__(self):
-        return Q(Menu.menu_name)
+        return Menu.objects.filter(self.menu_id == 'menu_id')

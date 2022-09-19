@@ -24,64 +24,6 @@ class MenuSerializer(QueryFieldsMixin, serializers.ModelSerializer):
         return instance
 
 
-# CusOrd Serializer
-class CusordSerializer(serializers.ModelSerializer):
-    menu_id = MenuSerializer(read_only=True)
-
-    class Meta:
-        model = Cusord
-        fields = '__all__'
-        # template_name = 'erp/test.html'
-
-    def create(self, validated_data):
-        return Cusord.objects.create(**validated_data)
-
-
-# InStock Serializer
-class InstockSerializer(QueryFieldsMixin, serializers.ModelSerializer):
-    class Meta:
-        model = Instock
-        fields = '__all__'
-        # fields = ('in_num', 'in_time', 'ord_num', 'mate_id', 'in_quan')
-
-    # 신규 instance를 생성해서 리턴해준다
-    def create(self, validated_data):
-        return Instock.objects.create(**validated_data)
-
-    # 생성되어 있는 instance 를 저장한 후 리턴해준다
-    def update(self, instance, validated_data):
-        instance.in_time = validated_data.get('in_time', instance.in_time)
-        instance.ord_num = validated_data.get('ord_num', instance.ord_num)
-        instance.mate_id = validated_data.get('mate_id', instance.mate_id)
-        instance.in_quan = validated_data.get('in_quan', instance.in_quan)
-        instance.save()
-        return instance
-
-
-# Manager Serializer
-class ManagerSerializer(QueryFieldsMixin, serializers.ModelSerializer):
-    class Meta:
-        model = Manager
-        fields = '__all__'
-
-    # 신규 instance를 생성해서 리턴해준다
-    # def create(self, validated_data):
-    #     return Instock.objects.create(**validated_data)
-
-        # 생성되어 있는 instance 를 저장한 후 리턴해준다
-    def update(self, instance, validated_data):
-        instance.man_name = validated_data.get('man_name', instance.man_name)
-        instance.man_pw = validated_data.get('man_pw', instance.man_pw)
-        instance.man_phone = validated_data.get(
-            'man_phone', instance.man_phone)
-        instance.man_addr = validated_data.get('man_addr', instance.man_addr)
-        instance.man_mail = validated_data.get('man_mail', instance.man_mail)
-        instance.man_safe = validated_data.get('man_safe', instance.man_safe)
-        instance.biz_num = validated_data.get('biz_num', instance.biz_num)
-        instance.save()
-        return instance
-
-
 # Material Serializer
 class MaterialSerializer(QueryFieldsMixin, serializers.ModelSerializer):
     class Meta:
@@ -107,8 +49,6 @@ class MaterialSerializer(QueryFieldsMixin, serializers.ModelSerializer):
 
 
 # Ord 는 create 만 필요하고 수정은 필요하지 않다.
-
-
 class OrdSerializer(QueryFieldsMixin, serializers.ModelSerializer):
     class Meta:
         model = Ord
@@ -124,10 +64,47 @@ class OrdSerializer(QueryFieldsMixin, serializers.ModelSerializer):
     #     instance.save()
     #     return instance
 
+
+# CusOrd Serializer
+class CusordSerializer(serializers.ModelSerializer):
+    menu_id = MenuSerializer(read_only=True)
+
+    class Meta:
+        model = Cusord
+        fields = '__all__'
+        # template_name = 'erp/test.html'
+
+    def create(self, validated_data):
+        return Cusord.objects.create(**validated_data)
+
+
+# InStock Serializer
+class InstockSerializer(QueryFieldsMixin, serializers.ModelSerializer):
+    mate_id = MaterialSerializer(read_only=True)
+
+    class Meta:
+        model = Instock
+        fields = '__all__'
+
+    # 신규 instance를 생성해서 리턴해준다
+    def create(self, validated_data):
+        return Instock.objects.create(**validated_data)
+
+    # 생성되어 있는 instance 를 저장한 후 리턴해준다
+    def update(self, instance, validated_data):
+        instance.in_time = validated_data.get('in_time', instance.in_time)
+        instance.ord_num = validated_data.get('ord_num', instance.ord_num)
+        instance.mate_id = validated_data.get('mate_id', instance.mate_id)
+        instance.in_quan = validated_data.get('in_quan', instance.in_quan)
+        instance.save()
+        return instance
+
+
 # Outstock 는 admin에서만 추가 수정 가능하면 충분하기 때문에 CRUD가 필요하지 않다.
-
-
 class OutstockSerializer(QueryFieldsMixin, serializers.ModelSerializer):
+    mate_id = MaterialSerializer(read_only=True)
+    cus_ord_num = CusordSerializer(read_only=True)
+
     class Meta:
         model = Outstock
         fields = '__all__'
@@ -136,7 +113,34 @@ class OutstockSerializer(QueryFieldsMixin, serializers.ModelSerializer):
 
 
 class RecipeSerializer(QueryFieldsMixin, serializers.ModelSerializer):
+    mate_id = MaterialSerializer(read_only=True)
+    menu_id = MenuSerializer(read_only=True)
+
     class Meta:
         model = Recipe
         fields = '__all__'
         # fields = ('menu_id', 'mate_id', 'mate_usage')
+
+
+# Manager Serializer
+class ManagerSerializer(QueryFieldsMixin, serializers.ModelSerializer):
+    class Meta:
+        model = Manager
+        fields = '__all__'
+
+    # 신규 instance를 생성해서 리턴해준다
+    # def create(self, validated_data):
+    #     return Instock.objects.create(**validated_data)
+
+        # 생성되어 있는 instance 를 저장한 후 리턴해준다
+    def update(self, instance, validated_data):
+        instance.man_name = validated_data.get('man_name', instance.man_name)
+        instance.man_pw = validated_data.get('man_pw', instance.man_pw)
+        instance.man_phone = validated_data.get(
+            'man_phone', instance.man_phone)
+        instance.man_addr = validated_data.get('man_addr', instance.man_addr)
+        instance.man_mail = validated_data.get('man_mail', instance.man_mail)
+        instance.man_safe = validated_data.get('man_safe', instance.man_safe)
+        instance.biz_num = validated_data.get('biz_num', instance.biz_num)
+        instance.save()
+        return instance
