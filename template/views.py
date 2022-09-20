@@ -52,8 +52,8 @@ class OrderAPIView(APIView):
 
     def get(self, request):
         queryset = Instock.objects.all()
-        queryset_test = Menu.objects.all()
-        return Response({'instock': queryset,'abc':queryset_test})
+        # queryset_test = Menu.objects.all()
+        return Response({'instock': queryset})
 
 class OrdappAPIView(APIView):
 

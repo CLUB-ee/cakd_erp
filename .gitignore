@@ -133,3 +133,6 @@ dmypy.json
 
 # window
 .thumbs.db
+
+# 마이그레이션 제외
+*migrations/

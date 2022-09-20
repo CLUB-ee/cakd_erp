@@ -18,8 +18,8 @@ class Menu(models.Model):
         db_column='menuPic', upload_to='erp/menu/imgaes/', blank=True, null=True)
     menu_name = models.CharField(db_column='menuName', max_length=20)
     menu_pri = models.IntegerField(db_column='menuPri')
-    menu_cnt = models.IntegerField(db_column='menu_cnt',default=0) # 주문카운트
-    menu_sum = models.IntegerField(db_column='menu_sum',default=0) # 합계
+    menu_cnt = models.IntegerField(db_column='menuCnt',default=0) # 주문카운트
+    menu_sum = models.IntegerField(db_column='menuSum',default=0) # 합계
 
     class Meta:
         db_table = 'menu'
@@ -95,7 +95,7 @@ class Material(models.Model):
 
 
 
-
+# 발주
 class Ord(models.Model):
     ord_num = models.AutoField(db_column='ordNum', primary_key=True)
     in_time = models.DateTimeField(db_column='inTime', auto_now_add=True)

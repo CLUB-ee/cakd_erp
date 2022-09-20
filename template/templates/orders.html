@@ -93,19 +93,19 @@
                                     <tbody>
                                         {% for i in instock %}
                                         <tr>
-                                            <td>time{{i.in_time}}</td>
-                                            <td>num{{i.in_num}}</td>
+                                            <td>{{i.in_time}}</td>
+                                            <td>발주번호{{i.ord_num}}</td>
                                             <td>id{{i.mate_id}}</td>
                                             <td>객체{{i}}</td>
                                             <td>name{{i.mate_id.mate_name}}</td>
                                             <td></td>
+                                            <td{{i.in_quan}}></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td>{{i.in_quan}}</td>
                                         </tr>
                                         {% endfor %}
-                                        {% for i in abc %}
+                                        {% comment %} {% for i in abc %}
                                         <tr>
                                             <td></td>
                                             <td></td>
@@ -118,7 +118,7 @@
                                             <td></td>
                                             <td></td>
                                         </tr>
-                                        {% endfor %}
+                                        {% endfor %} {% endcomment %}
                                     </tbody>
                                 </table>
                             </div>
