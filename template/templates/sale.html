@@ -24,6 +24,8 @@
     <!-- Custom styles for this page -->
     <link href="{%static 'vendor/datatables/dataTables.bootstrap4.min.css'%}" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
 </head>
 
 <body id="page-top">
@@ -49,8 +51,11 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h5 class="m-0 font-weight-bold text-primary">Right now</h5>
-                            <a class="btn btn-primary float-right" href="#" role="button">Update</a>
+                            <input type="text" id="date-picker" class="form-control" aria-label="Search" aria-describedby="basic-addon2" th:value="|${year}-${month}|" style="width: 6rem; float-right" placeholder='날짜'>
+                            <ul class="list-group list-group-horizontal float-right">
+                                <li class="list-group-item">총매출</li>
+                                <li class="list-group-item">#</li>
+                            </ul>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -131,6 +136,54 @@
 
     <!-- Page level custom scripts -->
     <script src="{%static 'js/demo/datatables-demo.js'%}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(document).ready(function() {
+            $('#date-picker').datepicker({
+                format: "yyyy-m",
+                minViewMode: 1,
+                language: "ko",
+                autoclose: true
+            })
+        
+            $('#get-history').on('click', function() {
+                const dateArr = $('#date-picker').val().split('-')
+                location.href = '/history?year=' + dateArr[0] + '&month=' + dateArr[1]
+            })
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#date-picker1').datepicker({
+                format: "yyyy-m",
+                minViewMode: 1,
+                language: "ko",
+                autoclose: true
+            })
+        
+            $('#get-history').on('click', function() {
+                const dateArr = $('#date-picker').val().split('-')
+                location.href = '/history?year=' + dateArr[0] + '&month=' + dateArr[1]
+            })
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#date-picker2').datepicker({
+                format: "yyyy-m",
+                minViewMode: 1,
+                language: "ko",
+                autoclose: true
+            })
+        
+            $('#get-history').on('click', function() {
+                const dateArr = $('#date-picker').val().split('-')
+                location.href = '/history?year=' + dateArr[0] + '&month=' + dateArr[1]
+            })
+        })
+    </script>
 
 </body>
 

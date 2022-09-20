@@ -67,17 +67,14 @@
                                             <th>날짜</th>
                                             <th>발주 번호</th>
                                             <th>대분류</th>
-                                            <th>중분류</th>
-                                            <th>소분류</th>
                                             <th>상품명</th>
-                                            <th>주문수량</th>
-                                            <th>단가</th>
-                                            <th>공급가액</th>
                                             <th>재고</th>
+                                            <th>단가</th>
+                                            <th>주문수량</th>
+                                            <th>공급가액</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for i in instock %}
                                         <tr>
                                             <td>날짜 {{i.in_time}}</td>
                                             <td>발주번호 {{i.ord_num}}</td>
@@ -93,21 +90,6 @@
                                             <td>공급가액(주문수량*단가) {{i.in_total}}</td>
                                             <td>재고 {{i.mate_id.stock}}</td>
                                         </tr>
-                                        {% endfor %}
-                                        {% comment %} {% for i in abc %}
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td>id{{i.menu_id}}</td>
-                                            <td>객체{{i}}</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        {% endfor %} {% endcomment %}
                                     </tbody>
                                 </table>
                             </div>

@@ -17,9 +17,11 @@
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-
+    <link rel="stylesheet" href="resources/css/plugin/datepicker/bootstrap-datepicker.css">
     <!-- Custom styles for this template-->
     <link href="{%static 'css/sb-admin-2.min.css'%}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
 
 </head>
 
@@ -64,19 +66,7 @@
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">월 매출량 추이</h6>
-                                    <div class="dropdown no-arrow">
-                                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            날짜
-                                        </button>
-                                        
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">날짜</div>
-                                            <a class="dropdown-item" href="#">2022.09.15</a>
-                                            <a class="dropdown-item" href="#">2022.09.10</a>
-                                            <a class="dropdown-item" href="#">2022.09.01</a>
-                                        </div>
-                                    </div>
+                                    <input type="text" id="date-picker" class="form-control float-right" aria-label="Search" aria-describedby="basic-addon2" th:value="|${year}-${month}|" style="width: 6rem; float-right" placeholder='날짜'>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -94,20 +84,7 @@
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">월 메뉴 판매량</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
+                                    <input type="text" id="date-picker1" class="form-control float-right" aria-label="Search" aria-describedby="basic-addon2" th:value="|${year}-${month}|" style="width: 6rem; float-right" placeholder='날짜'>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -128,11 +105,12 @@
                             <!-- Project Card Example -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">내일 예상 주문</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">월 재료별 사용량 추이</h6>
+                                    <input type="text" id="date-picker2" class="form-control float-right" aria-label="Search" aria-describedby="basic-addon2" th:value="|${year}-${month}|" style="width: 6rem; float-right" placeholder='날짜'>
                                 </div>
                                 <div class="card-body">
-                                    <div class="chart-pie pt-4 pb-2">
-                                        <canvas id="myPieChart"></canvas>
+                                    <div class="chart-bar pt-4 pb-2">
+                                        <canvas id="myBarChart2"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -220,15 +198,62 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{%static 'js/sb-admin-2.min.js'%}"></script>
-
+    <!-- Custom DatePicker(calender)-->
+   
     <!-- Page level plugins -->
     <script src="{%static 'vendor/chart.js/Chart.min.js'%}"></script>
 
     <!-- Page level custom scripts -->
     <script src="{%static 'js/demo/chart-area-demo.js'%}"></script>
-    <script src="{%static 'js/demo/chart-pie-demo.js'%}"></script>
+    <script src="{%static 'js/demo/chart-bar-demo2.js'%}"></script>
     <script src="{%static 'js/demo/chart-bar-demo.js'%}"></script>
-   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(document).ready(function() {
+            $('#date-picker').datepicker({
+                format: "yyyy-m",
+                minViewMode: 1,
+                language: "ko",
+                autoclose: true
+            })
+        
+            $('#get-history').on('click', function() {
+                const dateArr = $('#date-picker').val().split('-')
+                location.href = '/history?year=' + dateArr[0] + '&month=' + dateArr[1]
+            })
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#date-picker1').datepicker({
+                format: "yyyy-m",
+                minViewMode: 1,
+                language: "ko",
+                autoclose: true
+            })
+        
+            $('#get-history').on('click', function() {
+                const dateArr = $('#date-picker').val().split('-')
+                location.href = '/history?year=' + dateArr[0] + '&month=' + dateArr[1]
+            })
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#date-picker2').datepicker({
+                format: "yyyy-m",
+                minViewMode: 1,
+                language: "ko",
+                autoclose: true
+            })
+        
+            $('#get-history').on('click', function() {
+                const dateArr = $('#date-picker').val().split('-')
+                location.href = '/history?year=' + dateArr[0] + '&month=' + dateArr[1]
+            })
+        })
+    </script>
 </body>
 
 </html>
