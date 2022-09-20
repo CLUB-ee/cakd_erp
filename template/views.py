@@ -42,6 +42,7 @@ class MyAPIView(APIView):
         queryset = Manager.objects.get(pk=1)
         return Response({'man': queryset})
 
+# 발주현황 instock
 class OrderAPIView(APIView):
 
     renderer_classes = [TemplateHTMLRenderer]
@@ -50,8 +51,9 @@ class OrderAPIView(APIView):
     # serializer_class = ManagerSerializer
 
     def get(self, request):
-        queryset = Material.objects.all()
-        return Response({'mate': queryset})
+        queryset_in = Instock.objects.all()
+        # queryset_mat = 
+        return Response({'instock': queryset_in})
 
 class OrdappAPIView(APIView):
 

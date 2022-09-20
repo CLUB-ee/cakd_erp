@@ -45,7 +45,7 @@ class Instock(models.Model):
     ord_num = models.ForeignKey('Ord', models.DO_NOTHING, db_column='ordNum')
     mate_id = models.ForeignKey(
         'Material', models.DO_NOTHING, db_column='mateId')
-    in_quan = models.IntegerField(db_column='inQuan')
+    in_quan = models.IntegerField(db_column='inQuan',default=0)
 
     class Meta:
         db_table = 'inStock'
@@ -114,7 +114,7 @@ class Outstock(models.Model):
         'Cusord', models.DO_NOTHING, db_column='cusOrdNum')
     mate_id = models.ForeignKey(
         'Material', models.DO_NOTHING, db_column='mateId')
-    out_quan = models.IntegerField(db_column='outQuan')
+    out_quan = models.IntegerField(db_column='outQuan',default=0)
 
     class Meta:
         db_table = 'outStock'
