@@ -16,8 +16,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db.models import Q
 from django.db.models import Max, Min, Avg, Sum  # 뷰에서 db 계산할때 해야함
-
-
+import pandas as pd
+import json
+from django.http import JsonResponse
 
 
 
@@ -51,9 +52,26 @@ class OrderAPIView(APIView):
     # serializer_class = ManagerSerializer
 
     def get(self, request):
+        for i in range(1,Instock.objects.count()):
+            total = Instock.objects.get(pk=i).in_quan * Instock.objects.get(pk=i).mate_id.unit_cost
+            Instock.objects.all().update(in_total=total)
+            if Instock.objects.get(pk=i+1).exist():
+                stock = Instock.objects.get(pk=i).mate_id.stock + Instock.objects.get(pk=i+1).in_quan
+            else : stock = Instock.objects.get(pk=i)
+            Material.objects.filter(pk=i).update(stock=stock)
+
         queryset = Instock.objects.all()
-        # queryset_test = Menu.objects.all()
         return Response({'instock': queryset})
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     quan = Instock.objects.all().in_quan
+    #     print(quan)
+    #     cost = Instock.objects.all().mate_id.unit_cost
+    #     context['total'] = quan * cost
+    #     context['q'] = Instock.objects.all()
+    #     zip_context = zip(context['total'],context['q'])
+    #     return zip_context
 
 class OrdappAPIView(APIView):
 
@@ -84,10 +102,12 @@ class SaleAPIView(APIView):
 
     def get(self, request):
         # 각 메뉴 수량 * 메뉴가격
-        for i in [1,5]:
+        for i in range(1,Menu.objects.count()):
             total = (Menu.objects.get(pk=i).menu_pri) * (Menu.objects.get(pk=i).menu_cnt)
             Menu.objects.filter(pk=i).update(menu_sum = total)
         queryset = Menu.objects.all()
+        total2 = 10
+        total3 = 20
         sale_total = Menu.objects.aggregate(Sum('menu_sum'))
         return Response({'menu': queryset,'sale_total':sale_total})
 

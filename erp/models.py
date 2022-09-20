@@ -46,6 +46,7 @@ class Instock(models.Model):
     mate_id = models.ForeignKey(
         'Material', models.DO_NOTHING, db_column='mateId')
     in_quan = models.IntegerField(db_column='inQuan',default=0)
+    in_total = models.IntegerField(db_column='inTotal',default=0)
 
     class Meta:
         db_table = 'inStock'
