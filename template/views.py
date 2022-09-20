@@ -1,4 +1,5 @@
 
+from gc import get_objects
 from pipes import Template
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, TemplateView
@@ -13,6 +14,8 @@ from rest_framework import viewsets
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.db.models import Q
+from django.db.models import Max, Min, Avg, Sum  # 뷰에서 db 계산할때 해야함
 
 
 
@@ -36,7 +39,7 @@ class MyAPIView(APIView):
     # serializer_class = ManagerSerializer
 
     def get(self, request):
-        queryset = Manager.objects.all()
+        queryset = Manager.objects.get(pk=1)
         return Response({'man': queryset})
 
 class OrderAPIView(APIView):
@@ -78,11 +81,30 @@ class SaleAPIView(APIView):
     # serializer_class = ManagerSerializer
 
     def get(self, request):
+        # 각 메뉴 수량 * 메뉴가격
+        for i in [1,5]:
+            total = (Menu.objects.get(pk=i).menu_pri) * (Menu.objects.get(pk=i).menu_cnt)
+            Menu.objects.filter(pk=i).update(menu_sum = total)
         queryset = Menu.objects.all()
-        return Response({'menu': queryset})
-    def get(self, request):
-        queryset = Material.objects.all()
-        return Response({'mate': queryset})
+        sale_total = Menu.objects.aggregate(Sum('menu_sum'))
+        return Response({'menu': queryset,'sale_total':sale_total})
+
+        
+    # def get(self, request):
+    #     queryset = Material.objects.all()
+    #     return Response({'mate': queryset})
+    # def get_queryset(self):
+    #     q = self.kwargs['q']
+    #     post_list = Menu.objects.filter(
+    #     Q(title__contains=q) | Q(tags__name__contains=q)
+    # ).distinct()
+    #        ÷     xz return post_list
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(PostSearch, self).get_context_data()
+    #     q = self.kwargs['q']
+    #     context['search_info'] = f'Search: {q} ({self.get_queryset().count()})'
+    #     return context
 
 
 

@@ -12,6 +12,20 @@ from django.db.models import Q
 
 # Create your models here.
 
+class Menu(models.Model):
+    menu_id = models.AutoField(db_column='menuId', primary_key=True)
+    menu_pic = models.ImageField(
+        db_column='menuPic', upload_to='erp/menu/imgaes/', blank=True, null=True)
+    menu_name = models.CharField(db_column='menuName', max_length=20)
+    menu_pri = models.IntegerField(db_column='menuPri')
+    menu_cnt = models.IntegerField(db_column='menu_cnt',default=0) # 주문카운트
+    menu_sum = models.IntegerField(db_column='menu_sum',default=0)
+
+    class Meta:
+        db_table = 'menu'
+
+    def __str__(self):
+        return f"{self.menu_id}:{self.menu_name}"
 
 class Cusord(models.Model):
     cus_ord_num = models.AutoField(db_column='cusOrdNum', primary_key=True)
@@ -79,18 +93,7 @@ class Material(models.Model):
         return self.mate_name
 
 
-class Menu(models.Model):
-    menu_id = models.AutoField(db_column='menuId', primary_key=True)
-    menu_pic = models.ImageField(
-        db_column='menuPic', upload_to='erp/menu/imgaes/', blank=True, null=True)
-    menu_name = models.CharField(db_column='menuName', max_length=20)
-    menu_pri = models.IntegerField(db_column='menuPri')
 
-    class Meta:
-        db_table = 'menu'
-
-    def __str__(self):
-        return f"{self.menu_id}:{self.menu_name}"
 
 
 class Ord(models.Model):

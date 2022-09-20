@@ -64,24 +64,27 @@
                                             <th>총 판매액</th>
                                         </tr>
                                     </thead>
+                                  </thead>
+                                    <tbody>
+                                        {% for i in menu %}
+                                        <tr>
+                                            <th>{{ i.menu_id }}</th>
+                                            <th>{{ i.menu_name }}</th>
+                                            <th>{{ i.menu_pri }}</th>
+                                            <th>{{ i.menu_cnt}}</th>
+                                            <th>{{ i.menu_sum }}</th>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
                                     <tfoot>
                                         <tr>
-                                            <th>메뉴 ID</th>
-                                            <th>메뉴명</th>
-                                            <th>메뉴가격</th>
-                                            <th>수량</th>
-                                            <th>총 판매액</th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th>총매출</th>
+                                            <th>{{sale_total.menu_sum__sum}}</th>
                                         </tr>
                                     </tfoot>
-                                    <tbody>
-                                        <tr>
-                                            <td>100000001</td>
-                                            <td>치즈버거</td>
-                                            <td>10000</td>
-                                            <td>5</td>
-                                            <td>50000</td>
-                                        </tr>
-                                    </tbody>
                                 </table>
                                 <div class="d-inline-flex p-2 bd-highlight float-right">총매출</div>
                             </div>
