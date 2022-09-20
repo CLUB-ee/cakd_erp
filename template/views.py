@@ -51,9 +51,9 @@ class OrderAPIView(APIView):
     # serializer_class = ManagerSerializer
 
     def get(self, request):
-        queryset_in = Instock.objects.all()
-        # queryset_mat = 
-        return Response({'instock': queryset_in})
+        queryset = Instock.objects.all()
+        queryset_test = Menu.objects.all()
+        return Response({'instock': queryset,'abc':queryset_test})
 
 class OrdappAPIView(APIView):
 

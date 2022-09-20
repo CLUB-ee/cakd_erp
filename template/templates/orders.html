@@ -91,18 +91,34 @@
                                         </tr>
                                     </tfoot>
                                     <tbody>
+                                        {% for i in instock %}
                                         <tr>
-                                            <td>{{instock.in_time}}</td>
-                                            <td>{{instock.in_num}}</td>
-                                            <td>{{instock.mate_id}}</td>
-                                            <td>채소</td>
-                                            <td>양파</td>
-                                            <td>양파</td>
-                                            <td>10</td>
-                                            <td>1000</td>
-                                            <td>10000</td>
-                                            <td>{{instock.in_quan}}</td>
+                                            <td>time{{i.in_time}}</td>
+                                            <td>num{{i.in_num}}</td>
+                                            <td>id{{i.mate_id}}</td>
+                                            <td>객체{{i}}</td>
+                                            <td>name{{i.mate_id.mate_name}}</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{i.in_quan}}</td>
                                         </tr>
+                                        {% endfor %}
+                                        {% for i in abc %}
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>id{{i.menu_id}}</td>
+                                            <td>객체{{i}}</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        {% endfor %}
                                     </tbody>
                                 </table>
                             </div>

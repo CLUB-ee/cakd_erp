@@ -90,7 +90,7 @@ class Material(models.Model):
         db_table = 'material'
 
     def __str__(self):
-        return self.mate_name
+        return str(self.mate_name)
 
 
 
