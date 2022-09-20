@@ -19,7 +19,7 @@ class Menu(models.Model):
     menu_name = models.CharField(db_column='menuName', max_length=20)
     menu_pri = models.IntegerField(db_column='menuPri')
     menu_cnt = models.IntegerField(db_column='menu_cnt',default=0) # 주문카운트
-    menu_sum = models.IntegerField(db_column='menu_sum',default=0)
+    menu_sum = models.IntegerField(db_column='menu_sum',default=0) # 합계
 
     class Meta:
         db_table = 'menu'
@@ -84,7 +84,7 @@ class Material(models.Model):
         db_column='sCat', max_length=10, blank=True, null=True)
     unit_cost = models.IntegerField(
         db_column='unitCost', blank=True, null=True)
-    stock = models.IntegerField()
+    stock = models.IntegerField(db_column='stock',default=0)
 
     class Meta:
         db_table = 'material'
