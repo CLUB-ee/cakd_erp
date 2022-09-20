@@ -51,9 +51,9 @@ class OrderAPIView(APIView):
     # serializer_class = ManagerSerializer
 
     def get(self, request):
-        queryset = Instock.objects.all()
-        # queryset_test = Menu.objects.all()
-        return Response({'instock': queryset})
+        queryset_in = Instock.objects.all()
+        # queryset_mat = 
+        return Response({'instock': queryset_in})
 
 class OrdappAPIView(APIView):
 
@@ -84,7 +84,7 @@ class SaleAPIView(APIView):
 
     def get(self, request):
         # 각 메뉴 수량 * 메뉴가격
-        for i in [1,5]:
+        for i in [1,Menu.objects.count()]:
             total = (Menu.objects.get(pk=i).menu_pri) * (Menu.objects.get(pk=i).menu_cnt)
             Menu.objects.filter(pk=i).update(menu_sum = total)
         queryset = Menu.objects.all()

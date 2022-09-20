@@ -67,13 +67,11 @@
                                             <th>날짜</th>
                                             <th>발주 번호</th>
                                             <th>대분류</th>
-                                            <th>중분류</th>
-                                            <th>소분류</th>
                                             <th>상품명</th>
-                                            <th>주문수량</th>
-                                            <th>단가</th>
-                                            <th>공급가액</th>
                                             <th>재고</th>
+                                            <th>단가</th>
+                                            <th>주문수량</th>
+                                            <th>공급가액</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -81,44 +79,25 @@
                                             <th>날짜</th>
                                             <th>발주 번호</th>
                                             <th>대분류</th>
-                                            <th>중분류</th>
-                                            <th>소분류</th>
                                             <th>상품명</th>
-                                            <th>주문수량</th>
-                                            <th>단가</th>
-                                            <th>공급가액</th>
                                             <th>재고</th>
+                                            <th>단가</th>
+                                            <th>주문수량</th>
+                                            <th>공급가액</th>
                                         </tr>
                                     </tfoot>
+                                    
                                     <tbody>
-                                        {% for i in instock %}
                                         <tr>
-                                            <td>{{i.in_time}}</td>
-                                            <td>발주번호{{i.ord_num}}</td>
-                                            <td>id{{i.mate_id}}</td>
-                                            <td>객체{{i}}</td>
-                                            <td>name{{i.mate_id.mate_name}}</td>
-                                            <td></td>
-                                            <td{{i.in_quan}}></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>{{instock.in_time}}</td>
+                                            <td>{{instock.in_num}}</td>
+                                            <td>{{instock.mate_id}}</td>
+                                            <td>양파</td>
+                                            <td>10</td>
+                                            <td>1000</td>
+                                            <td>10000</td>
+                                            <td>{{instock.in_quan}}</td>
                                         </tr>
-                                        {% endfor %}
-                                        {% comment %} {% for i in abc %}
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td>id{{i.menu_id}}</td>
-                                            <td>객체{{i}}</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        {% endfor %} {% endcomment %}
                                     </tbody>
                                 </table>
                             </div>
