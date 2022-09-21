@@ -27,6 +27,48 @@
 </head>
 
 <body id="page-top">
+    <script>
+        // 테이블의 Row 클릭시 값 가져오기
+		$("#dataTable tr").click(function(){ 	
+
+			var str = ""
+			var tdArr = new Array();	// 배열 선언
+			
+			// 현재 클릭된 Row(<tr>)
+			var tr = $(this);
+			var td = tr.children();
+			
+			// tr.text()는 클릭된 Row 즉 tr에 있는 모든 값을 가져온다.
+			console.log("클릭한 Row의 모든 데이터 : "+tr.text());
+			
+			// 반복문을 이용해서 배열에 값을 담아 사용할 수 도 있다.
+			td.each(function(i){
+				tdArr.push(td.eq(i).text());
+			});
+			
+			console.log("배열에 담긴 값 : "+tdArr);
+			
+			// td.eq(index)를 통해 값을 가져올 수도 있다.
+			var l_cat = td.eq(0).text();
+			var mate_id = td.eq(1).text();
+			var stock = td.eq(2).text();
+			var mat_pri = td.eq(3).text();
+			var in_stock = td.eq(4).text();
+			var in_total = td.eq(5).text();
+			
+			
+			str +=	" * 클릭된 Row의 td값 = No. : <font color='red'>" + l_cat + "</font>" +
+					", 아이디 : <font color='red'>" + mate_id + "</font>" +
+					", 이름 : <font color='red'>" + stock + "</font>" +
+					", 이메일 : <font color='red'>" + mat_pri + "</font>";
+					", 이메일 : <font color='red'>" + in_stock + "</font>";		
+					", 이메일 : <font color='red'>" + in_total + "</font>";		
+
+			
+			$("#ex1_Result1").html(" * 클릭한 Row의 모든 데이터 = " + tr.text());		
+			$("#ex1_Result2").html(str);
+		});
+    </script>
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -66,11 +108,9 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            {% comment %} <th>발주 번호</th> {% endcomment %}
                                             <th>대분류</th>
                                             <th>상품명</th>
                                             <th>재고</th>
@@ -83,40 +123,13 @@
                                     <tbody >
                                         <form>
                                         <tr>
-                                            {% comment %} <td>발주번호 {{i.ord_num}}</td> {% endcomment %}
-                                            {% comment %} <td>발주번호 {{i.ord_num}}</td> {% endcomment %}
-                                            <td>채소</td>
-                                            {% comment %} <td>
-                                                <select label='농산물'>
-                                                    <optgroup label="채소">
-                                                        <option>양파</option>
-                                                        <option>파</option>
-                                                        <option>마늘</option>
-                                                      </optgroup>
-                                                </select>
-                                            </td> {% endcomment %}
-                                            {% comment %} <form>
-                                            <td>
-                                                <input type="text" id="mystock" name="stock" list="stockList"/>
-                                                <datalist id="stockList">
-                                                <label for="suggestion">or pick a fruit</label>
-                                                <select id="suggestion" name="altFruit">
-                                                    <option value="양파">양파</option>
-                                                    <option value="파">파</option>
-                                                    <option value="마늘">마늘</option>
-                                                </select>
-                                                </datalist>
-                                                <input type="submit" value="Go" />
-                                                </td>
-                                                </form> {% endcomment %}
+                                            <td>채소</td>                                        
                                             <td>마늘 </td>
                                             <td>재고 </td>
                                             <td>단가 </td>
-                                            
                                             <td>주문수량 
-                                                <input type="text" id="mystock" name="stock" list="stockList" value='10'/>
+                                                5{% comment %} <input type="text" id="mystock" name="stock" list="stockList" value='10'/> {% endcomment %}
                                             </td>
-                                            
                                             <td>공급가액 </td> 
                                         </tr>
                                         </form>
@@ -125,7 +138,7 @@
                                         <td>채소</td>
                                         <td>양파</td>
                                         <td>재고</td>
-                                        <td>단가</td>
+                                        <td>10</td>
                                         <td>주문수량</td>
                                         <td>공급가액</td>
                                     </tr>
@@ -133,12 +146,14 @@
                                         <td>채소</td>
                                         <td>파</td>
                                         <td>재고</td>
-                                        <td>단가</td>
+                                        <td>20</td>
                                         <td>주문수량</td>
                                         <td>공급가액</td>
                                     </tr>
                                 </table>
-                            
+                                {% comment %} 동적 테이블 실험실 {% endcomment %}
+                                <div class="col-lg-12" id="ex1_Result1" >실험</div> 
+                                <div class="col-lg-12" id="ex1_Result2" ></div>
                             </div>
                             <a class="btn btn-primary float-right" href="#" role="button">발주신청</a>
                         </div>
