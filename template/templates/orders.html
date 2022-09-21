@@ -68,28 +68,28 @@
                                             <th>발주 번호</th>
                                             <th>대분류</th>
                                             <th>상품명</th>
-                                            <th>재고</th>
+                                            {% comment %} <th>재고</th> {% endcomment %}
                                             <th>단가</th>
                                             <th>주문수량</th>
                                             <th>공급가액</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        {% for i in instock %}
                                         <tr>
                                             <td>날짜 {{i.in_time}}</td>
                                             <td>발주번호 {{i.ord_num}}</td>
                                             <td>대분류 {{i.mate_id.l_cat}}</td>
-                                            <td>중분류 {{i.mate_id.m_cat}}</td>
-                                            <td>소분류 {{i.mate_id.s_cat}}</td>
+                                            {% comment %} <td>중분류 {{i.mate_id.m_cat}}</td>
+                                            <td>소분류 {{i.mate_id.s_cat}}</td> {% endcomment %}
                                             <td>상품명 {{i.mate_id.mate_name}}</td>
-                                            <td>주문수량 {{i.in_quan}}</td>
+                                            {% comment %} <td>재고</td> {% endcomment %}
+                                            {% comment %} <td>재고 {{i.mate_id.stock}}</td> {% endcomment %}
                                             <td>단가 {{i.mate_id.unit_cost}}</td>
-                                            {% comment %} <script>
-                                               var total=i.in_quan*i.mate_id.unit_cost
-                                            </script> {% endcomment %}
+                                            <td>주문수량 {{i.in_quan}}</td>
                                             <td>공급가액(주문수량*단가) {{i.in_total}}</td>
-                                            <td>재고 {{i.mate_id.stock}}</td>
                                         </tr>
+                                        {% endfor %}
                                     </tbody>
                                 </table>
                             </div>

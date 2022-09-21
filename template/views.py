@@ -52,16 +52,16 @@ class OrderAPIView(APIView):
     # serializer_class = ManagerSerializer
 
     def get(self, request):
-        for i in range(1,Instock.objects.count()):
-            total = Instock.objects.get(pk=i).in_quan * Instock.objects.get(pk=i).mate_id.unit_cost
-            Instock.objects.all().update(in_total=total)
-            if Instock.objects.get(pk=i+1).exist():
-                stock = Instock.objects.get(pk=i).mate_id.stock + Instock.objects.get(pk=i+1).in_quan
-            else : stock = Instock.objects.get(pk=i)
-            Material.objects.filter(pk=i).update(stock=stock)
-
-        queryset = Instock.objects.all()
+        # if Instock.objects.exists():
+        cnt = Instock.objects.count()
+        for i in range(1,cnt+1):
+            total = (Instock.objects.get(pk=i).in_quan) * (Instock.objects.get(pk=i).mate_id.unit_cost)
+            Instock.objects.filter(pk=i).update(in_total=total)
+        
+        queryset = Instock.objects.all().order_by('-in_num')
+        
         return Response({'instock': queryset})
+      
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
@@ -79,10 +79,16 @@ class OrdappAPIView(APIView):
     template_name = 'orderapp.html'
  
     # serializer_class = ManagerSerializer
-
+ 
     def get(self, request):
-        queryset = Material.objects.all()
-        return Response({'mate': queryset})
+        cnt = Instock.objects.count()
+    
+        for i in range(1,cnt+1):
+            total = Instock.objects.get(pk=i).in_quan * Instock.objects.get(pk=i).mate_id.unit_cost
+            Instock.objects.filter(pk=i).update(in_total=total)
+           
+        queryset = Instock.objects.all().order_by('-in_num')
+        return Response({'ord_stock': queryset})
 
 class DashAPIView(APIView):
 
@@ -102,12 +108,10 @@ class SaleAPIView(APIView):
 
     def get(self, request):
         # 각 메뉴 수량 * 메뉴가격
-        for i in range(1,Menu.objects.count()):
+        for i in range(1,Menu.objects.count()+1):
             total = (Menu.objects.get(pk=i).menu_pri) * (Menu.objects.get(pk=i).menu_cnt)
             Menu.objects.filter(pk=i).update(menu_sum = total)
         queryset = Menu.objects.all()
-        total2 = 10
-        total3 = 20
         sale_total = Menu.objects.aggregate(Sum('menu_sum'))
         return Response({'menu': queryset,'sale_total':sale_total})
 
