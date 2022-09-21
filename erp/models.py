@@ -20,9 +20,9 @@ class Menu(models.Model):
     menu_name = models.CharField(db_column='menuName', max_length=20)
     menu_pri = models.IntegerField(db_column='menuPri')
     menu_cnt = models.IntegerField(
-        db_column='menuCnt', blank=True, null=True, default=0)  # 주문카운트
+        db_column='menuCnt', default=0)  # 주문카운트
     menu_sum = models.IntegerField(
-        db_column='menuSum', blank=True, null=True, default=0)  # 합계
+        db_column='menuSum', default=0)  # 합계
 
     class Meta:
         db_table = 'menu'
