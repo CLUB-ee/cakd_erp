@@ -12,20 +12,24 @@ from django.db.models import Q
 
 # Create your models here.
 
+
 class Menu(models.Model):
     menu_id = models.AutoField(db_column='menuId', primary_key=True)
     menu_pic = models.ImageField(
         db_column='menuPic', upload_to='erp/menu/imgaes/', blank=True, null=True)
     menu_name = models.CharField(db_column='menuName', max_length=20)
     menu_pri = models.IntegerField(db_column='menuPri')
-    menu_cnt = models.IntegerField(db_column='menuCnt',default=0) # 주문카운트
-    menu_sum = models.IntegerField(db_column='menuSum',default=0) # 합계
+    menu_cnt = models.IntegerField(
+        db_column='menuCnt', blank=True, null=True, default=0)  # 주문카운트
+    menu_sum = models.IntegerField(
+        db_column='menuSum', blank=True, null=True, default=0)  # 합계
 
     class Meta:
         db_table = 'menu'
 
     def __str__(self):
         return f"{self.menu_id}:{self.menu_name}"
+
 
 class Cusord(models.Model):
     cus_ord_num = models.AutoField(db_column='cusOrdNum', primary_key=True)
@@ -45,8 +49,8 @@ class Instock(models.Model):
     ord_num = models.ForeignKey('Ord', models.DO_NOTHING, db_column='ordNum')
     mate_id = models.ForeignKey(
         'Material', models.DO_NOTHING, db_column='mateId')
-    in_quan = models.IntegerField(db_column='inQuan',default=0)
-    in_total = models.IntegerField(db_column='inTotal',default=0)
+    in_quan = models.IntegerField(db_column='inQuan', default=0)
+    in_total = models.IntegerField(db_column='inTotal', default=0)
 
     class Meta:
         db_table = 'inStock'
@@ -85,15 +89,13 @@ class Material(models.Model):
         db_column='sCat', max_length=10, blank=True, null=True)
     unit_cost = models.IntegerField(
         db_column='unitCost', blank=True, null=True)
-    stock = models.IntegerField(db_column='stock',default=0)
+    stock = models.IntegerField(db_column='stock', default=0)
 
     class Meta:
         db_table = 'material'
 
     def __str__(self):
         return str(self.mate_name)
-
-
 
 
 # 발주
@@ -115,7 +117,7 @@ class Outstock(models.Model):
         'Cusord', models.DO_NOTHING, db_column='cusOrdNum')
     mate_id = models.ForeignKey(
         'Material', models.DO_NOTHING, db_column='mateId')
-    out_quan = models.IntegerField(db_column='outQuan',default=0)
+    out_quan = models.IntegerField(db_column='outQuan', default=0)
 
     class Meta:
         db_table = 'outStock'
