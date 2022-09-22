@@ -51,7 +51,7 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <input type="text" id="date-picker" class="form-control" aria-label="Search" aria-describedby="basic-addon2" th:value="|${year}-${month}|" style="width: 6rem; float-right" placeholder='날짜'>
+                            <input type="text" id="date-picker" class="form-control" aria-label="Search" aria-describedby="basic-addon2" th:value="|${year}-${month}|" style="width: 8rem; float-right" placeholder='날짜'>
                             <ul class="list-group list-group-horizontal float-right">
                                 <li class="list-group-item">총매출</li>
                                 <li class="list-group-item">#</li>
@@ -142,8 +142,7 @@
     <script>
         $(document).ready(function() {
             $('#date-picker').datepicker({
-                format: "yyyy-m",
-                minViewMode: 1,
+                format: "yyyy-mm-dd",
                 language: "ko",
                 autoclose: true
             })
