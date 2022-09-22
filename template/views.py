@@ -20,6 +20,13 @@ import pandas as pd
 import json
 from django.http import JsonResponse
 
+def dash(request):
+    context = {
+        'menu' : Menu.objects.all(),
+        'material' : Material.objects.all()
+    }
+    return render(request, 'dash.html', context)
+
 
 
 def stock(request):
@@ -86,19 +93,23 @@ class OrdappAPIView(APIView):
         for i in range(1,cnt+1):
             total = Instock.objects.get(pk=i).in_quan * Instock.objects.get(pk=i).mate_id.unit_cost
             Instock.objects.filter(pk=i).update(in_total=total)
-           
         queryset = Instock.objects.all().order_by('-in_num')
+    
         return Response({'ord_stock': queryset})
 
-class DashAPIView(APIView):
+# class DashAPIView(APIView):
 
-    renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'dash.html'
-    # serializer_class = ManagerSerializer
+#     renderer_classes = [TemplateHTMLRenderer]
+#     template_name = 'dash.html'
+#     # serializer_class = ManagerSerializer
 
-    def get(self, request):
-        queryset = Material.objects.all()
-        return Response({'mate': queryset})
+#     def get(self, request):
+#         li = []
+#         for i in range(1, Menu.objects.count()+1):
+#             name = Menu.objects.get(pk=i).menu_name
+#             li.append(name)
+
+#         return Response({'menu': li})
 
 class SaleAPIView(APIView):
 
@@ -114,6 +125,8 @@ class SaleAPIView(APIView):
         queryset = Menu.objects.all()
         sale_total = Menu.objects.aggregate(Sum('menu_sum'))
         return Response({'menu': queryset,'sale_total':sale_total})
+    
+    
 
         
     # def get(self, request):

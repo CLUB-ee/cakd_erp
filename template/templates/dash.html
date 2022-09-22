@@ -22,6 +22,13 @@
     <link href="{%static 'css/sb-admin-2.min.css'%}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
 
 </head>
 
@@ -83,14 +90,12 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">월 메뉴 판매량</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">월 재료별 사용량 추이</h6>
                                     <input type="text" id="date-picker1" class="form-control float-right" aria-label="Search" aria-describedby="basic-addon2" th:value="|${year}-${month}|" style="width: 6rem; float-right" placeholder='날짜'>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <div class="chart-bar pt-4 pb-2">
-                                        <canvas id="myBarChart"></canvas>
-                                    </div>
+                                    <div id="container1"></div>
                                 </div>
                             </div>
                         </div>
@@ -105,13 +110,18 @@
                             <!-- Project Card Example -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">월 재료별 사용량 추이</h6>
-                                    <input type="text" id="date-picker2" class="form-control float-right" aria-label="Search" aria-describedby="basic-addon2" th:value="|${year}-${month}|" style="width: 6rem; float-right" placeholder='날짜'>
+                                    <h6 class="m-0 font-weight-bold text-primary">월 메뉴 판매량</h6>
+                                    <form action='/tmep/'> 
+                                        <button type='submit' class= 'btn float-right btn-sm'>확인</button>
+                                        <label for='cal'></label>
+                                        <input type="text" id="date-picker2" class="form-control float-right" aria-label="Search" aria-describedby="basic-addon2" th:value="|${year}-${month}|" style="width: 6rem; float-right" placeholder='날짜'>
+                                    </form>
                                 </div>
                                 <div class="card-body">
-                                    <div class="chart-bar pt-4 pb-2">
+                                    <div id="container"></div>
+                                    {% comment %} <div class="chart-bar pt-4 pb-2">
                                         <canvas id="myBarChart2"></canvas>
-                                    </div>
+                                    </div> {% endcomment %}
                                 </div>
                             </div>
 
@@ -205,8 +215,8 @@
 
     <!-- Page level custom scripts -->
     <script src="{%static 'js/demo/chart-area-demo.js'%}"></script>
-    <script src="{%static 'js/demo/chart-bar-demo2.js'%}"></script>
     <script src="{%static 'js/demo/chart-bar-demo.js'%}"></script>
+    {% comment %} <script src="{%static 'js/demo/chart-bar-demo2.js'%}"></script> {% endcomment %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
@@ -223,6 +233,8 @@
                 location.href = '/history?year=' + dateArr[0] + '&month=' + dateArr[1]
             })
         })
+
+
     </script>
     <script>
         $(document).ready(function() {
@@ -253,7 +265,142 @@
                 location.href = '/history?year=' + dateArr[0] + '&month=' + dateArr[1]
             })
         })
+    
     </script>
+
+    <script>
+        // Data retrieved from https://gs.statcounter.com/browser-market-share#monthly-202201-202201-bar
+// Create the chart
+        Highcharts.chart('container', {
+            chart: {
+        
+                type: 'column'
+            },
+            title: {
+                align: 'left',
+                text: '월 메뉴별 판매량'
+            },
+            subtitle: {
+                align: 'left',
+                text: ''
+            },
+            accessibility: {
+                announceNewData: {
+                    enabled: true
+                }
+            },
+            xAxis: {
+                type: 'category'
+            },
+            yAxis: {
+                title: {
+                    text: '메뉴 판매량'
+                }
+
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                series: {
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{y}'
+                    }
+                }
+            },
+
+            tooltip: {
+                headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}%</b> of total<br/>'
+            },
+            
+            series: [
+                {
+                    name: "Browsers",
+                    colorByPoint: true,
+                    data: 
+                    [{% for i in menu %}
+                        {
+                            name: '{{ i.menu_name }}',
+                            y: {{ i.menu_sum }},
+                            drilldown: 'menu'
+                        },
+                    {% endfor %}]
+                        
+                }
+            ],
+            
+        });
+    </script>
+    <script>
+        // Data retrieved from https://gs.statcounter.com/browser-market-share#monthly-202201-202201-bar
+// Create the chart
+        Highcharts.chart('container1', {
+            chart: {
+        
+                type: 'column'
+            },
+            title: {
+                align: 'left',
+                text: '월 메뉴별 판매량'
+            },
+            subtitle: {
+                align: 'left',
+                text: ''
+            },
+            accessibility: {
+                announceNewData: {
+                    enabled: true
+                }
+            },
+            xAxis: {
+                type: 'category'
+            },
+            yAxis: {
+                title: {
+                    text: '메뉴 판매량'
+                }
+
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                series: {
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{y}'
+                    }
+                }
+            },
+
+            tooltip: {
+                headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}%</b> of total<br/>'
+            },
+            
+            series: [
+                {
+                    name: "Browsers",
+                    colorByPoint: true,
+                    data: 
+                    [{% for i in material %}
+                        {
+                            name: '{{ i.mate_name }}',
+                            y: {{ i.stock }},
+                            drilldown: 'menu'
+                        },
+                    {% endfor %}]
+                        
+                }
+            ],
+            
+        });
+    </script>
+    
 </body>
 
 </html>
