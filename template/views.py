@@ -93,11 +93,24 @@ class OrdappAPIView(APIView):
         for i in range(1,cnt+1):
             total = Instock.objects.get(pk=i).in_quan * Instock.objects.get(pk=i).mate_id.unit_cost
             Instock.objects.filter(pk=i).update(in_total=total)
-           
         queryset = Instock.objects.all().order_by('-in_num')
+    
         return Response({'ord_stock': queryset})
 
+<<<<<<< Updated upstream
 # class DashAPIView(APIView):
+=======
+    def ord_submit(request):
+        mate_3 = request.GET('mate_3')
+        return Response({'mate_3': mate_3})
+
+# def ord_submit(requsest):
+#         mate_3 = requsest.get('mate_3')
+        
+        
+
+class DashAPIView(APIView):
+>>>>>>> Stashed changes
 
 #     renderer_classes = [TemplateHTMLRenderer]
 #     template_name = 'dash.html'
