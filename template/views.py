@@ -97,20 +97,7 @@ class OrdappAPIView(APIView):
     
         return Response({'ord_stock': queryset})
 
-<<<<<<< Updated upstream
 # class DashAPIView(APIView):
-=======
-    def ord_submit(request):
-        mate_3 = request.GET('mate_3')
-        return Response({'mate_3': mate_3})
-
-# def ord_submit(requsest):
-#         mate_3 = requsest.get('mate_3')
-        
-        
-
-class DashAPIView(APIView):
->>>>>>> Stashed changes
 
 #     renderer_classes = [TemplateHTMLRenderer]
 #     template_name = 'dash.html'
