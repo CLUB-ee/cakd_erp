@@ -20,12 +20,12 @@ import pandas as pd
 import json
 from django.http import JsonResponse
 
-def dash(request):
-    context = {
-        'menu' : Menu.objects.all(),
-        'material' : Material.objects.all()
-    }
-    return render(request, 'dash.html', context)
+# def dash(request):
+#     context = {
+#         'menu' : Menu.objects.all(),
+#         'material' : Material.objects.all()
+#     }
+#     return render(request, 'dash.html', context)
 
 
 
@@ -97,19 +97,16 @@ class OrdappAPIView(APIView):
     
         return Response({'ord_stock': queryset})
 
-# class DashAPIView(APIView):
+class DashAPIView(APIView):
 
-#     renderer_classes = [TemplateHTMLRenderer]
-#     template_name = 'dash.html'
-#     # serializer_class = ManagerSerializer
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'dash.html'
+    # serializer_class = ManagerSerializer
 
-#     def get(self, request):
-#         li = []
-#         for i in range(1, Menu.objects.count()+1):
-#             name = Menu.objects.get(pk=i).menu_name
-#             li.append(name)
-
-#         return Response({'menu': li})
+    def get(self, request):
+        queryset = Menu.objects.all()
+        queryset1 = Material.objects.all()
+        return Response({'menu': queryset, 'material':queryset1})
 
 class SaleAPIView(APIView):
 
