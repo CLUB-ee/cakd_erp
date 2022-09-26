@@ -61,16 +61,18 @@ class OrderAPIView(APIView):
     # serializer_class = ManagerSerializer
 
     def get(self, request):
-        # if Instock.objects.exists():
+       
         cnt = Instock.objects.count()
         for i in range(1,cnt+1):
             total = (Instock.objects.get(pk=i).in_quan) * (Instock.objects.get(pk=i).mate_id.unit_cost)
             Instock.objects.filter(pk=i).update(in_total=total)
         
-        queryset = Instock.objects.all().order_by('-pk')
+        queryset = Instock.objects.all().order_by(('-in_time'))
         
         return Response({'instock': queryset})
-      
+        
+
+          
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
@@ -106,26 +108,19 @@ class OrdappAPIView(APIView):
 # 발주 신청 폼
 def createform(request):
     if request.method == 'POST':
-        ord = Ord.objects.create()
+        Ord.objects.create()
         mateid_list = request.POST.getlist('mateid')
         mateid_list = list(map(int,mateid_list))
         mate_quan_list = request.POST.getlist('mate_quan')
         mate_quan_list = list(map(int,mate_quan_list))
-
-
-        # test_list = request.POST.getlist('test')
-
+        
         for i in range(11):
             instock = Instock()
             instock.ord_num = Ord.objects.latest('ord_num')
             instock.mate_id = Material.objects.get(mate_id=mateid_list[i])
             instock.in_quan = mate_quan_list[i]
             instock.save()
-            
-            # instock.ord_num = Ord.objects.latest('ord_num')
-            # instock.mate_id.mate_id = Material.filter(mate_id=mateid_list[i])
-            # instock.in_quan = (Material.objects.get(pk=mateid_list[i]).stock + mate_quan_list[i])
-            # instock.save()
+     
             
 
     return render(request, "ord.html",{'test':mate_quan_list})
