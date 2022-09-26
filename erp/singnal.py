@@ -18,11 +18,6 @@ def Cusord_post_save(sender, **kwargs):
         usage = i.mate_usage
         Outstock(cus_ord_num=kwargs['instance'],
                  mate_id=mateid, out_quan=usage).save()
-    # Outstock.objects.bulk_create(
-    #     [Outstock(cus_ord_num=kwargs['instance'].cus_ord_num, menu_id=menuid, mate_id=mateid, out_quan=usage),
-    #      Outstock(mate_id=ord_menu_recipe.mate_id.mate_id),
-    #      Outstock(out_quan=ord_menu_recipe.mate_usage)]
-    # )
 
 
 @ receiver(post_save, sender=Instock)
