@@ -1,4 +1,5 @@
 
+from bisect import insort
 from gc import get_objects
 from pipes import Template
 from urllib import request
@@ -66,7 +67,7 @@ class OrderAPIView(APIView):
             total = (Instock.objects.get(pk=i).in_quan) * (Instock.objects.get(pk=i).mate_id.unit_cost)
             Instock.objects.filter(pk=i).update(in_total=total)
         
-        queryset = Instock.objects.all().order_by('-in_num')
+        queryset = Instock.objects.all().order_by('-pk')
         
         return Response({'instock': queryset})
       
@@ -96,23 +97,52 @@ class OrdappAPIView(APIView):
             Instock.objects.filter(pk=i).update(in_total=total)
         queryset = Instock.objects.all().order_by('-in_num')
         
-        stock = Material.objects.all().order_by('-mate_id')
+        mate_list = Material.objects.all().order_by('-mate_id')
 
         minOrderValue = {'무':5,'마늘':3}
 
-        return Response({'ord_stock': queryset,'stock':stock,'minOrderValue':minOrderValue})
+        return Response({'ord_stock': queryset,'mate_list':mate_list,'minOrderValue':minOrderValue})
 
 # 발주 신청 폼
 def createform(request):
     if request.method == 'POST':
-        instock = Instock()
-        ord = Ord()
-        ord.objects.create()
-        ord.save()
-        # instock.mate_id = 10
-        instock.in_quan = request.POST('mate_quan[0]')
-        instock.save()
-    return redirect('orderapp')
+        ord = Ord.objects.create()
+        mateid_list = request.POST.getlist('mateid')
+        mateid_list = list(map(int,mateid_list))
+        mate_quan_list = request.POST.getlist('mate_quan')
+        mate_quan_list = list(map(int,mate_quan_list))
+
+
+        # test_list = request.POST.getlist('test')
+
+        for i in range(11):
+            instock = Instock()
+            instock.ord_num = Ord.objects.latest('ord_num')
+            instock.mate_id = Material.objects.get(mate_id=mateid_list[i])
+            instock.in_quan = mate_quan_list[i]
+            instock.save()
+            
+            # instock.ord_num = Ord.objects.latest('ord_num')
+            # instock.mate_id.mate_id = Material.filter(mate_id=mateid_list[i])
+            # instock.in_quan = (Material.objects.get(pk=mateid_list[i]).stock + mate_quan_list[i])
+            # instock.save()
+            
+
+    return render(request, "ord.html",{'test':mate_quan_list})
+
+
+# def cusorder(request):
+    
+#     if request.method == "POST":
+
+#         menuid= request.POST.get('menuid')
+#         cusord = Cusord(menu_id=Menu.objects.get(menu_id=menuid) )            
+#         cusord.save()
+
+
+
+
+#         return render(request, "kiosk/cusorder.html",{'lis':cusord})
 # def create(self,request,**kwargs):
     #     in_quan_1 = kwargs.get('mate_3')
     #     in_quan_2 = kwargs.get('mate_7')

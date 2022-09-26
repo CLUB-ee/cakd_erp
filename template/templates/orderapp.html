@@ -73,14 +73,14 @@
                         </div>
                         
                         <div class="card-body">
-                            <form method='POST'>
+                            <form action="{% url 'template:createform' %}" method='POST'>
                                 {% csrf_token %}
                             <div class="table-responsive">
                                 <table id="dataTable" class="table table-bordered table-hover"  width="100%" cellspacing="0">
                                         
                                     <thead>
                                         <tr>
-                                            <th>대분류</th>
+                                            <th>상품번호</th>
                                             <th>상품명</th>
                                             <th>재고</th>
                                             <th>단가</th>
@@ -89,16 +89,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>                                      
-                                        {% for i in stock %}
+                                        {% for i in mate_list %}
                                         <tr>
-                                            <td>{{i.mate_id}}{{i.l_cat}}</td>                                        
-                                            <td name='mate_name'>{{i.mate_name}}</td>
-                                            <td>{{i.in_total}}</td>
+                                            <input type='hidden' name='mateid' value='{{i.mate_id}}'></input>
+                                            <td>{{i.mate_id}}</td>                                        
+                                            <td>{{i.mate_name}}</td>
+                                            <td>{{i.stock}}</td>
                                             <td name='cost'>{{i.unit_cost}}</td>
-                                            <td><input type='number' min=0 name ='mate_quan'/></td>
+                                            <td><input type='number' min=0 name='mate_quan' value=0></input></td>
                                             <td name='sum'></td>
                                         </tr>
-                                        {%endfor%}
+                                        {%endfor%} 
                                     </tbody>
                                 </table>
                                 

@@ -34,7 +34,6 @@ def cusorder(request):
         cusord.save()
 
 
-
         return render(request, "kiosk/cusorder.html",{'lis':cusord})
 
 

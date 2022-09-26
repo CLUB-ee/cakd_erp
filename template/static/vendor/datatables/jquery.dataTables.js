@@ -7127,6 +7127,8 @@
 			// Bit cheeky...
 			return this.indexOf.apply( this.toArray.reverse(), arguments );
 		},
+
+
 	
 	
 		length:  0,
@@ -10250,7 +10252,7 @@
 		 * Note that the `pageLength` property will be automatically set to the
 		 * first value given in this array, unless `pageLength` is also provided.
 		 *  @type array
-		 *  @default [ 10, 25, 50, 100 ]
+		 *  @default [15, 25, 50, 100]
 		 *
 		 *  @dtopt Option
 		 *  @name DataTable.defaults.lengthMenu
@@ -10258,11 +10260,11 @@
 		 *  @example
 		 *    $(document).ready( function() {
 		 *      $('#example').dataTable( {
-		 *        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+		 *        "lengthMenu": [[ 15, 25, 50, -1], [ 15, 25, 50, "All"]]
 		 *      } );
 		 *    } );
 		 */
-		"aLengthMenu": [ 10, 25, 50, 100 ],
+		"aLengthMenu": [ 15, 25, 50, 100 ],
 	
 	
 		/**
