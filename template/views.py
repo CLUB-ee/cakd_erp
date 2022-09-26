@@ -21,6 +21,7 @@ from django.db.models import Max, Min, Avg, Sum  # 뷰에서 db 계산할때 해
 import pandas as pd
 import json
 from django.http import JsonResponse
+from django.contrib import messages
 
 # def dash(request):
 #     context = {
@@ -122,9 +123,8 @@ def createform(request):
             instock.save()
      
             
-
-    return render(request, "ord.html",{'test':mate_quan_list})
-
+    return render(request, 'orderapp.html', messages.info(request, "발주가 완료 되었습니다."))
+    
 
 # def cusorder(request):
     

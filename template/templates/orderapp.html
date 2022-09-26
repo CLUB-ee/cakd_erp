@@ -33,7 +33,15 @@
 </head>
 
 <body id="page-top">
-    
+    {% for message in messages %}
+    <div class="alert {{ message.tags }} alert-auto-dismissible alert-dismissible notification-container text-center" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+    </div>
+    {% endfor %}
+
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -218,6 +226,13 @@
 
     <!-- Page level custom scripts -->
     <script src="{%static 'js/demo/datatables-demo.js'%}"></script>
+    <script>
+        window.setTimeout(function() {
+            $(".alert-auto-dismissible").fadeTo(500, 0).slideUp(500, function(){
+                $(this).remove();
+            });
+        }, 4000);
+    </script>
 
 </body>
 
