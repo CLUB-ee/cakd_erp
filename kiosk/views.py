@@ -20,6 +20,7 @@ from django.db.models import Max, Min, Avg, Sum  # 뷰에서 db 계산할때 해
 import pandas as pd
 import json
 from django.http import JsonResponse
+from django.contrib import messages
 
 # Create your views here.
 
@@ -36,7 +37,7 @@ def cusorder(request):
         cusord = Cusord(menu_id=Menu.objects.get(menu_id=menuid))
         cusord.save()
 
-    return render(request, "kiosk/cusorder.html", {'lis': cusord})
+    return render(request, 'kiosk/kiosk.html', messages.info(request, "주문이 완료 되었습니다."))
 
 
 # class CusordAPIView(APIView):
