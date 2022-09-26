@@ -18,6 +18,8 @@ def Cusord_post_save(sender, **kwargs):
         usage = i.mate_usage
         Outstock(cus_ord_num=kwargs['instance'],
                  mate_id=mateid, out_quan=usage).save()
+        mateid.stock -= usage
+        mateid.save()
 
 
 @ receiver(post_save, sender=Instock)
