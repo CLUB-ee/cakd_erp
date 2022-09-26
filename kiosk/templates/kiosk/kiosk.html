@@ -53,6 +53,14 @@
 
 </style>
 <body>
+    {% for message in messages %}
+    <div class="alert {{ message.tags }} alert-auto-dismissible alert-dismissible notification-container text-center" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+    </div>
+    {% endfor %}
     <!-- Spinner Start -->
     <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-border text-primary" role="status"></div>
@@ -280,10 +288,15 @@
     <script src="{% static 'kiosk/lib/easing/easing.min.js' %}"></script>
     <script src="{% static 'kiosk/lib/waypoints/waypoints.min.js' %}"></script>
     <script src="{% static 'kiosk/lib/owlcarousel/owl.carousel.min.js' %}"></script>
-
-    
     <!-- Template Javascript -->
     <script src="{% static 'kiosk/js/scripts.js'%}"></script>
+    <script>
+        window.setTimeout(function() {
+            $(".alert-auto-dismissible").fadeTo(500, 0).slideUp(500, function(){
+                $(this).remove();
+            });
+        }, 4000);
+    </script>
 </body>
 
 </html>

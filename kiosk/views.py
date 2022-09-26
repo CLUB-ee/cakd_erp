@@ -20,28 +20,31 @@ from django.db.models import Max, Min, Avg, Sum  # 뷰에서 db 계산할때 해
 import pandas as pd
 import json
 from django.http import JsonResponse
+from django.contrib import messages
 
 # Create your views here.
+
+
 def index(request):
     return render(request, "kiosk/kiosk.html")
 
+
 def cusorder(request):
-    
+
     if request.method == "POST":
 
-        menuid= request.POST.get('menuid')
-        cusord = Cusord(menu_id=Menu.objects.get(menu_id=menuid) )            
+        menuid = request.POST.get('menuid')
+        cusord = Cusord(menu_id=Menu.objects.get(menu_id=menuid))
         cusord.save()
 
-
-        return render(request, "kiosk/cusorder.html",{'lis':cusord})
+    return render(request, 'kiosk/kiosk.html', messages.info(request, "주문이 완료 되었습니다."))
 
 
 # class CusordAPIView(APIView):
 
 #     renderer_classes = [TemplateHTMLRenderer]
 #     template_name = 'orders.html'
- 
+
 #     # serializer_class = ManagerSerializer
 
 #     def get(self, request):
@@ -50,8 +53,7 @@ def cusorder(request):
 #         for i in range(1,cnt+1):
 #             total = (Cusord.objects.get(pk=i).in_quan) * (Cusord.objects.get(pk=i).mate_id.unit_cost)
 #             Cusord.objects.filter(pk=i).update(in_total=total)
-        
-#         queryset = Cusord.objects.all().order_by('-in_num')
-        
-#         return Response({'cusord': queryset})
 
+#         queryset = Cusord.objects.all().order_by('-in_num')
+
+#         return Response({'cusord': queryset})
