@@ -1,3 +1,6 @@
+# find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
+# find . -path "*/migrations/*.pyc" -delete
+
 from configparser import MAX_INTERPOLATION_DEPTH
 from django.db import models
 from django.db.models import Q

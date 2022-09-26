@@ -77,9 +77,7 @@
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <div class="chart-area pt-4 pb-2">
-                                        <canvas id="myAreaChart"></canvas>
-                                    </div>
+                                    <div id='container3'></div>
                                 </div>
                             </div>
                         </div>
@@ -327,7 +325,11 @@
                             y: {{ i.menu_sum }},
                             drilldown: 'menu'
                         },
-                    {% endfor %}]
+                    {% endfor %}],
+
+                    dataSorting: {
+                        enabled: true
+                    }
                         
                 }
             ],
@@ -393,11 +395,72 @@
                             y: {{ i.stock }},
                             drilldown: 'menu'
                         },
-                    {% endfor %}]
+                    {% endfor %}],
+
+                    dataSorting: {
+                        enabled: true
+                    }
                         
                 }
             ],
             
+        });
+    </script>
+    <script>
+        Highcharts.chart('container3', {
+
+            title: {
+                text: '월별 매출량'
+            },
+        
+            yAxis: {
+                title: {
+                    text: 'Number of Employees'
+                }
+            },
+        
+            xAxis: {
+                accessibility: {
+                    rangeDescription: 'Range: 2010 to 2020'
+                }
+            },
+        
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+        
+            plotOptions: {
+                series: {
+                    label: {
+                        connectorAllowed: false
+                    },
+                    pointStart: 01
+                }
+            },
+        
+            series: [{
+                name: 'Installation & Developers',
+                data: [43934, 48656, 65165, 81827, 112143, 142383,
+                    171533, 165174, 155157, 161454, 15461]
+            }],
+        
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            }
+        
         });
     </script>
     

@@ -6,5 +6,5 @@ app_name = 'kiosk'
 
 urlpatterns = [
     path('',views.index, name='kiosk'),
-    
+    path('cusorder/', views.cusorder, name='cusorder'),
 ]
