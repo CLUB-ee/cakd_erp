@@ -73,7 +73,8 @@
                         </div>
                         
                         <div class="card-body">
-                            <form>
+                            <form method='POST'>
+                                {% csrf_token %}
                             <div class="table-responsive">
                                 <table id="dataTable" class="table table-bordered table-hover"  width="100%" cellspacing="0">
                                         
@@ -84,44 +85,23 @@
                                             <th>재고</th>
                                             <th>단가</th>
                                             <th>주문수량</th>
-                                            <th>공급가액</th>
+                                            <th>공급가액</th> 
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        
-                                        <tr name='mate_3'> 
-                                            <td>채소</td>                                        
-                                            <td>양파 </td>
-                                            <td>재고 </td>
-                                            <td >100</td>
-                                            <td><input id='stock_1' onkeyup='printName()' /></td>
-                                            <td id='result_1'></td>
-
+                                    <tbody>                                      
+                                        {% for i in stock %}
+                                        <tr>
+                                            <td>{{i.mate_id}}{{i.l_cat}}</td>                                        
+                                            <td name='mate_name'>{{i.mate_name}}</td>
+                                            <td>{{i.in_total}}</td>
+                                            <td name='cost'>{{i.unit_cost}}</td>
+                                            <td><input type='number' min=0 name ='mate_quan'/></td>
+                                            <td name='sum'></td>
                                         </tr>
-                                        <tr name='mate_7'>
-                                            <td>채소</td>                                        
-                                            <td>마늘 </td>
-                                            <td>재고 </td>
-                                            <td >200 </td>
-                                            <td><input id='stock_2' onkeyup='printName()'/></td>
-                                            <td id='result_2'></td>
-
-                                        </tr>
-                                        <tr name='mate_4'>
-                                            <td>채소</td>                                        
-                                            <td>파 </td>
-                                            <td>실험{{mate_3}} </td>
-                                            <td >150 </td>
-                                            <td><input id='stock_3' onkeyup='printName()' /></td>
-                                            <td id='result_3'></td>
-
-                                        </tr>
-                                    
+                                        {%endfor%}
                                     </tbody>
                                 </table>
                                 
-                                
-                                {% comment %} <div class="col-lg-12" id="ex1_Result2" ></div> {% endcomment %}
                             </div>
                             
                             <div class="container mt-2">
@@ -147,80 +127,72 @@
     </div>
     <!-- End of Page Wrapper -->
     <script>
-        $(".checkBtn").click(function(){ 
-			
-			var str = ""
-			var tdArr = new Array();	// 배열 선언
-			var checkBtn = $(this);
-			
-			// checkBtn.parent() : checkBtn의 부모는 <td>이다.
-			// checkBtn.parent().parent() : <td>의 부모이므로 <tr>이다.
-			//var tr = checkBtn.parent().parent();
-			//var td = tr.children();
-            
+        $(document).ready(function() {
 
-            //var stock_list = checkBtn.nextElementSibling.children();
-            var tr = checkBtn.parent().parent();
-            var td = tr.children();
-            var cnt = td.eq(4).text();
+            $("input[name=mate_quan]").on('change keyup', function() {
 
-            //var stock_1 = stock_list.eq(0):nth-child(5);
-            //var stock_2 = stock_list.eq(1):nth-child(5);
-            //var stock_3 = stock_list.eq(2):nth-child(5);
+            //alert("dd")
+            //$("#tlist").keydown(function(){ 
+    
+            //alert( document.getElementsByName("cost")[0].innerHTML )
+    
+            var size = document.getElementsByName('mate_quan').length;
+    
+             //   var unit_cost = [30,50,40,50,100,170,80,30,300,170];
+            var total_list = [];
+            for(var i = 0; i < size; i++){
+                var mate_quan = document.getElementsByName("mate_quan")[i].value;
+                var unit_cost = document.getElementsByName("cost")[i].innerText
+                var sum = mate_quan * unit_cost;
+                total_list.push(sum);
+                document.getElementsByName("sum")[i].innerText = sum;
+            }
+               
+            const total = total_list.reduce(function add(sum, currValue) {
+            return sum + currValue;
+            }, 0);
+            document.getElementById("total").innerText = total + '원';	
+    
+            })
+        });
 
-            //var stock_total = (stock_1 + stock_2 + stock_3).text();
+        var minOrderValue = {"무": 5, "마늘": 3}
 
         
 
-            
-			
-			console.log("클릭한 Row의 모든 데이터 : "+tr.text());
-			
-			//var no = td.eq(0).text();
-			//var userid = td.eq(1).text();
-			//var name = td.eq(2).text();
-			//var email = td.eq(3).text();
-			
-			
-			// 반복문을 이용해서 배열에 값을 담아 사용할 수 도 있다.
-			td.each(function(i){	
-				tdArr.push(td.eq(i).text());
-			});
-			
-			console.log("배열에 담긴 값 : "+tdArr); 
-			
-			//str +=	" * 클릭된 Row의 td값: <font color='red'>" + cnt + "</font>"
-			str = cnt
-			$(".ex2_Result1").html(tr.text());		
-			$(".ex2_Result2").html(str);
-				
+    
 
-		});
-			
     </script>
     
     <script>
+        /*
     function printName()  {
-        const stock_1 = document.getElementById('stock_1').value;
-        const pri_1 = 150;
-        const sum_1 = (stock_1) * (pri_1);
-        document.getElementById("result_1").innerText = sum_1;
 
-        const stock_2 = document.getElementById('stock_2').value;
-        const pri_2 = 200;
-        const sum_2 = stock_2 * pri_2;
-        document.getElementById("result_2").innerText = sum_2;
+        //alert( document.getElementsByName("cost")[0].innerHTML )
 
-        const stock_3 = document.getElementById('stock_3').value;
-        const pri_3 = 150;
-        const sum_3 = stock_3 * pri_3;
-        document.getElementById("result_3").innerText = sum_3;
+        var size = document.getElementsByName('mate_quan').length;
 
-        const total = sum_1 + sum_2 + sum_3
+     //   var unit_cost = [30,50,40,50,100,170,80,30,300,170];
+        var total_list = [];
+        for(var i = 0; i < size; i++){
+            var mate_quan = document.getElementsByName("mate_quan")[i].value;
+            var unit_cost = document.getElementsByName("cost")[i].innerText
+            var sum = mate_quan * unit_cost;
+            total_list.push(sum);
+            document.getElementsByName("sum")[i].innerText = sum;
+        }
+           
+        const total = total_list.reduce(function add(sum, currValue) {
+        return sum + currValue;
+        }, 0);
         document.getElementById("total").innerText = total + '원';
       }
-    
+      *./
     </script>
+
+
+
+
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>

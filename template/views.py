@@ -1,6 +1,7 @@
 
 from gc import get_objects
 from pipes import Template
+from urllib import request
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -79,7 +80,7 @@ class OrderAPIView(APIView):
     #     context['q'] = Instock.objects.all()
     #     zip_context = zip(context['total'],context['q'])
     #     return zip_context
-
+# 발주신청
 class OrdappAPIView(APIView):
 
     renderer_classes = [TemplateHTMLRenderer]
@@ -87,15 +88,45 @@ class OrdappAPIView(APIView):
  
     # serializer_class = ManagerSerializer
  
-    def get(self, request):
+    def get(self, request,**kwargs):
         cnt = Instock.objects.count()
     
         for i in range(1,cnt+1):
             total = Instock.objects.get(pk=i).in_quan * Instock.objects.get(pk=i).mate_id.unit_cost
             Instock.objects.filter(pk=i).update(in_total=total)
         queryset = Instock.objects.all().order_by('-in_num')
-    
-        return Response({'ord_stock': queryset})
+        
+        stock = Material.objects.all().order_by('-mate_id')
+
+        minOrderValue = {'무':5,'마늘':3}
+
+        return Response({'ord_stock': queryset,'stock':stock,'minOrderValue':minOrderValue})
+
+# 발주 신청 폼
+def createform(request):
+    if request.method == 'POST':
+        instock = Instock()
+        ord = Ord()
+        ord.objects.create()
+        ord.save()
+        # instock.mate_id = 10
+        instock.in_quan = request.POST('mate_quan[0]')
+        instock.save()
+    return redirect('orderapp')
+# def create(self,request,**kwargs):
+    #     in_quan_1 = kwargs.get('mate_3')
+    #     in_quan_2 = kwargs.get('mate_7')
+    #     in_quan_3 = kwargs.get('mate_4')
+ 
+    #     Instock.objects.bulk_create([
+    #         Instock(name="God",ord_num=1,mate_id=,in_quan=in_quan_1),
+    #         Instock(name="Demi God",mate_id=),
+    #         Instock(name="Mortal",in_quan=)
+    #         ])
+
+   
+
+
 
 # class DashAPIView(APIView):
 
