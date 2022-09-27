@@ -97,14 +97,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>                                      
-                                        {% for i in mate_list %}
+                                        {% for i,j in mate_recipe_list %}
                                         <tr>
                                             <input type='hidden' name='mateid' value='{{i.mate_id}}'></input>
                                             <td>{{i.mate_id}}</td>                                        
                                             <td>{{i.mate_name}}</td>
                                             <td>{{i.stock}}</td>
                                             <td name='cost'>{{i.unit_cost}}</td>
-                                            <td><input type='number' min=0 name='mate_quan' value=0></input></td>
+                                            <td><input type='number' min=0 name='mate_quan' value={{j}}></input></td>
                                             <td name='sum'></td>
                                         </tr>
                                         {%endfor%} 

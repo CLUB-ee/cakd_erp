@@ -3,6 +3,7 @@ from bisect import insort
 from email.feedparser import BytesFeedParser
 from gc import get_objects
 from pipes import Template
+from re import A
 from urllib import request
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, TemplateView
@@ -27,6 +28,9 @@ import joblib
 import pandas as pd
 import pickle
 from datetime import datetime
+
+from erp.views import test
+from django.core.exceptions import ObjectDoesNotExist
 
 # def dash(request):
 #     context = {
@@ -90,14 +94,22 @@ class OrderAPIView(APIView):
     #     zip_context = zip(context['total'],context['q'])
     #     return zip_context
 # 발주신청
+def get_or_none(classmodel,id_1,id_2):
+    try: 
+        return classmodel.objects.filter(menu_id=id_1).get(mate_id=id_2).mate_usage
+    except classmodel.DoesNotExist:
+        return 0
+
 class OrdappAPIView(APIView):
 
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'orderapp.html'
  
     # serializer_class = ManagerSerializer
+    
  
     def get(self, request,**kwargs):
+        
         cnt = Instock.objects.count()
     
         for i in range(1,cnt+1):
@@ -105,11 +117,24 @@ class OrdappAPIView(APIView):
             Instock.objects.filter(pk=i).update(in_total=total)
         queryset = Instock.objects.all().order_by('-in_num')
         
-        mate_list = Material.objects.all().order_by('-mate_id')
+        mate_list = Material.objects.all().order_by('mate_id')
 
-        minOrderValue = {'무':5,'마늘':3}
+        global sum_list
 
-        return Response({'ord_stock': queryset,'mate_list':mate_list,'minOrderValue':minOrderValue})
+        # 소불고기 1 제육 2 비빔밥 3 떡갈비 4 보쌈 5
+        # 레시피 가져오기 
+        import numpy as np
+        recipe_list_sum = np.array([0,0,0,0,0,0,0,0,0,0,0])
+        # 메뉴 1부터 5
+        for menu in range(5):
+            for mat in range(1,12):
+                recipe_list = np.array([])
+                intance = get_or_none(Recipe,menu,mat)*sum_list[menu]
+                recipe_list = np.append(recipe_list, np.array([intance]))
+            recipe_list_sum =  recipe_list_sum + recipe_list
+        
+        mate_recipe_list = zip(mate_list,recipe_list_sum)
+        return Response({'ord_stock': queryset,'mate_list':mate_list,'recipe_list':recipe_list,'mate_recipe_list':mate_recipe_list})
 
 # 발주 신청 폼
 def createform(request):
@@ -170,13 +195,10 @@ class DashAPIView(APIView):
         
         # 머신러닝 (내일 메뉴 예상 판매량 확인)
         elastic = joblib.load('template/elastic_model.pkl')
-        df = pd.DataFrame(columns=['menuId', 'APM', 'weekday'])
-        # 소불고기 1
-        # 제육 2
-        # 비빔밥 3
-        # 떡갈비 4
-        # 보쌈 5
+        df = pd.DataFrame(columns=['menuId', 'APM', 'weekday'])   
+        global sum_list
         sum_list=[]
+        menu_name_li =[]
         next_day = datetime.now().weekday() + 1
         for i in range(1,6):
             data = [i,0,next_day]
@@ -184,27 +206,17 @@ class DashAPIView(APIView):
             df.loc[0,:] = data
             df.loc[1,:] = data_2
             y_pred = elastic.predict(df)
-            predict = sum(y_pred)
+            predict = round(sum(y_pred),1)
             sum_list.append(predict)
+            menu_name_li.append(Menu.objects.get(pk=i).menu_name)
+        
+        zip_list=zip(menu_name_li,sum_list)
         # [2,2,2,2,2]
-        # 1	소고기
-        # 2	돼지고기
-        # 3	양파
-        # 4	파
-        # 5	바섯
-        # 6	당근
-        # 7	마늘
-        # 8	청양고추
-        # 9	애호박
-        # 10	계란
-        # 11	무
-
-        # 레시피 가져오기
-        beef = Recipe.objects.all()
-        # pork
+        
+        
         
 
-        return Response({'menu': queryset, 'material':queryset1,'predict':predict})
+        return Response({'menu': queryset, 'material':queryset1,'zip':zip_list})
     
 
 class SaleAPIView(APIView):

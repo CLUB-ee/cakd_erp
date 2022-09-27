@@ -140,28 +140,21 @@
                                             <thead>
                                                 <tr>
                                                     <th>메뉴이름</th>
-                                                    <th>오전/오후</th>
+
                                                     <th>예측 판매량</th>
                                                     
                                                 </tr>
                                             </thead>
-                                            {% comment %} <tfoot>
-                                                <tr>
-                                                    
-                                                    <th>발주 번호</th>
-                                                    <th>대분류</th>
-                                                    <th>중분류</th>
-                                                    
-                                                </tr>
-                                            </tfoot> {% endcomment %}
+
                                             <tbody>
+                                                {%for i,j in zip%}
                                                 <tr>
-                                                    
-                                                    <td>소불고기</td>
-                                                    <td>오전</td>
-                                                    <td>{{predict}}</td>
-                                                    
+                                              
+                                                    <td>{{i}}</td>
+                                                    <td>{{j}}</td>
+                                               
                                                 </tr>
+                                                {% endfor %}
                                             </tbody>
                                         </table>
                                     </div>
