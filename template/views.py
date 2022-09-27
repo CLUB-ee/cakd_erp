@@ -165,6 +165,7 @@ class OrdappAPIView(APIView):
         # 소불고기 1 제육 2 비빔밥 3 떡갈비 4 보쌈 5
         # 레시피 가져오기 
         import numpy as np
+        import math
         recipe_list_sum = np.array([0,0,0,0,0,0,0,0,0,0,0])
         # 메뉴 1부터 5
         for menu in range(5):
@@ -174,7 +175,9 @@ class OrdappAPIView(APIView):
                 intance = get_or_none(Recipe,menu+1,mat) * sum_list[menu]
                 recipe_list = np.append(recipe_list, np.array([intance]))
             recipe_list_sum =  recipe_list_sum + recipe_list
-        recipe_list_sum = list(map(int,recipe_list_sum))
+        # 매니저의 마진율
+        margin = Manager.objects.get(pk=1).man_safe
+        recipe_list_sum = list(map(lambda x:math.ceil(x*margin),recipe_list_sum))
         
         mate_recipe_list = zip(mate_list,recipe_list_sum)
         return Response({'mate_list':mate_list,
