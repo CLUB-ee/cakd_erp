@@ -36,7 +36,7 @@ class Menu(models.Model):
 
 class Cusord(models.Model):
     cus_ord_num = models.AutoField(db_column='cusOrdNum', primary_key=True)
-    out_time = models.DateTimeField(db_column='outTime', auto_now_add=True)
+    out_time = models.DateField(db_column='outTime', auto_now_add=True)
     menu_id = models.ForeignKey('Menu', models.DO_NOTHING, db_column='menuId')
 
     class Meta:
@@ -48,7 +48,7 @@ class Cusord(models.Model):
 
 class Instock(models.Model):
     in_num = models.AutoField(db_column='inNum', primary_key=True)
-    in_time = models.DateTimeField(db_column='inTime', auto_now_add=True)
+    in_time = models.DateField(db_column='inTime', auto_now_add=True)
     ord_num = models.ForeignKey('Ord', models.DO_NOTHING, db_column='ordNum')
     mate_id = models.ForeignKey(
         'Material', models.DO_NOTHING, db_column='mateId')
@@ -104,7 +104,7 @@ class Material(models.Model):
 # 발주
 class Ord(models.Model):
     ord_num = models.AutoField(db_column='ordNum', primary_key=True)
-    in_time = models.DateTimeField(db_column='inTime', auto_now_add=True)
+    in_time = models.DateField(db_column='inTime', auto_now_add=True)
 
     class Meta:
         db_table = 'ord'
@@ -115,7 +115,7 @@ class Ord(models.Model):
 
 class Outstock(models.Model):
     out_num = models.AutoField(db_column='outNum', primary_key=True)
-    out_time = models.DateTimeField(db_column='outTime', auto_now_add=True)
+    out_time = models.DateField(db_column='outTime', auto_now_add=True)
     cus_ord_num = models.ForeignKey(
         'Cusord', models.DO_NOTHING, db_column='cusOrdNum')
     mate_id = models.ForeignKey(
