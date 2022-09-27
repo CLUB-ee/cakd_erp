@@ -3,6 +3,7 @@ from bisect import insort
 from gc import get_objects
 from pipes import Template
 from sqlite3 import Cursor
+from termios import TIOCPKT_FLUSHREAD
 from urllib import request
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, TemplateView
@@ -24,6 +25,7 @@ import joblib
 import pandas as pd
 import pickle
 from datetime import datetime
+from django.core.exceptions import ObjectDoesNotExist
 from collections import Counter
 import joblib
 import pandas as pd
@@ -32,14 +34,6 @@ from datetime import datetime
 
 from django.core.exceptions import ObjectDoesNotExist
 from sklearn.linear_model import ElasticNet
-
-# def dash(request):
-#     context = {
-#         'menu' : Menu.objects.all(),
-#         'material' : Material.objects.all()
-#     }
-#     return render(request, 'dash.html', context)
-
 
 
 def stock(request):
@@ -55,75 +49,57 @@ def register(request):
 
 # dash input 함수
 
+
 def index(request):
     return render(request, "dash.html")
 
 
 def dash(request):
-    
+
     queryset1 = Material.objects.all()
     if request.method == 'POST':
         month = request.POST.get('month')
-        menu_li = Cusord.objects.filter(out_time = month)
+        menu_li = Cusord.objects.filter(out_time=month)
         menu_ = [str(i.menu_id.menu_id) for i in list(menu_li)]
- 
- 
-    # 매뉴 갯수 카운팅해서 순서대로 리스트에 담기
-    menu_=Counter(menu_)
-    menu_list = []
-    for i in [str(j) for j in range(1,6)]:
-        menu_list.append(menu_[i])
-    # 일매출 구하기
-    daily_sales = 0
-    for i,j in enumerate([str(j) for j in range(1,6)]):
-        daily_sales += (menu_[j]*Menu.objects.get(pk=i+1).menu_pri)
-    daily_sales=str(daily_sales)+' 원'
-    # 메뉴 이름 순서대로 리스트에 담기
-    menu_name_list =[]
-    for i in range(1,6):
-        menu_name_list.append(Menu.objects.get(menu_id=i))
-    # 월매출 구하기
-    # '2022-09-28'
-    menu_li_month = Cusord.objects.filter(out_time__startswith = month[:7])
-    menu_month = [str(i.menu_id.menu_id) for i in list(menu_li_month)]
-    menu_month=Counter(menu_month)
-    monthly_sales = 0
-    for i,j in enumerate([str(j) for j in range(1,6)]):
-        monthly_sales += (menu_month[j]*Menu.objects.get(pk=i+1).menu_pri)
-    monthly_sales=str(monthly_sales)+' 원'
 
+    from collections import Counter
+
+    menu_ = Counter(menu_)
+    menu_list = []
+    for i in [str(j) for j in range(1, 6)]:
+        menu_list.append(menu_[i])
+
+    menu_name_list = []
+    for i in range(1, 6):
+        menu_name_list.append(Menu.objects.get(menu_id=i))
 
     menu_zip = zip(menu_name_list, menu_list)
 
-
     elastic = joblib.load('template/elastic_model.pkl')
-    df = pd.DataFrame(columns=['menuId', 'APM', 'weekday'])   
+    df = pd.DataFrame(columns=['menuId', 'APM', 'weekday'])
     global sum_list
-    sum_list=[]
-    menu_name_li =[]
+    sum_list = []
+    menu_name_li = []
     next_day = datetime.now().weekday() + 1
-    for i in range(1,6):
-        data = [i,0,next_day]
-        data_2 = [i,1,next_day]
-        df.loc[0,:] = data
-        df.loc[1,:] = data_2
+    for i in range(1, 6):
+        data = [i, 0, next_day]
+        data_2 = [i, 1, next_day]
+        df.loc[0, :] = data
+        df.loc[1, :] = data_2
         y_pred = elastic.predict(df)
         predict = round(sum(y_pred))
         sum_list.append(predict)
         menu_name_li.append(Menu.objects.get(pk=i).menu_name)
-    
-    zip_list=zip(menu_name_li,sum_list)
 
-    return render(request, 'dash.html',{'material':queryset1, \
-    'sale_total':menu_zip, 'zip':zip_list, 'daily_sales':daily_sales,\
-    'monthly_sales':monthly_sales})
+    zip_list = zip(menu_name_li, sum_list)
+
+    return render(request, 'dash.html', {'material': queryset1, 'sale_total': menu_zip, 'zip': zip_list})
 
 
 class MyAPIView(APIView):
 
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'my.html'
-    # serializer_class = ManagerSerializer
 
     def get(self, request):
         queryset = Manager.objects.get(pk=1)
@@ -137,8 +113,6 @@ class OrderAPIView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'orders.html'
 
-    # serializer_class = ManagerSerializer
-
     def get(self, request):
 
         cnt = Instock.objects.count()
@@ -146,26 +120,18 @@ class OrderAPIView(APIView):
             total = (Instock.objects.get(pk=i).in_quan) * \
                 (Instock.objects.get(pk=i).mate_id.unit_cost)/10
             Instock.objects.filter(pk=i).update(in_total=total)
-        
+
         queryset = Instock.objects.all().order_by(('-ord_num'))
-        
+
         return Response({'instock': queryset})
 
-# def get_context_data(self, **kwargs):
-#     context = super().get_context_data(**kwargs)
-#     quan = Instock.objects.all().in_quan
-#     print(quan)
-#     cost = Instock.objects.all().mate_id.unit_cost
-#     context['total'] = quan * cost
-#     context['q'] = Instock.objects.all()
-#     zip_context = zip(context['total'],context['q'])
-#     return zip_context
-# 발주신청
-def get_or_none(classmodel,id_1,id_2):
-    try: 
+
+def get_or_none(classmodel, id_1, id_2):
+    try:
         return classmodel.objects.filter(menu_id=id_1).get(mate_id=id_2).mate_usage
     except classmodel.DoesNotExist:
         return 0
+
 
 class OrdappAPIView(APIView):
 
@@ -173,39 +139,40 @@ class OrdappAPIView(APIView):
     template_name = 'orderapp.html'
 
     # serializer_class = ManagerSerializer
-    def get(self, request,**kwargs):
-        
+    def get(self, request, **kwargs):
         cnt = Instock.objects.count()
-    
-        for i in range(1,cnt+1):
-            total = Instock.objects.get(pk=i).in_quan * (Instock.objects.get(pk=i).mate_id.unit_cost)/10
+        for i in range(1, cnt+1):
+            total = Instock.objects.get(
+                pk=i).in_quan * (Instock.objects.get(pk=i).mate_id.unit_cost)/10
             Instock.objects.filter(pk=i).update(in_total=total)
         queryset = Instock.objects.all().order_by('-in_num')
-        
         mate_list = Material.objects.all().order_by('mate_id')
-
         global sum_list
         sum_list = sum_list
+
         # 소불고기 1 제육 2 비빔밥 3 떡갈비 4 보쌈 5
-        # 레시피 가져오기 
+        # 레시피 가져오기
         import numpy as np
         import math
-        recipe_list_sum = np.array([0,0,0,0,0,0,0,0,0,0,0])
+        recipe_list_sum = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+
         # 메뉴 1부터 5
         for menu in range(5):
             # 재료 1부터 11
             recipe_list = np.array([])
-            for mat in range(1,12):
-                intance = get_or_none(Recipe,menu+1,mat) * sum_list[menu]
+            for mat in range(1, 12):
+                intance = get_or_none(Recipe, menu+1, mat) * sum_list[menu]
                 recipe_list = np.append(recipe_list, np.array([intance]))
-            recipe_list_sum =  recipe_list_sum + recipe_list
+            recipe_list_sum = recipe_list_sum + recipe_list
+
         # 매니저의 마진율
         margin = Manager.objects.get(pk=1).man_safe
-        recipe_list_sum = list(map(lambda x:math.ceil(x*margin),recipe_list_sum))
-        
-        mate_recipe_list = zip(mate_list,recipe_list_sum)
-        return Response({'mate_list':mate_list,
-                        'mate_recipe_list':mate_recipe_list})
+        recipe_list_sum = list(
+            map(lambda x: math.ceil(x*margin), recipe_list_sum))
+        mate_recipe_list = zip(mate_list, recipe_list_sum)
+        return Response({'mate_list': mate_list,
+                        'mate_recipe_list': mate_recipe_list})
+
 
 def createform(request):
     if request.method == 'POST':
@@ -225,14 +192,6 @@ def createform(request):
     return render(request, 'orderapp.html', messages.info(request, "발주가 완료 되었습니다."))
 
 
-
-
-
-
-
-
-
-
 class SaleAPIView(APIView):
 
     renderer_classes = [TemplateHTMLRenderer]
@@ -248,5 +207,3 @@ class SaleAPIView(APIView):
         queryset = Menu.objects.all()
         sale_total = Menu.objects.aggregate(Sum('menu_sum'))
         return Response({'menu': queryset, 'sale_total': sale_total})
-
-  
