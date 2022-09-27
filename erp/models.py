@@ -44,6 +44,12 @@ class Cusord(models.Model):
 
     def __str__(self):
         return str(self.cus_ord_num)
+    
+    def to_json(self):
+        return {
+            'out_time' : self.out_time,
+            'menu_id' : self.menu_id
+        }
 
 
 class Instock(models.Model):

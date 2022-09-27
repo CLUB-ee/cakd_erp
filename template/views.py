@@ -2,6 +2,8 @@
 from bisect import insort
 from gc import get_objects
 from pipes import Template
+from sqlite3 import Cursor
+from termios import TIOCPKT_FLUSHREAD
 from urllib import request
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, TemplateView
@@ -22,6 +24,8 @@ import pandas as pd
 import json
 from django.http import JsonResponse
 from django.contrib import messages
+from datetime import datetime
+from collections import Counter
 
 # def dash(request):
 #     context = {
@@ -31,9 +35,6 @@ from django.contrib import messages
 #     return render(request, 'dash.html', context)
 
 
-
-def stock(request):
-    return render(request, 'stock.html')
 
 
 def login(request):
@@ -149,20 +150,80 @@ def createform(request):
     #         Instock(name="Mortal",in_quan=)
     #         ])
 
-   
+
+# def month(request):
+
+#     if request.method == "POST":
+
+#         month = request.POST.get('month')
+
+#         month_ = Cusord(out_time=Cusord.objects.filter(out_time.month == datetime.strptime(month, '%m')))
+
+#     return redirect(request, 'template/dash.html', {'month':month_})
 
 
 
-class DashAPIView(APIView):
 
-    renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'dash.html'
-    # serializer_class = ManagerSerializer
+# class DashAPIView(APIView):
 
-    def get(self, request):
-        queryset = Menu.objects.all()
-        queryset1 = Material.objects.all()
-        return Response({'menu': queryset, 'material':queryset1})
+#     renderer_classes = [TemplateHTMLRenderer]
+#     template_name = 'dash.html'
+#     # serializer_class = ManagerSerializer
+
+#     def month(request):
+
+#         if request.method == "POST":
+
+#             month = request.POST.get('month')
+
+#             menu_ = Cusord(menu_id=Cusord.objects.filter(out_time = datetime.strftime(month, '%Y-%m-%d')))
+
+#             menu_sum = Menu(menu_sum = Menu.objects.filter(menu_id = menu_))
+        
+#         return Response({'menu_sum': menu_sum})
+
+
+#     def get(self, request):
+#         queryset = Menu.objects.all()
+#         queryset1 = Material.objects.all()
+        
+      
+#         time_list=[]
+#         for i in Cusord.objects.all():
+            
+#             time = i.out_time
+#             time = datetime.strftime(time,'%m-%d')
+#             time_list.append(time)
+
+            
+#         return Response({'menu': queryset, 'material':queryset1, 'time': set(time_list)})
+
+# dash input 함수
+
+def index(request):
+    return render(request, "dash.html")
+
+def dash(request):
+    menu_name = Menu.objects.all()
+    queryset1 = Material.objects.all()
+    if request.method == 'POST':
+        month = request.POST.get('month')
+        menu_li = Cusord.objects.filter(out_time = month)
+        menu_ = [str(i.menu_id.menu_id) for i in list(menu_li)]
+
+    menu_list = []
+    
+    for i in menu_:
+        total = Menu.objects.get(menu_id=i)
+        menu_list.append(total)
+    
+    # menu_dic = Counter(menu_list)
+    # menu_list = json.dumps(menu_dic)
+    queryset = Menu.objects.all()
+
+    return render(request, 'dash.html',{'menu': queryset,'menu_n':menu_name, 'material':queryset1, 'sale_total':menu_list})
+
+
 
 class SaleAPIView(APIView):
 
