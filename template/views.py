@@ -81,7 +81,7 @@ def dash(request):
         df.loc[0,:] = data
         df.loc[1,:] = data_2
         y_pred = elastic.predict(df)
-        predict = round(sum(y_pred),1)
+        predict = round(sum(y_pred))
         sum_list.append(predict)
         menu_name_li.append(Menu.objects.get(pk=i).menu_name)
     
@@ -190,27 +190,6 @@ def createform(request):
 
     return render(request, 'orderapp.html', messages.info(request, "발주가 완료 되었습니다."))
 
-
-# def cusorder(request):
-
-#     if request.method == "POST":
-
-#         menuid= request.POST.get('menuid')
-#         cusord = Cusord(menu_id=Menu.objects.get(menu_id=menuid) )
-#         cusord.save()
-
-
-#         return render(request, "kiosk/cusorder.html",{'lis':cusord})
-# def create(self,request,**kwargs):
-    #     in_quan_1 = kwargs.get('mate_3')
-    #     in_quan_2 = kwargs.get('mate_7')
-    #     in_quan_3 = kwargs.get('mate_4')
-
-    #     Instock.objects.bulk_create([
-    #         Instock(name="God",ord_num=1,mate_id=,in_quan=in_quan_1),
-    #         Instock(name="Demi God",mate_id=),
-    #         Instock(name="Mortal",in_quan=)
-    #         ])
 
 
 
