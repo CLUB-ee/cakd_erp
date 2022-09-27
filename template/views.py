@@ -71,17 +71,27 @@ def dash(request):
     # 매뉴 갯수 카운팅해서 순서대로 리스트에 담기
     menu_=Counter(menu_)
     menu_list = []
-    for i in [str(j) for j in range(1,6) ]:
+    for i in [str(j) for j in range(1,6)]:
         menu_list.append(menu_[i])
     # 일매출 구하기
     daily_sales = 0
-    for i,j in enumerate([str(j) for j in range(1,6) ]):
+    for i,j in enumerate([str(j) for j in range(1,6)]):
         daily_sales += (menu_[j]*Menu.objects.get(pk=i+1).menu_pri)
     daily_sales=str(daily_sales)+' 원'
     # 메뉴 이름 순서대로 리스트에 담기
     menu_name_list =[]
     for i in range(1,6):
         menu_name_list.append(Menu.objects.get(menu_id=i))
+    # 월매출 구하기
+    # '2022-09-28'
+    menu_li_month = Cusord.objects.filter(out_time__startswith = month[:7])
+    menu_month = [str(i.menu_id.menu_id) for i in list(menu_li_month)]
+    menu_month=Counter(menu_month)
+    monthly_sales = 0
+    for i,j in enumerate([str(j) for j in range(1,6)]):
+        monthly_sales += (menu_month[j]*Menu.objects.get(pk=i+1).menu_pri)
+    monthly_sales=str(monthly_sales)+' 원'
+
 
     menu_zip = zip(menu_name_list, menu_list)
 
@@ -105,7 +115,8 @@ def dash(request):
     zip_list=zip(menu_name_li,sum_list)
 
     return render(request, 'dash.html',{'material':queryset1, \
-    'sale_total':menu_zip, 'zip':zip_list, 'daily_sales':daily_sales})
+    'sale_total':menu_zip, 'zip':zip_list, 'daily_sales':daily_sales,\
+    'monthly_sales':monthly_sales})
 
 
 class MyAPIView(APIView):

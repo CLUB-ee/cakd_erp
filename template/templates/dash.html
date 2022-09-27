@@ -70,8 +70,10 @@
                         <div class="col-xl-6 col-lg-6">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">일 메뉴 판매량</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">일 매출량</h6>
                                     <h3>{{daily_sales}}</h3>
+                                    <h6 class="m-0 font-weight-bold text-primary">월 매출량</h6>
+                                    <h3>{{monthly_sales}}</h3>
                                     <form action="{% url 'template:dash' %}" method = 'POST'> 
                                         {% csrf_token %}
                                         <button type='submit' class= 'btn float-right btn-sm'>확인</button>
