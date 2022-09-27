@@ -1,19 +1,8 @@
 # find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
 # find . -path "*/migrations/*.pyc" -delete
 
-from configparser import MAX_INTERPOLATION_DEPTH
+
 from django.db import models
-from django.db.models import Q
-
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#   * Rearrange models' order
-#   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-# Feel free to rename the models, but don't rename db_table values or field names.
-
-# Create your models here.
 
 
 class Menu(models.Model):
