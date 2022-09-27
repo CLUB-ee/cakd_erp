@@ -161,7 +161,7 @@ class OrdappAPIView(APIView):
         mate_list = Material.objects.all().order_by('mate_id')
 
         global sum_list
-
+        sum_list = sum_list
         # 소불고기 1 제육 2 비빔밥 3 떡갈비 4 보쌈 5
         # 레시피 가져오기 
         import numpy as np
@@ -177,7 +177,8 @@ class OrdappAPIView(APIView):
         recipe_list_sum = list(map(int,recipe_list_sum))
         
         mate_recipe_list = zip(mate_list,recipe_list_sum)
-        return Response({'ord_stock': queryset,'mate_list':mate_list,'recipe_list':recipe_list,'mate_recipe_list':mate_recipe_list})
+        return Response({'mate_list':mate_list,
+                        'mate_recipe_list':mate_recipe_list})
 
 def createform(request):
     if request.method == 'POST':

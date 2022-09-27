@@ -90,10 +90,10 @@
                                         <tr>
                                             <th>상품번호</th>
                                             <th>상품명</th>
-                                            <th>재고</th>
-                                            <th>단가</th>
-                                            <th>주문수량</th>
-                                            <th>공급가액</th> 
+                                            <th>재고(g)</th>
+                                            <th>단가(원/10g)</th>
+                                            <th>주문수량(g)</th>
+                                            <th>공급가액(원)</th> 
                                         </tr>
                                     </thead>
                                     <tbody>                                      
@@ -138,7 +138,7 @@
     <script>
         $(document).ready(function() {
 
-            $("input[name=mate_quan]").on('change keyup', function() {
+            $("input[name=mate_quan]").on('change keyup click', function() {
 
             //alert("dd")
             //$("#tlist").keydown(function(){ 
@@ -152,7 +152,7 @@
             for(var i = 0; i < size; i++){
                 var mate_quan = document.getElementsByName("mate_quan")[i].value;
                 var unit_cost = document.getElementsByName("cost")[i].innerText
-                var sum = mate_quan * unit_cost;
+                var sum = mate_quan * unit_cost/10;
                 total_list.push(sum);
                 document.getElementsByName("sum")[i].innerText = sum;
             }
@@ -160,7 +160,7 @@
             const total = total_list.reduce(function add(sum, currValue) {
             return sum + currValue;
             }, 0);
-            document.getElementById("total").innerText = total + '원';	
+            document.getElementById("total").innerText = total + ' 원';	
     
             })
         });
