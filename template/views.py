@@ -3,7 +3,6 @@ from bisect import insort
 from gc import get_objects
 from pipes import Template
 from sqlite3 import Cursor
-from termios import TIOCPKT_FLUSHREAD
 from urllib import request
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, TemplateView
@@ -25,7 +24,6 @@ import joblib
 import pandas as pd
 import pickle
 from datetime import datetime
-from django.core.exceptions import ObjectDoesNotExist
 from collections import Counter
 import joblib
 import pandas as pd
@@ -70,13 +68,13 @@ def dash(request):
         menu_ = [str(i.menu_id.menu_id) for i in list(menu_li)]
  
  
-    from collections import Counter
- 
+    # 매뉴 갯수 카운팅해서 순서대로 리스트에 담기
     menu_=Counter(menu_)
     menu_list = []
     for i in [str(j) for j in range(1,6) ]:
         menu_list.append(menu_[i])
-
+    
+    # 메뉴 이름 순서대로 리스트에 담기
     menu_name_list =[]
     for i in range(1,6):
         menu_name_list.append(Menu.objects.get(menu_id=i))
