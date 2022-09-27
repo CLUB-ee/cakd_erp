@@ -73,7 +73,11 @@ def dash(request):
     menu_list = []
     for i in [str(j) for j in range(1,6) ]:
         menu_list.append(menu_[i])
-    
+    # 일매출 구하기
+    daily_sales = 0
+    for i,j in enumerate([str(j) for j in range(1,6) ]):
+        daily_sales += (menu_[j]*Menu.objects.get(pk=i+1).menu_pri)
+    daily_sales=str(daily_sales)+' 원'
     # 메뉴 이름 순서대로 리스트에 담기
     menu_name_list =[]
     for i in range(1,6):
@@ -100,7 +104,8 @@ def dash(request):
     
     zip_list=zip(menu_name_li,sum_list)
 
-    return render(request, 'dash.html',{'material':queryset1, 'sale_total':menu_zip, 'zip':zip_list})
+    return render(request, 'dash.html',{'material':queryset1, \
+    'sale_total':menu_zip, 'zip':zip_list, 'daily_sales':daily_sales})
 
 
 class MyAPIView(APIView):
