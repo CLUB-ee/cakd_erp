@@ -68,21 +68,18 @@ def dash(request):
         month = request.POST.get('month')
         menu_li = Cusord.objects.filter(out_time = month)
         menu_ = [str(i.menu_id.menu_id) for i in list(menu_li)]
+ 
+ 
+    from collections import Counter
+ 
+    menu_=Counter(menu_)
     menu_list = []
-    
-    for i in menu_:
-        menu_c = menu_.count(i)
-        menu_list.append(menu_c)
-    # for i in menu_:
-    #     total=Menu.objects.filter(menu_id=i)
-    #     menu_list.append(total)
+    for i in [str(j) for j in range(1,6) ]:
+        menu_list.append(menu_[i])
 
-    
     menu_name_list =[]
-    for i in menu_:
-        menu_name = Menu.objects.get(menu_id=i)
-        menu_name_list.append(menu_name)
-    menu_name_list = set(menu_name_list)
+    for i in range(1,6):
+        menu_name_list.append(Menu.objects.get(menu_id=i))
 
     menu_zip = zip(menu_name_list, menu_list)
 
