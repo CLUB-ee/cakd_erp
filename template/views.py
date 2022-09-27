@@ -1,9 +1,9 @@
 
 from bisect import insort
-from email.feedparser import BytesFeedParser
 from gc import get_objects
 from pipes import Template
-from re import A
+from sqlite3 import Cursor
+from termios import TIOCPKT_FLUSHREAD
 from urllib import request
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, TemplateView
@@ -129,7 +129,7 @@ class OrdappAPIView(APIView):
         for menu in range(5):
             for mat in range(1,12):
                 recipe_list = np.array([])
-                intance = get_or_none(Recipe,menu,mat)*sum_list[menu]
+                intance = get_or_none(Recipe,menu,mat) * sum_list[menu]
                 recipe_list = np.append(recipe_list, np.array([intance]))
             recipe_list_sum =  recipe_list_sum + recipe_list
         

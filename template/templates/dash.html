@@ -72,7 +72,7 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">월 매출량 추이</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">매출량 추이</h6>
                                     <input type="text" id="date-picker" class="form-control float-right" aria-label="Search" aria-describedby="basic-addon2" th:value="|${year}-${month}|" style="width: 6rem; float-right" placeholder='날짜'>
                                 </div>
                                 <!-- Card Body -->
@@ -88,7 +88,7 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">월 재료별 사용량 추이</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">재료별 사용량 추이</h6>
                                     <input type="text" id="date-picker1" class="form-control float-right" aria-label="Search" aria-describedby="basic-addon2" th:value="|${year}-${month}|" style="width: 6rem; float-right" placeholder='날짜'>
                                 </div>
                                 <!-- Card Body -->
@@ -108,11 +108,12 @@
                             <!-- Project Card Example -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">월 메뉴 판매량</h6>
-                                    <form action='/tmep/'> 
+                                    <h6 class="m-0 font-weight-bold text-primary">일 메뉴 판매량</h6>
+                                    <form action="{% url 'template:dash' %}" method = 'POST'> 
+                                        {% csrf_token %}
                                         <button type='submit' class= 'btn float-right btn-sm'>확인</button>
                                         <label for='cal'></label>
-                                        <input type="text" id="date-picker2" class="form-control float-right" aria-label="Search" aria-describedby="basic-addon2" th:value="|${year}-${month}|" style="width: 6rem; float-right" placeholder='날짜'>
+                                        <input type="text" id="date-picker2" name='month' class="form-control float-right" aria-label="Search" aria-describedby="basic-addon2" style="width: 9rem; float-right" placeholder='날짜'>
                                     </form>
                                 </div>
                                 <div class="card-body">
@@ -205,24 +206,18 @@
     <script src="{%static 'vendor/chart.js/Chart.min.js'%}"></script>
 
     <!-- Page level custom scripts -->
-    <script src="{%static 'js/demo/chart-area-demo.js'%}"></script>
-    <script src="{%static 'js/demo/chart-bar-demo.js'%}"></script>
-    {% comment %} <script src="{%static 'js/demo/chart-bar-demo2.js'%}"></script> {% endcomment %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
     <script>
         $(document).ready(function() {
             $('#date-picker').datepicker({
-                format: "yyyy-m",
+                format: "yyyy-mm",
                 minViewMode: 1,
                 language: "ko",
                 autoclose: true
-            })
-        
-            $('#get-history').on('click', function() {
-                const dateArr = $('#date-picker').val().split('-')
-                location.href = '/history?year=' + dateArr[0] + '&month=' + dateArr[1]
-            })
+            });
+            $('#date-picker').datepicker('setDate', 'today');
         })
 
 
@@ -230,14 +225,14 @@
     <script>
         $(document).ready(function() {
             $('#date-picker1').datepicker({
-                format: "yyyy-m",
+                format: "yyyy-mm",
                 minViewMode: 1,
                 language: "ko",
                 autoclose: true
             })
-        
+            $('#date-picker1').datepicker('setDate', 'today');
             $('#get-history').on('click', function() {
-                const dateArr = $('#date-picker').val().split('-')
+                const dateArr = $('#date-picker1').val().split('-')
                 location.href = '/history?year=' + dateArr[0] + '&month=' + dateArr[1]
             })
         })
@@ -245,14 +240,13 @@
     <script>
         $(document).ready(function() {
             $('#date-picker2').datepicker({
-                format: "yyyy-m",
-                minViewMode: 1,
+                format: "yyyy-mm-dd",
                 language: "ko",
                 autoclose: true
             })
-        
+            $('#date-picker2').datepicker('setDate', 'today');
             $('#get-history').on('click', function() {
-                const dateArr = $('#date-picker').val().split('-')
+                const dateArr = $('#date-picker2').val().split('-')
                 location.href = '/history?year=' + dateArr[0] + '&month=' + dateArr[1]
             })
         })
@@ -306,19 +300,18 @@
                 headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
                 pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}%</b> of total<br/>'
             },
-            
+         
             series: [
                 {
                     name: "Browsers",
                     colorByPoint: true,
-                    data: 
-                    [{% for i in menu %}
-                        {
-                            name: '{{ i.menu_name }}',
-                            y: {{ i.menu_sum }},
-                            drilldown: 'menu'
-                        },
-                    {% endfor %}],
+                    data: [{% for i in sale_total %} 
+                            {
+                            name: '{{i.menu_name}}',
+                            y: {{ i.menu_cnt }},
+                            drilldown:'' 
+                            },
+                            {% endfor %}], 
 
                     dataSorting: {
                         enabled: true
@@ -339,7 +332,7 @@
             },
             title: {
                 align: 'left',
-                text: '월 메뉴별 판매량'
+                text: '월 재료별 사용량'
             },
             subtitle: {
                 align: 'left',
@@ -355,7 +348,7 @@
             },
             yAxis: {
                 title: {
-                    text: '메뉴 판매량'
+                    text: '재료 소비량'
                 }
 
             },
@@ -400,61 +393,37 @@
         });
     </script>
     <script>
+       // Data retrieved https://en.wikipedia.org/wiki/List_of_cities_by_average_temperature
         Highcharts.chart('container3', {
-
-            title: {
-                text: '월별 매출량'
+            chart: {
+                type: 'line'
             },
-        
+            title: {
+                text: '매출량 추이'
+            },
+
+
+            xAxis: {
+                categories: [{% for i in sala_total %}'{{ i.out_time }}',{% endfor %}]
+                            
+            },
             yAxis: {
                 title: {
-                    text: 'Number of Employees'
+                    text: '매출량'
                 }
             },
-        
-            xAxis: {
-                accessibility: {
-                    rangeDescription: 'Range: 2010 to 2020'
-                }
-            },
-        
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'middle'
-            },
-        
             plotOptions: {
-                series: {
-                    label: {
-                        connectorAllowed: false
-                    },
-                    pointStart: 01
+                line: {
+                    enableMouseTracking: false
                 }
             },
-        
             series: [{
-                name: 'Installation & Developers',
-                data: [43934, 48656, 65165, 81827, 112143, 142383,
-                    171533, 165174, 155157, 161454, 15461]
-            }],
-        
-            responsive: {
-                rules: [{
-                    condition: {
-                        maxWidth: 500
-                    },
-                    chartOptions: {
-                        legend: {
-                            layout: 'horizontal',
-                            align: 'center',
-                            verticalAlign: 'bottom'
-                        }
-                    }
-                }]
-            }
-        
+                name: '매출량',
+                data: [{% for i in sale_total%}{{ i.menu_sum }},{% endfor %}]
+            }]
         });
+
+
     </script>
     
 </body>
