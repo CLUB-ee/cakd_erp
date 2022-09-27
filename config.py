@@ -9,6 +9,3 @@ DATABASES = {
         'PORT': '3306',
     }
 }
-
-# SECRET_KEY
-# ALGORITHMS='HS256'
