@@ -1,6 +1,6 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from erp.models import Menu, Cusord, Material, Instock, Outstock, Recipe
+from erp.models import Cusord, Instock, Outstock, Recipe
 
 
 @receiver(post_save, sender=Cusord)
@@ -11,9 +11,9 @@ def Cusord_post_save(sender, **kwargs):
 
     ord_menu_recipe = Recipe.objects.filter(
         menu_id=kwargs['instance'].menu_id.menu_id)
-    # li = []
+
     for i in ord_menu_recipe:
-        menuid = i.menu_id
+        # menuid = i.menu_id
         mateid = i.mate_id
         usage = i.mate_usage
         Outstock(cus_ord_num=kwargs['instance'],
