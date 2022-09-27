@@ -16,7 +16,7 @@ from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db.models import Q
-from django.db.models import Max, Min, Avg, Sum
+from django.db.models import Max, Min, Avg, Sum, Count
 import pandas as pd
 import json
 from django.http import JsonResponse
@@ -71,9 +71,22 @@ def dash(request):
     menu_list = []
     
     for i in menu_:
-        total = Menu.objects.get(menu_id=i)
-        menu_list.append(total)
+        menu_c = menu_.count(i)
+        menu_list.append(menu_c)
+    # for i in menu_:
+    #     total=Menu.objects.filter(menu_id=i)
+    #     menu_list.append(total)
+
     
+    menu_name_list =[]
+    for i in menu_:
+        menu_name = Menu.objects.get(menu_id=i)
+        menu_name_list.append(menu_name)
+    menu_name_list = set(menu_name_list)
+
+    menu_zip = zip(menu_name_list, menu_list)
+
+
     elastic = joblib.load('template/elastic_model.pkl')
     df = pd.DataFrame(columns=['menuId', 'APM', 'weekday'])   
     global sum_list
@@ -92,7 +105,7 @@ def dash(request):
     
     zip_list=zip(menu_name_li,sum_list)
 
-    return render(request, 'dash.html',{'material':queryset1, 'sale_total':menu_list, 'zip':zip_list})
+    return render(request, 'dash.html',{'material':queryset1, 'sale_total':menu_zip, 'zip':zip_list})
 
 
 class MyAPIView(APIView):

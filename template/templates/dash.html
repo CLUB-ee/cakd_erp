@@ -69,15 +69,20 @@
                         <!-- Area Chart -->
                         <div class="col-xl-6 col-lg-6">
                             <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">매출량 추이</h6>
-                                    <input type="text" id="date-picker" class="form-control float-right" aria-label="Search" aria-describedby="basic-addon2" th:value="|${year}-${month}|" style="width: 6rem; float-right" placeholder='날짜'>
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">일 메뉴 판매량</h6>
+                                    <form action="{% url 'template:dash' %}" method = 'POST'> 
+                                        {% csrf_token %}
+                                        <button type='submit' class= 'btn float-right btn-sm'>확인</button>
+                                        <label for='cal'></label>
+                                        <input type="text" id="date-picker2" name='month' class="form-control float-right" aria-label="Search" aria-describedby="basic-addon2" style="width: 9rem; float-right" placeholder='날짜'>
+                                    </form>
                                 </div>
-                                <!-- Card Body -->
                                 <div class="card-body">
-                                    <div id='container3'></div>
+                                    <div id="container"></div>
+                                    {% comment %} <div class="chart-bar pt-4 pb-2">
+                                        <canvas id="myBarChart2"></canvas>
+                                    </div> {% endcomment %}
                                 </div>
                             </div>
                         </div>
@@ -101,32 +106,6 @@
 
                     <!-- Content Row -->
                     <div class="row">
-
-                        <!-- Content Column -->
-                        <div class="col-xl-6 col-lg-6">
-
-                            <!-- Project Card Example -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">일 메뉴 판매량</h6>
-                                    <form action="{% url 'template:dash' %}" method = 'POST'> 
-                                        {% csrf_token %}
-                                        <button type='submit' class= 'btn float-right btn-sm'>확인</button>
-                                        <label for='cal'></label>
-                                        <input type="text" id="date-picker2" name='month' class="form-control float-right" aria-label="Search" aria-describedby="basic-addon2" style="width: 9rem; float-right" placeholder='날짜'>
-                                    </form>
-                                </div>
-                                <div class="card-body">
-                                    <div id="container"></div>
-                                    {% comment %} <div class="chart-bar pt-4 pb-2">
-                                        <canvas id="myBarChart2"></canvas>
-                                    </div> {% endcomment %}
-                                </div>
-                            </div>
-
-                            <!-- Color System -->
-                            
-                        </div>
 
                         <div class="col-xl-6 col-lg-6">
 
@@ -244,7 +223,6 @@
                 language: "ko",
                 autoclose: true
             })
-            $('#date-picker2').datepicker('setDate', 'today');
             $('#get-history').on('click', function() {
                 const dateArr = $('#date-picker2').val().split('-')
                 location.href = '/history?year=' + dateArr[0] + '&month=' + dateArr[1]
@@ -305,10 +283,10 @@
                 {
                     name: "Browsers",
                     colorByPoint: true,
-                    data: [{% for i in sale_total %} 
+                    data: [{% for i,j in sale_total %} 
                             {
-                            name: '{{i.menu_name}}',
-                            y: {{ i.menu_cnt }},
+                            name: '{{ i.menu_name }}',
+                            y: {{ j }},
                             drilldown:'' 
                             },
                             {% endfor %}], 
