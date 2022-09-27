@@ -1,412 +1,465 @@
 {%load static%}
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
 
-<head>
+        <title>FnB - Dashboard</title>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+        <!-- Custom fonts for this template-->
+        <link
+            href="{%static 'vendor/fontawesome-free/css/all.min.css'%}"
+            rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="resources/css/plugin/datepicker/bootstrap-datepicker.css"
+        />
+        <!-- Custom styles for this template-->
+        <link href="{%static 'css/sb-admin-2.min.css'%}" rel="stylesheet" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+            integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/data.js"></script>
+        <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+        <script src="https://code.highcharts.com/modules/export-data.js"></script>
+        <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    </head>
 
-    <title>FnB - Dashboard</title>
+    <body id="page-top">
+        <!-- Page Wrapper -->
+        <div id="wrapper">
+            <!-- Sidebar -->
+            <nav>{%include 'nav.html'%}</nav>
+            <!-- End of Sidebar -->
 
-    <!-- Custom fonts for this template-->
-    <link href="{%static 'vendor/fontawesome-free/css/all.min.css'%}" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-    <link rel="stylesheet" href="resources/css/plugin/datepicker/bootstrap-datepicker.css">
-    <!-- Custom styles for this template-->
-    <link href="{%static 'css/sb-admin-2.min.css'%}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/data.js"></script>
-    <script src="https://code.highcharts.com/modules/drilldown.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="https://code.highcharts.com/modules/export-data.js"></script>
-    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+                <!-- Main Content -->
+                <div id="content">
+                    <!-- Topbar -->
+                    <div>{%include 'topbar.html'%}</div>
+                    <!-- End of Topbar -->
 
-
-</head>
-
-<body id="page-top">
-
-    <!-- Page Wrapper -->
-    <div id="wrapper">
-
-        <!-- Sidebar -->
-        <nav>{%include 'nav.html'%}</nav>
-        <!-- End of Sidebar -->
-
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- Main Content -->
-            <div id="content">
-
-                <!-- Topbar -->
-                <div>{%include 'topbar.html'%}</div>
-                <!-- End of Topbar -->
-
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-
-                    </div>
-
-                    <!-- Content Row -->
-
-                    <!-- Content Row -->
-
-                    <div class="row">
-
-                        <!-- Area Chart -->
-                        <div class="col-xl-6 col-lg-6">
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">일 매출량</h6>
-                                    <h3>{{daily_sales}}</h3>
-                                    <h6 class="m-0 font-weight-bold text-primary">월 매출량</h6>
-                                    <h3>{{monthly_sales}}</h3>
-                                    <form action="{% url 'template:dash' %}" method = 'POST'> 
-                                        {% csrf_token %}
-                                        <button type='submit' class= 'btn float-right btn-sm'>확인</button>
-                                        <label for='cal'></label>
-                                        <input type="text" id="date-picker2" name='month' class="form-control float-right" aria-label="Search" aria-describedby="basic-addon2" style="width: 9rem; float-right" placeholder='날짜'>
-                                    </form>
-                                </div>
-                                <div class="card-body">
-                                    <div id="container"></div>
-                                    {% comment %} <div class="chart-bar pt-4 pb-2">
-                                        <canvas id="myBarChart2"></canvas>
-                                    </div> {% endcomment %}
-                                </div>
-                            </div>
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+                        <!-- Page Heading -->
+                        <div
+                            class="d-sm-flex align-items-center justify-content-between mb-4"
+                        >
+                            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
                         </div>
 
-                        <!-- Pie Chart -->
-                        <div class="col-xl-6 col-lg-6">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">재고량 현황</h6>
-                                    <input type="text" id="date-picker1" class="form-control float-right" aria-label="Search" aria-describedby="basic-addon2" th:value="|${year}-${month}|" style="width: 6rem; float-right" placeholder='날짜'>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div id="container1"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        <!-- Content Row -->
 
-                    <!-- Content Row -->
-                    <div class="row">
+                        <!-- Content Row -->
 
-                        <div class="col-xl-6 col-lg-6">
-
-                            <!-- Project Card Example -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">내일 예상 주문</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered" width="100%" cellspacing="0">
-                                            <thead>
-                                                <tr>
-                                                    <th>메뉴이름</th>
-
-                                                    <th>예측 판매량</th>
-                                                    
-                                                </tr>
-                                            </thead>
-
-                                            <tbody>
-                                                {%for i,j in zip%}
-                                                <tr>
-                                              
-                                                    <td>{{i}}</td>
-                                                    <td>{{j}}</td>
-                                               
-                                                </tr>
-                                                {% endfor %}
-                                            </tbody>
-                                        </table>
+                        <div class="row">
+                            <!-- Area Chart -->
+                            <div class="col-xl-6 col-lg-6">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6
+                                            class="m-0 font-weight-bold text-primary"
+                                        >
+                                            메뉴별 판매량
+                                        </h6>
+                                        {% comment %}
+                                        <h3>{{daily_sales}}</h3>
+                                        <h6
+                                            class="m-0 font-weight-bold text-primary"
+                                        >
+                                            월 매출량
+                                        </h6>
+                                        <h3>{{monthly_sales}}</h3>
+                                        {% endcomment %}
+                                        <form
+                                            action="{% url 'template:dash' %}"
+                                            method="POST"
+                                        >
+                                            {% csrf_token %}
+                                            <button
+                                                type="submit"
+                                                class="btn float-right btn-sm"
+                                            >
+                                                확인
+                                            </button>
+                                            <label for="cal"></label>
+                                            <input
+                                                type="text"
+                                                id="date-picker2"
+                                                name="month"
+                                                class="form-control float-right"
+                                                aria-label="Search"
+                                                aria-describedby="basic-addon2"
+                                                style="width: 9rem; float-right"
+                                                placeholder="날짜"
+                                            />
+                                        </form>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="container"></div>
+                                        {% comment %}
+                                        <div class="chart-bar pt-4 pb-2">
+                                            <canvas id="myBarChart2"></canvas>
+                                        </div>
+                                        {% endcomment %}
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Color System -->
-                            
+                            <!-- Pie Chart -->
+                            <div class="col-xl-6 col-lg-6">
+                                <div class="card shadow mb-4">
+                                    <!-- Card Header - Dropdown -->
+                                    <div
+                                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
+                                    >
+                                        <h6
+                                            class="m-0 font-weight-bold text-primary"
+                                        >
+                                            재고량 현황
+                                        </h6>
+                                        <input
+                                            type="text"
+                                            id="date-picker1"
+                                            class="form-control float-right"
+                                            aria-label="Search"
+                                            aria-describedby="basic-addon2"
+                                            th:value="|${year}-${month}|"
+                                            style="width: 6rem; float-right"
+                                            placeholder="날짜"
+                                        />
+                                    </div>
+                                    <!-- Card Body -->
+                                    <div class="card-body">
+                                        <div id="container1"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Content Row -->
+                        <div class="row">
+                            <div class="col-xl-6 col-lg-6">
+                                <!-- Project Card Example -->
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6
+                                            class="m-0 font-weight-bold text-primary"
+                                        >
+                                            내일 예상 주문
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table
+                                                class="table table-bordered"
+                                                width="100%"
+                                                cellspacing="0"
+                                            >
+                                                <thead>
+                                                    <tr>
+                                                        <th>메뉴이름</th>
+
+                                                        <th>예측 판매량</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    {%for i,j in zip%}
+                                                    <tr>
+                                                        <td>{{i}}</td>
+                                                        <td>{{j}}</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Color System -->
+                            </div>
                         </div>
                     </div>
-
+                    <!-- /.container-fluid -->
                 </div>
-                <!-- /.container-fluid -->
+                <!-- End of Main Content -->
 
+                <!-- Footer -->
+                <div>{%include 'footer.html'%}</div>
+                <!-- End of Footer -->
             </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <div>{%include 'footer.html'%}</div>
-            <!-- End of Footer -->
-
+            <!-- End of Content Wrapper -->
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- End of Page Wrapper -->
 
-    </div>
-    <!-- End of Page Wrapper -->
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+        <!-- Logout Modal-->
 
-    <!-- Logout Modal-->
-    
+        <!-- Bootstrap core JavaScript-->
+        <script src="{%static 'vendor/jquery/jquery.min.js'%}"></script>
+        <script src="{%static 'vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
 
- <!-- Bootstrap core JavaScript-->
-    <script src="{%static 'vendor/jquery/jquery.min.js'%}"></script>
-    <script src="{%static 'vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+        <!-- Core plugin JavaScript-->
+        <script src="{%static 'vendor/jquery-easing/jquery.easing.min.js'%}"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="{%static 'vendor/jquery-easing/jquery.easing.min.js'%}"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="{%static 'js/sb-admin-2.min.js'%}"></script>
+        <!-- Custom DatePicker(calender)-->
 
-    <!-- Custom scripts for all pages-->
-    <script src="{%static 'js/sb-admin-2.min.js'%}"></script>
-    <!-- Custom DatePicker(calender)-->
-   
-    <!-- Page level plugins -->
-    <script src="{%static 'vendor/chart.js/Chart.min.js'%}"></script>
+        <!-- Page level plugins -->
+        <script src="{%static 'vendor/chart.js/Chart.min.js'%}"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
-    <script>
-        $(document).ready(function() {
-            $('#date-picker').datepicker({
-                format: "yyyy-mm",
-                minViewMode: 1,
-                language: "ko",
-                autoclose: true
+        <!-- Page level custom scripts -->
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"
+            integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js"
+            integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+
+        <script>
+            $(document).ready(function () {
+                $("#date-picker").datepicker({
+                    format: "yyyy-mm",
+                    minViewMode: 1,
+                    language: "ko",
+                    autoclose: true,
+                });
+                $("#date-picker").datepicker("setDate", "today");
             });
-            $('#date-picker').datepicker('setDate', 'today');
-        })
+        </script>
+        <script>
+            $(document).ready(function () {
+                $("#date-picker1").datepicker({
+                    format: "yyyy-mm",
+                    minViewMode: 1,
+                    language: "ko",
+                    autoclose: true,
+                });
+                $("#date-picker1").datepicker("setDate", "today");
+                $("#get-history").on("click", function () {
+                    const dateArr = $("#date-picker1").val().split("-");
+                    location.href =
+                        "/history?year=" + dateArr[0] + "&month=" + dateArr[1];
+                });
+            });
+        </script>
+        <script>
+            $(document).ready(function () {
+                $("#date-picker2").datepicker({
+                    format: "yyyy-mm-dd",
+                    language: "ko",
+                    autoclose: true,
+                });
+                $("#get-history").on("click", function () {
+                    const dateArr = $("#date-picker2").val().split("-");
+                    location.href =
+                        "/history?year=" + dateArr[0] + "&month=" + dateArr[1];
+                });
+            });
+        </script>
 
+        <script>
+                    // Data retrieved from https://gs.statcounter.com/browser-market-share#monthly-202201-202201-bar
+            // Create the chart
+                    Highcharts.chart('container', {
+                        chart: {
 
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('#date-picker1').datepicker({
-                format: "yyyy-mm",
-                minViewMode: 1,
-                language: "ko",
-                autoclose: true
-            })
-            $('#date-picker1').datepicker('setDate', 'today');
-            $('#get-history').on('click', function() {
-                const dateArr = $('#date-picker1').val().split('-')
-                location.href = '/history?year=' + dateArr[0] + '&month=' + dateArr[1]
-            })
-        })
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('#date-picker2').datepicker({
-                format: "yyyy-mm-dd",
-                language: "ko",
-                autoclose: true
-            })
-            $('#get-history').on('click', function() {
-                const dateArr = $('#date-picker2').val().split('-')
-                location.href = '/history?year=' + dateArr[0] + '&month=' + dateArr[1]
-            })
-        })
-    
-    </script>
-
-    <script>
-        // Data retrieved from https://gs.statcounter.com/browser-market-share#monthly-202201-202201-bar
-// Create the chart
-        Highcharts.chart('container', {
-            chart: {
-        
-                type: 'column'
-            },
-            title: {
-                align: 'left',
-                text: '메뉴별 판매량'
-            },
-            subtitle: {
-                align: 'left',
-                text: ''
-            },
-            accessibility: {
-                announceNewData: {
-                    enabled: true
-                }
-            },
-            xAxis: {
-                type: 'category'
-            },
-            yAxis: {
-                title: {
-                    text: '메뉴 판매량'
-                }
-
-            },
-            legend: {
-                enabled: false
-            },
-            plotOptions: {
-                series: {
-                    borderWidth: 0,
-                    dataLabels: {
-                        enabled: true,
-                        format: '{y}'
-                    }
-                }
-            },
-
-            tooltip: {
-                headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-                pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}%</b> of total<br/>'
-            },
-         
-            series: [
-                {
-                    name: "Browsers",
-                    colorByPoint: true,
-                    data: [{% for i,j in sale_total %} 
-                            {
-                            name: '{{ i.menu_name }}',
-                            y: {{ j }},
-                            drilldown:'' 
-                            },
-                            {% endfor %}], 
-
-                    dataSorting: {
-                        enabled: true
-                    }
-                        
-                }
-            ],
-            
-        });
-    </script>
-    <script>
-        // Data retrieved from https://gs.statcounter.com/browser-market-share#monthly-202201-202201-bar
-// Create the chart
-        Highcharts.chart('container1', {
-            chart: {
-        
-                type: 'column'
-            },
-            title: {
-                align: 'left',
-                text: '재고량 현황'
-            },
-            subtitle: {
-                align: 'left',
-                text: ''
-            },
-            accessibility: {
-                announceNewData: {
-                    enabled: true
-                }
-            },
-            xAxis: {
-                type: 'category'
-            },
-            yAxis: {
-                title: {
-                    text: '재료량'
-                }
-
-            },
-            legend: {
-                enabled: false
-            },
-            plotOptions: {
-                series: {
-                    borderWidth: 0,
-                    dataLabels: {
-                        enabled: true,
-                        format: '{y}'
-                    }
-                }
-            },
-
-            tooltip: {
-                headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-                pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}%</b> of total<br/>'
-            },
-            
-            series: [
-                {
-                    name: "Browsers",
-                    colorByPoint: true,
-                    data: 
-                    [{% for i in material %}
-                        {
-                            name: '{{ i.mate_name }}',
-                            y: {{ i.stock }},
-                            drilldown: 'menu'
+                            type: 'column'
                         },
-                    {% endfor %}],
+                        title: {
+                            align: 'left',
+                            text: '메뉴별 판매량'
+                        },
+                        subtitle: {
+                            align: 'left',
+                            text: ''
+                        },
+                        accessibility: {
+                            announceNewData: {
+                                enabled: true
+                            }
+                        },
+                        xAxis: {
+                            type: 'category'
+                        },
+                        yAxis: {
+                            title: {
+                                text: '메뉴 판매량'
+                            }
 
-                    dataSorting: {
-                        enabled: true
-                    }
-                        
-                }
-            ],
-            
-        });
-    </script>
-    <script>
-       // Data retrieved https://en.wikipedia.org/wiki/List_of_cities_by_average_temperature
-        Highcharts.chart('container3', {
-            chart: {
-                type: 'line'
-            },
-            title: {
-                text: '매출량 추이'
-            },
+                        },
+                        legend: {
+                            enabled: false
+                        },
+                        plotOptions: {
+                            series: {
+                                borderWidth: 0,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{y}'
+                                }
+                            }
+                        },
+
+                        tooltip: {
+                            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}%</b> of total<br/>'
+                        },
+
+                        series: [
+                            {
+                                name: "Browsers",
+                                colorByPoint: true,
+                                data: [{% for i,j in sale_total %}
+                                        {
+                                        name: '{{ i.menu_name }}',
+                                        y: {{ j }},
+                                        drilldown:''
+                                        },
+                                        {% endfor %}],
+
+                                dataSorting: {
+                                    enabled: true
+                                }
+
+                            }
+                        ],
+
+                    });
+        </script>
+        <script>
+                    // Data retrieved from https://gs.statcounter.com/browser-market-share#monthly-202201-202201-bar
+            // Create the chart
+                    Highcharts.chart('container1', {
+                        chart: {
+
+                            type: 'column'
+                        },
+                        title: {
+                            align: 'left',
+                            text: '재고량 현황'
+                        },
+                        subtitle: {
+                            align: 'left',
+                            text: ''
+                        },
+                        accessibility: {
+                            announceNewData: {
+                                enabled: true
+                            }
+                        },
+                        xAxis: {
+                            type: 'category'
+                        },
+                        yAxis: {
+                            title: {
+                                text: '재료량'
+                            }
+
+                        },
+                        legend: {
+                            enabled: false
+                        },
+                        plotOptions: {
+                            series: {
+                                borderWidth: 0,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{y}'
+                                }
+                            }
+                        },
+
+                        tooltip: {
+                            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}%</b> of total<br/>'
+                        },
+
+                        series: [
+                            {
+                                name: "Browsers",
+                                colorByPoint: true,
+                                data:
+                                [{% for i in material %}
+                                    {
+                                        name: '{{ i.mate_name }}',
+                                        y: {{ i.stock }},
+                                        drilldown: 'menu'
+                                    },
+                                {% endfor %}],
+
+                                dataSorting: {
+                                    enabled: true
+                                }
+
+                            }
+                        ],
+
+                    });
+        </script>
+        <script>
+            // Data retrieved https://en.wikipedia.org/wiki/List_of_cities_by_average_temperature
+             Highcharts.chart('container3', {
+                 chart: {
+                     type: 'line'
+                 },
+                 title: {
+                     text: '매출량 추이'
+                 },
 
 
-            xAxis: {
-                categories: [{% for i in sala_total %}'{{ i.out_time }}',{% endfor %}]
-                            
-            },
-            yAxis: {
-                title: {
-                    text: '매출량'
-                }
-            },
-            plotOptions: {
-                line: {
-                    enableMouseTracking: false
-                }
-            },
-            series: [{
-                name: '매출량',
-                data: [{% for i in sale_total%}{{ i.menu_sum }},{% endfor %}]
-            }]
-        });
+                 xAxis: {
+                     categories: [{% for i in sala_total %}'{{ i.out_time }}',{% endfor %}]
 
-
-    </script>
-    
-</body>
-
+                 },
+                 yAxis: {
+                     title: {
+                         text: '매출량'
+                     }
+                 },
+                 plotOptions: {
+                     line: {
+                         enableMouseTracking: false
+                     }
+                 },
+                 series: [{
+                     name: '매출량',
+                     data: [{% for i in sale_total%}{{ i.menu_sum }},{% endfor %}]
+                 }]
+             });
+        </script>
+    </body>
 </html>
