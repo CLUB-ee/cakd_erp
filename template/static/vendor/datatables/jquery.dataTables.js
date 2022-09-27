@@ -10252,7 +10252,7 @@
 		 * Note that the `pageLength` property will be automatically set to the
 		 * first value given in this array, unless `pageLength` is also provided.
 		 *  @type array
-		 *  @default [15, 25, 50, 100]
+		 *  @default [11,25,50,100]
 		 *
 		 *  @dtopt Option
 		 *  @name DataTable.defaults.lengthMenu
@@ -10260,11 +10260,11 @@
 		 *  @example
 		 *    $(document).ready( function() {
 		 *      $('#example').dataTable( {
-		 *        "lengthMenu": [[ 15, 25, 50, -1], [ 15, 25, 50, "All"]]
+		 *        "lengthMenu": [[ 11, 25, 50, -1], [ 11, 25, 50, "All"]]
 		 *      } );
 		 *    } );
 		 */
-		"aLengthMenu": [ 15, 25, 50, 100 ],
+		"aLengthMenu": [ 11, 25, 50, 100 ],
 	
 	
 		/**
@@ -10468,7 +10468,7 @@
 	
 		/**
 		 * Allows the end user to select the size of a formatted page from a select
-		 * menu (sizes are 10, 25, 50 and 100). Requires pagination (`paginate`).
+		 * menu (sizes are 11, 25, 50 and 100). Requires pagination (`paginate`).
 		 *  @type boolean
 		 *  @default true
 		 *
@@ -11668,7 +11668,7 @@
 			/**
 			 * Detail the action that will be taken when the drop down menu for the
 			 * pagination length option is changed. The '_MENU_' variable is replaced
-			 * with a default select list of 10, 25, 50 and 100, and can be replaced
+			 * with a default select list of 11, 25, 50 and 100, and can be replaced
 			 * with a custom select box if required.
 			 *  @type string
 			 *  @default Show _MENU_ entries
@@ -11692,7 +11692,7 @@
 			 *      $('#example').dataTable( {
 			 *        "language": {
 			 *          "lengthMenu": 'Display <select>'+
-			 *            '<option value="10">10</option>'+
+			 *            '<option value="11">11</option>'+
 			 *            '<option value="20">20</option>'+
 			 *            '<option value="30">30</option>'+
 			 *            '<option value="40">40</option>'+

@@ -1,5 +1,6 @@
 
 from bisect import insort
+from email.feedparser import BytesFeedParser
 from gc import get_objects
 from pipes import Template
 from urllib import request
@@ -22,6 +23,10 @@ import pandas as pd
 import json
 from django.http import JsonResponse
 from django.contrib import messages
+import joblib
+import pandas as pd
+import pickle
+from datetime import datetime
 
 # def dash(request):
 #     context = {
@@ -68,7 +73,7 @@ class OrderAPIView(APIView):
             total = (Instock.objects.get(pk=i).in_quan) * (Instock.objects.get(pk=i).mate_id.unit_cost)
             Instock.objects.filter(pk=i).update(in_total=total)
         
-        queryset = Instock.objects.all().order_by(('-in_time'))
+        queryset = Instock.objects.all().order_by(('-ord_num'))
         
         return Response({'instock': queryset})
         
@@ -162,7 +167,45 @@ class DashAPIView(APIView):
     def get(self, request):
         queryset = Menu.objects.all()
         queryset1 = Material.objects.all()
-        return Response({'menu': queryset, 'material':queryset1})
+        
+        # 머신러닝 (내일 메뉴 예상 판매량 확인)
+        elastic = joblib.load('template/elastic_model.pkl')
+        df = pd.DataFrame(columns=['menuId', 'APM', 'weekday'])
+        # 소불고기 1
+        # 제육 2
+        # 비빔밥 3
+        # 떡갈비 4
+        # 보쌈 5
+        sum_list=[]
+        next_day = datetime.now().weekday() + 1
+        for i in range(1,6):
+            data = [i,0,next_day]
+            data_2 = [i,1,next_day]
+            df.loc[0,:] = data
+            df.loc[1,:] = data_2
+            y_pred = elastic.predict(df)
+            predict = sum(y_pred)
+            sum_list.append(predict)
+        # [2,2,2,2,2]
+        # 1	소고기
+        # 2	돼지고기
+        # 3	양파
+        # 4	파
+        # 5	바섯
+        # 6	당근
+        # 7	마늘
+        # 8	청양고추
+        # 9	애호박
+        # 10	계란
+        # 11	무
+
+        # 레시피 가져오기
+        beef = Recipe.objects.all()
+        # pork
+        
+
+        return Response({'menu': queryset, 'material':queryset1,'predict':predict})
+    
 
 class SaleAPIView(APIView):
 
