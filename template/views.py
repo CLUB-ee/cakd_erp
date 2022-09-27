@@ -120,7 +120,7 @@ class OrderAPIView(APIView):
         cnt = Instock.objects.count()
         for i in range(1, cnt+1):
             total = (Instock.objects.get(pk=i).in_quan) * \
-                (Instock.objects.get(pk=i).mate_id.unit_cost)
+                (Instock.objects.get(pk=i).mate_id.unit_cost)/10
             Instock.objects.filter(pk=i).update(in_total=total)
         
         queryset = Instock.objects.all().order_by(('-ord_num'))
@@ -154,7 +154,7 @@ class OrdappAPIView(APIView):
         cnt = Instock.objects.count()
     
         for i in range(1,cnt+1):
-            total = Instock.objects.get(pk=i).in_quan * Instock.objects.get(pk=i).mate_id.unit_cost
+            total = Instock.objects.get(pk=i).in_quan * (Instock.objects.get(pk=i).mate_id.unit_cost)/10
             Instock.objects.filter(pk=i).update(in_total=total)
         queryset = Instock.objects.all().order_by('-in_num')
         
