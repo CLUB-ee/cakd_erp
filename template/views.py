@@ -55,6 +55,11 @@ def login(request):
 def register(request):
     return render(request, 'register.html')
 
+# dash input 함수
+
+def index(request):
+    return render(request, "dash.html")
+
 
 def dash(request):
     
@@ -169,6 +174,7 @@ class OrdappAPIView(APIView):
                 intance = get_or_none(Recipe,menu+1,mat) * sum_list[menu]
                 recipe_list = np.append(recipe_list, np.array([intance]))
             recipe_list_sum =  recipe_list_sum + recipe_list
+        recipe_list_sum = list(map(int,recipe_list_sum))
         
         mate_recipe_list = zip(mate_list,recipe_list_sum)
         return Response({'ord_stock': queryset,'mate_list':mate_list,'recipe_list':recipe_list,'mate_recipe_list':mate_recipe_list})
@@ -193,10 +199,7 @@ def createform(request):
 
 
 
-# dash input 함수
 
-def index(request):
-    return render(request, "dash.html")
 
 
 
