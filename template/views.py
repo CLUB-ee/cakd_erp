@@ -3,7 +3,7 @@ from bisect import insort
 from gc import get_objects
 from pipes import Template
 from sqlite3 import Cursor
-from termios import TIOCPKT_FLUSHREAD
+# from termios import TIOCPKT_FLUSHREAD
 from urllib import request
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, TemplateView
