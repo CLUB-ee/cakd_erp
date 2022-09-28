@@ -78,20 +78,15 @@
                             <div class="col-xl-6 col-lg-6">
                                 <div class="card shadow mb-4">
                                     <div class="card-header py-3">
-                                        <h6
-                                            class="m-0 font-weight-bold text-primary"
-                                        >
-                                            메뉴별 판매량
+                                        <h6 class="m-0 font-weight-bold text-primary">
+                                            일 매출량
                                         </h6>
-                                        {% comment %}
                                         <h3>{{daily_sales}}</h3>
-                                        <h6
-                                            class="m-0 font-weight-bold text-primary"
-                                        >
+                                        <h6 class="m-0 font-weight-bold text-primary">
                                             월 매출량
                                         </h6>
                                         <h3>{{monthly_sales}}</h3>
-                                        {% endcomment %}
+                         
                                         <form
                                             action="{% url 'template:dash' %}"
                                             method="POST"
@@ -186,7 +181,7 @@
                                                 </thead>
 
                                                 <tbody>
-                                                    {%for i,j in zip%}
+                                                    {%for i,j in menu_cnt_pred%}
                                                     <tr>
                                                         <td>{{i}}</td>
                                                         <td>{{j}}</td>

@@ -56,25 +56,41 @@ def index(request):
 
 def dash(request):
 
-    queryset1 = Material.objects.all()
+    material = Material.objects.all()
     if request.method == 'POST':
-        month = request.POST.get('month')
-        menu_li = Cusord.objects.filter(out_time=month)
-        menu_ = [str(i.menu_id.menu_id) for i in list(menu_li)]
+        month_day = request.POST.get('month')
+        menu_li_day = Cusord.objects.filter(out_time=month_day)
+        menu_day = [str(i.menu_id.menu_id) for i in list(menu_li_day)]
 
-    from collections import Counter
+    
 
-    menu_ = Counter(menu_)
+    menu_day = Counter(menu_day)
     menu_list = []
     for i in [str(j) for j in range(1, 6)]:
-        menu_list.append(menu_[i])
+        menu_list.append(menu_day[i])
 
     menu_name_list = []
     for i in range(1, 6):
         menu_name_list.append(Menu.objects.get(menu_id=i))
+    sales_total = zip(menu_name_list, menu_list)
 
-    menu_zip = zip(menu_name_list, menu_list)
+    # 일매출
+    daily_sales = 0
+    for i,j in enumerate([str(j) for j in range(1,6)]):
+        daily_sales += (menu_day[j] * Menu.objects.get(pk=i+1).menu_pri)
+    daily_sales = str(daily_sales)+' 원'
+    # 월매출
+    month = month_day[:7]
+    menu_li_month = Cusord.objects.filter(out_time__startswith=month)
+    menu_month = [str(i.menu_id.menu_id) for i in list(menu_li_month)]
+    menu_month = Counter(menu_month)
+    monthly_sales = 0
+    for i,j in enumerate([str(j) for j in range(1,6)]):
+        monthly_sales += (menu_month[j] * Menu.objects.get(pk=i+1).menu_pri)
+    monthly_sales = str(monthly_sales)+' 원'
 
+    
+    # 머신러닝
     elastic = joblib.load('template/elastic_model.pkl')
     df = pd.DataFrame(columns=['menuId', 'APM', 'weekday'])
     global sum_list
@@ -91,9 +107,10 @@ def dash(request):
         sum_list.append(predict)
         menu_name_li.append(Menu.objects.get(pk=i).menu_name)
 
-    zip_list = zip(menu_name_li, sum_list)
+    menu_cnt_pred = zip(menu_name_li, sum_list)
 
-    return render(request, 'dash.html', {'material': queryset1, 'sale_total': menu_zip, 'zip': zip_list})
+    return render(request, 'dash.html', {'material': material, 'sale_total': sales_total,\
+        'menu_cnt_pred': menu_cnt_pred,'daily_sales':daily_sales,'monthly_sales':monthly_sales})
 
 
 class MyAPIView(APIView):
