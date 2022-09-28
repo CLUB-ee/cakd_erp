@@ -22,8 +22,6 @@ import json
 from django.http import JsonResponse
 from django.contrib import messages
 
-# Create your views here.
-
 
 def index(request):
     return render(request, "kiosk/kiosk.html")
@@ -38,22 +36,3 @@ def cusorder(request):
         cusord.save()
 
     return render(request, 'kiosk/kiosk.html', messages.info(request, "주문이 완료 되었습니다."))
-
-
-# class CusordAPIView(APIView):
-
-#     renderer_classes = [TemplateHTMLRenderer]
-#     template_name = 'orders.html'
-
-#     # serializer_class = ManagerSerializer
-
-#     def get(self, request):
-#         # if Instock.objects.exists():
-#         cnt = Cusord.objects.count()
-#         for i in range(1,cnt+1):
-#             total = (Cusord.objects.get(pk=i).in_quan) * (Cusord.objects.get(pk=i).mate_id.unit_cost)
-#             Cusord.objects.filter(pk=i).update(in_total=total)
-
-#         queryset = Cusord.objects.all().order_by('-in_num')
-
-#         return Response({'cusord': queryset})
