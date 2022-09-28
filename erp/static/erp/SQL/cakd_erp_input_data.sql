@@ -1,6 +1,3 @@
--- DB 생성
-create database cakd_erp;
-
 -- DB 선택
 use cakd_erp;
 
