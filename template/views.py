@@ -58,7 +58,7 @@ def dash(request):
 
     material = Material.objects.all()
     if request.method == 'POST':
-        month_day = request.POST.get('month')
+        month_day = request.POST.get('month') # '2022-09-28'
         menu_li_day = Cusord.objects.filter(out_time=month_day)
         menu_day = [str(i.menu_id.menu_id) for i in list(menu_li_day)]
 
@@ -157,12 +157,12 @@ class OrdappAPIView(APIView):
 
     # serializer_class = ManagerSerializer
     def get(self, request, **kwargs):
-        cnt = Instock.objects.count()
-        for i in range(1, cnt+1):
-            total = Instock.objects.get(
-                pk=i).in_quan * (Instock.objects.get(pk=i).mate_id.unit_cost)/10
-            Instock.objects.filter(pk=i).update(in_total=total)
-        queryset = Instock.objects.all().order_by('-in_num')
+        # cnt = Instock.objects.count()
+        # for i in range(1, cnt+1):
+        #     total = Instock.objects.get(
+        #         pk=i).in_quan * (Instock.objects.get(pk=i).mate_id.unit_cost)/10
+        #     Instock.objects.filter(pk=i).update(in_total=total)
+        # queryset = Instock.objects.all().order_by('-in_num')
         mate_list = Material.objects.all().order_by('mate_id')
         global sum_list
         sum_list = sum_list
@@ -178,8 +178,8 @@ class OrdappAPIView(APIView):
             # 재료 1부터 11
             recipe_list = np.array([])
             for mat in range(1, 12):
-                intance = get_or_none(Recipe, menu+1, mat) * sum_list[menu]
-                recipe_list = np.append(recipe_list, np.array([intance]))
+                instance = get_or_none(Recipe, menu+1, mat) * sum_list[menu]
+                recipe_list = np.append(recipe_list, np.array([instance]))
             recipe_list_sum = recipe_list_sum + recipe_list
 
         # 매니저의 마진율
@@ -187,6 +187,7 @@ class OrdappAPIView(APIView):
         recipe_list_sum = list(
             map(lambda x: math.ceil(x*margin), recipe_list_sum))
         mate_recipe_list = zip(mate_list, recipe_list_sum)
+        
         return Response({'mate_list': mate_list,
                         'mate_recipe_list': mate_recipe_list})
 
