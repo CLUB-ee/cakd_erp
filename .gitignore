@@ -138,4 +138,4 @@ dmypy.json
 ./erp/
 
 # config.py
-.config.py
+config.py
