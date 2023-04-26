@@ -15,7 +15,7 @@ Including another URLconf
 """
 
 from importlib.resources import path
-from django.conf.urls import url, include
+from django.urls import include, path, re_path
 from django.contrib import admin
 from erp import views
 from rest_framework import routers
@@ -40,8 +40,8 @@ router.register(r'api_recipe', views.RecipeList)
 
 
 urlpatterns = [
-    url(r'^rest/', include(router.urls)),
-    url(r'^admin/', admin.site.urls),
+    path('rest/', include(router.urls)),
+    re_path(r'^admin/', admin.site.urls),
     path('tmep/', include('template.urls')),
     path('', include('kiosk.urls')),
 ]

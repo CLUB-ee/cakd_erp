@@ -104,7 +104,7 @@
                                             <td>{{i.mate_name}}</td>
                                             <td>{{i.stock}}</td>
                                             <td name='cost'>{{i.unit_cost}}</td>
-                                            <td><input type='number' min=0 name='mate_quan' value={{j}}></input></td>
+                                            <td><input type='number'  min=0 name='mate_quan' value={{j}}></input></td>
                                             <td name='sum'></td>
                                         </tr>
                                         {%endfor%} 
@@ -138,7 +138,7 @@
     <script>
         $(document).ready(function() {
 
-            $("input[name=mate_quan]").on(' keyup click', function() {
+            $("input[name=mate_quan]").on('keyup click', function() {
 
             //alert("dd")
             //$("#tlist").keydown(function(){ 
@@ -151,6 +151,10 @@
             var total_list = [];
             for(var i = 0; i < size; i++){
                 var mate_quan = document.getElementsByName("mate_quan")[i].value;
+                if (mate_quan === 'none') {
+                    mate_quan = 0;
+                  }
+
                 var unit_cost = document.getElementsByName("cost")[i].innerText
                 var sum = mate_quan * unit_cost/10;
                 total_list.push(sum);

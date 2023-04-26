@@ -21,7 +21,7 @@ from . import views
 app_name = 'template'
 
 urlpatterns = [
-    path('', template.views.index, name='dash'),
+    path('', template.views.dash, name='dash'),
     path('dash/', template.views.dash, name='dash'),
     path('orders/', template.views.OrderAPIView.as_view(), name='orders'),
     path('orderapp/', template.views.OrdappAPIView.as_view(), name='orderapp'),
@@ -30,5 +30,5 @@ urlpatterns = [
     path('login/', template.views.login, name='login'),
     path('register/', template.views.register, name='register'),
     path('kiosk/', kiosk.views.index, name='kiosk'),
-    path('createform/',views.createform, name='createform'),
+    path('createform/', views.createform, name='createform'),
 ]

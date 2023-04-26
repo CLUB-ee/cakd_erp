@@ -1,0 +1,11 @@
+Pandas
+numpypip 
+joblib
+scikit-learn 
+Pillow
+Django
+django-allauth
+djangorestframework
+djangorestframework-queryfields
+django-upgrade
+
