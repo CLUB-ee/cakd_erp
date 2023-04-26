@@ -136,3 +136,6 @@ dmypy.json
 
 # migrations
 ./erp/
+
+# config.py
+config.py

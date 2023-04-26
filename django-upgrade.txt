@@ -1,2 +1,1 @@
-django-upgrade --target-version 4.2 _cakd_erp/urls.
-py erp/urls.py template/urls.py
+django-upgrade --target-version 4.2 _cakd_erp/urls.py erp/urls.py template/urls.py
