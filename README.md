@@ -77,7 +77,7 @@
 ### Clone this repo
 
 ```bash
-$ git clone https://github.com/zivary/DACON_AI_competition_for_predicting_Lymph_node_metastasis_of_breast_cancer.git
+$ git clone https://github.com/CLUB-ee/cakd_erp.git
 ```
 
 ### Environment
@@ -87,7 +87,10 @@ Create environment and install dependencies.
 ```bash
 $ conda create -n env python=3.8 -y
 $ conda activate env
-$ pip install -r ./code/requirements.txt
+$ pip install -r requirements.txt
 ```
+
+### DB
+
 
 
