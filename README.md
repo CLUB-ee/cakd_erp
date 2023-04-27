@@ -14,10 +14,10 @@
 
 **팀명 : CLUB-ee** \
 **조장 : 한지웅** \
-👨‍💻 김민섭 : 웹 크롤링, Docker 플랫폼 구축, 데이터 분석 및 모델링, AWS 설계 \
-👨‍💻 이상윤 : 웹 크롤링, Docker 플랫폼 구축, Spark, Airflow 설계, AWS 설계 \
-👨‍💻 신창훈 : 웹 크롤링, Front-end, Back-end(Full-Stack) \
-👨‍💻 한지웅 : 웹 크롤링, DB 설계, Back-end
+👨‍💻 김민섭 : Django Back-end, jQuery 동적 테이블 , Rest-API 구축, 머신러닝 \
+👨‍💻 이상윤 : 웹 Front-end, Django Back-end, 산출문 작성 \
+👨‍💻 신창훈 : 웹 Front-end, 시각화, Django Back-end, 산출문 작성 \
+👨‍💻 한지웅 : DB구축 및 관리, Django Back-end, 머신러닝, 발표
 
 ---
 
