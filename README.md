@@ -25,21 +25,18 @@
 
 ### 🎨 기능 구현
 
-| Kiosk                                                                                                           | Trand                                                                                                           |
+| Kiosk                                                                                                           | Dashboard                                                                                                            |
 | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| ![Kiosk](https://user-images.githubusercontent.com/96277148/165837038-e52a3306-53b5-45e0-84d8-1f1bfd4b4ad0.png) | ![Trnad](https://user-images.githubusercontent.com/96277148/165837077-dc0ba329-f6fa-485b-bb3a-f0081ccba848.png) |
+| ![Kiosk](https://user-images.githubusercontent.com/96277148/165837038-e52a3306-53b5-45e0-84d8-1f1bfd4b4ad0.png) | ![Dashboard](https://user-images.githubusercontent.com/96277148/165837077-dc0ba329-f6fa-485b-bb3a-f0081ccba848.png) |
 
-| Quiz                                                                                                           | Dictation                                                                                                           |
+| 발주 현황                                                                                                           | 발주 신청                                                                                                           |
 | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| ![Quiz](https://user-images.githubusercontent.com/96277148/165837270-13c2d4e0-76b7-47e8-8382-00488528feaa.png) | ![Dictation](https://user-images.githubusercontent.com/96277148/165837288-7c29ccd3-09c8-4f8a-aa60-9466bd13f2c1.png) |
+| ![발주 현황](https://user-images.githubusercontent.com/96277148/165837270-13c2d4e0-76b7-47e8-8382-00488528feaa.png) | ![발주 신청](https://user-images.githubusercontent.com/96277148/165837288-7c29ccd3-09c8-4f8a-aa60-9466bd13f2c1.png) |
 
-| WordSearch                                                                                                           | Login                                                                                                           |
+| 매출 관리                                                                                                           | My Page                                                                                                           |
 | -------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| ![WordSearch](https://user-images.githubusercontent.com/96277148/165837319-a055eeef-043f-4b8b-bbc3-084c8489069d.png) | ![Login](https://user-images.githubusercontent.com/96277148/165837332-2c0da53a-9b37-4aff-a769-9f3c177dd373.png) |
+| ![매출 관리](https://user-images.githubusercontent.com/96277148/165837319-a055eeef-043f-4b8b-bbc3-084c8489069d.png) | ![My Page](https://user-images.githubusercontent.com/96277148/165837332-2c0da53a-9b37-4aff-a769-9f3c177dd373.png) |
 
-| MyPage                                                                                                           | Profile                                                                                                           |
-| ---------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| ![MyPage](https://user-images.githubusercontent.com/96277148/165837373-39d5e32c-1ffc-47ec-8109-748f1466cc32.png) | ![Profile](https://user-images.githubusercontent.com/96277148/165837390-9d20e5db-b00f-4679-9aa1-7a1d3e5785cc.png) |
 
 ---
 
