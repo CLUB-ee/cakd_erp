@@ -84,7 +84,6 @@ def dash(request):
         month_day = today.isoformat()
 
     # 일매출
-    month_day = datetime.now().date()
     daily_menu_orders = Cusord.objects.filter(out_time=month_day).values(
         'menu_id').annotate(order_count=Count('menu_id'))
     daily_menu_sales = {
