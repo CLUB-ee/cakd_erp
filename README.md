@@ -19,4 +19,4 @@ j의 작업장입니다.
 ###
 
 # 민섭이 작업 완료
->>>>>>> origin/minsup
+>>>>>>> origin/minsups
