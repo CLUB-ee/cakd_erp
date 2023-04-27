@@ -11,19 +11,19 @@ from sqlite3 import Cursor
 # from termios import TIOCPKT_FLUSHREAD
 from urllib import request
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, TemplateView
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+# from django.views.generic import ListView, DetailView, CreateView, UpdateView, TemplateView
+# from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from erp.models import Cusord, Instock, Manager, Material, Menu, Ord, Outstock, Recipe
 from erp.serializers import CusordSerializer, InstockSerializer, OutstockSerializer, ManagerSerializer
-from rest_framework import generics
-from rest_framework import viewsets
+# from rest_framework import generics
+# from rest_framework import viewsets
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db.models import Q
 from django.db.models import Max, Min, Avg, Sum, Count
 import pandas as pd
-import json
+# import json
 from django.http import JsonResponse
 from django.contrib import messages
 import joblib
@@ -35,9 +35,11 @@ from collections import Counter
 import joblib
 import pandas as pd
 import pickle
-
 from django.core.exceptions import ObjectDoesNotExist
 from sklearn.linear_model import ElasticNet
+from datetime import datetime, timedelta
+import calendar
+from django.db.models import Count
 
 
 def stock(request):
@@ -82,6 +84,7 @@ def dash(request):
         month_day = today.isoformat()
 
     # 일매출
+    month_day = datetime.now().date()
     daily_menu_orders = Cusord.objects.filter(out_time=month_day).values(
         'menu_id').annotate(order_count=Count('menu_id'))
     daily_menu_sales = {
@@ -103,55 +106,7 @@ def dash(request):
     # 일 메뉴별 판매량
     menu_sales_By_day = [(menu, menu_orders['order_count']) for menu in Menu.objects.all(
     ) for menu_orders in daily_menu_orders if menu_orders['menu_id'] == menu.menu_id]
-
-    # 직전 12개월 월별 매출량
-    # 12개월 전부터 해당 월 매출까지 집계
-    # total_sales = []
-    # start_date = datetime.now() - timedelta(days=30*12)
-    # # end_date = datetime.now()
-    # for i in range(12):
-    #     current_month_start = start_date.replace(
-    #         month=(start_date.month + i) % 12 + 1)
-    #     current_month_end = current_month_start.replace(
-    #         month=(start_date.month + i) % 12 + 1, day=1) - timedelta(days=1)
-
-    #     monthly_order_count = Cusord.objects.filter(out_time__range=(current_month_start, current_month_end)).\
-    #         values('menu_id').annotate(order_count=Count('menu_id'))
-    #     monthly_order_count_dict = {
-    #         menu_order['menu_id']: menu_order['order_count'] for menu_order in monthly_order_count}
-
-    #     # 월 매출 총합
-    #     monthly_sales = sum(menu.menu_pri * monthly_order_count_dict.get(menu.menu_id, 0)
-    #                         for menu in Menu.objects.all())
-    #     total_sales.append((start_date, monthly_sales))
-
-    # 월 단위로 그룹화하여 통계 처리 예시
-    # statistics_sales = sum(menu.menu_pri * monthly_menu_sales_.get(menu.menu_id, 0) for menu in Menu.objects.all())
-    # statistics_cnt = monthly_menu_orders_.annotate(month=TruncMonth('out_time')).values('month').annotate(total=Count('menu_id')).order_by('month')
-    # total_sales = []
-    # start_date = datetime.now() - timedelta(days=30*12)
-    # for i in range(12):
-    #     # 월별로 start_date와 end_date를 각각 복사하여 새로운 변수에 저장
-    #     current_month = (start_date.month + i - 1) % 12 + 1
-    #     current_year = start_date.year + ((start_date.month + i - 1) // 12)
-    #     current_month_start = datetime(current_year, current_month, 1)
-    #     current_month_end = (current_month_start + relativedelta(day=31)
-    #                          ).replace(hour=23, minute=59, second=59)
-
-    #     monthly_order_count = Cusord.objects.filter(out_time__range=(current_month_start, current_month_end)).\
-    #         values('menu_id').annotate(order_count=Count('menu_id'))
-    #     monthly_order_count_dict = {
-    #         menu_order['menu_id']: menu_order['order_count'] for menu_order in monthly_order_count}
-
-    #     # 월 매출 총합
-    #     monthly_sales = sum(menu.menu_pri * monthly_order_count_dict.get(menu.menu_id, 0)
-    #                         for menu in Menu.objects.all())
-    #     total_sales.append((current_month_start, monthly_sales))
-    from datetime import datetime, timedelta
-    import calendar
-    from django.db.models import Count
-    # from myapp.models import Cusord, Menu
-
+    # 직전 12개월 매출 통계 집계
     total_sales = []
     start_date = datetime.now() - timedelta(days=30*12)
     for i in range(12):
@@ -183,62 +138,6 @@ def dash(request):
 
     return render(request, 'dash.html', {'material': material, 'menu_sales_By_day': menu_sales_By_day, 'total_sales': total_sales,
                                          'menu_cnt_pred': menu_cnt_pred, 'daily_sales': daily_sales, 'monthly_sales': monthly_sales})
-
-
-    # return render(request, 'dash.html', {'material': material, 'sale_total': sales_total,\
-    #     'menu_cnt_pred': menu_cnt_pred,'daily_sales':daily_sales,'monthly_sales':monthly_sales})
-"""개선 전 코드"""
-
-# def validate_date(date_text):
-# 	try:
-# 		datetime.strptime(date_text,"%Y-%m-%d")
-# 		return True
-# 	except ValueError:
-# 		print("Incorrect data format({0}), should be YYYY-MM-DD".format(date_text))
-# 		return False
-
-# def dash(request):
-
-#     material = Material.objects.all()
-#     if request.method == 'POST':
-#         if validate_date(request.POST.get('month')):# 특정 날짜를 누르면 실행
-#             month_day = request.POST.get('month')
-#         else: # 단순히 확인버튼만 누르면 오늘날짜로 출력
-#             month_day = date.today().isoformat()
-#     else: # 사이트 새로고침시 오늘날짜로 동일하게 매출 출력
-#     month_day = date.today().isoformat() # 오늘 날짜의 YYYY-MM-DD 형태
-
-# menu_li_day = Cusord.objects.filter(out_time=month_day)
-# menu_day = [str(i.menu_id.menu_id) for i in list(menu_li_day)]
-# menu_day = Counter(menu_day)
-# menu_list = []
-# for i in [str(j) for j in range(1, 6)]:
-#     menu_list.append(menu_day[i])
-
-# menu_name_list = []
-# for i in range(1, 6):
-#     menu_name_list.append(Menu.objects.get(menu_id=i))
-# sales_total = zip(menu_name_list, menu_list)
-
-#     # 일매출
-#     daily_sales = 0
-#     for i,j in enumerate([str(j) for j in range(1,6)]):
-#         daily_sales += (menu_day[j] * Menu.objects.get(pk=i+1).menu_pri)
-#     daily_sales = str(daily_sales)+' 원'
-#     # 월매출
-#     month = month_day[:7]
-#     menu_li_month = Cusord.objects.filter(out_time__startswith=month)
-#     menu_month = [str(i.menu_id.menu_id) for i in list(menu_li_month)]
-#     menu_month = Counter(menu_month)
-#     monthly_sales = 0
-#     for i,j in enumerate([str(j) for j in range(1,6)]):
-#         monthly_sales += (menu_month[j] * Menu.objects.get(pk=i+1).menu_pri)
-#     monthly_sales = str(monthly_sales)+' 원'
-
-#     menu_cnt_pred,_= ML()
-
-#     return render(request, 'dash.html', {'material': material, 'sale_total': sales_total,\
-#         'menu_cnt_pred': menu_cnt_pred,'daily_sales':daily_sales,'monthly_sales':monthly_sales})
 
 
 # 머신러닝
@@ -300,8 +199,6 @@ def get_or_none(classmodel, id_1, id_2):
 
 
 # 발주신청
-
-
 class OrdappAPIView(APIView):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'orderapp.html'
@@ -322,6 +219,7 @@ class OrdappAPIView(APIView):
         recipe_list_sum = np.ceil(recipe_list_sum * margin).astype(int)
 
         mate_recipe_list = zip(mate_list, recipe_list_sum)
+
         return Response({'mate_list': mate_list, 'mate_recipe_list': mate_recipe_list})
 
 
