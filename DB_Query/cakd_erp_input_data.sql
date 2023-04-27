@@ -1,37 +1,37 @@
--- DB 선택
-use cakd_erp;
+-- DB 선택 
+use cakd7_erp;
 
-alter table cakd_erp.manager AUTO_INCREMENT=1;
+alter table cakd7_erp.manager AUTO_INCREMENT=1;
 set @count=0;
-update cakd_erp.manager set manager.manId = @count:=@count+1;
+update cakd7_erp.manager set manager.manId = @count:=@count+1;
 
-alter table cakd_erp.menu AUTO_INCREMENT=1;
+alter table cakd7_erp.menu AUTO_INCREMENT=1;
 set @count=0;
-update cakd_erp.menu set menu.menuId = @count:=@count+1;
+update cakd7_erp.menu set menu.menuId = @count:=@count+1;
 
-alter table cakd_erp.material AUTO_INCREMENT=1;
+alter table cakd7_erp.material AUTO_INCREMENT=1;
 set @count=0;
-update cakd_erp.material set material.mateId = @count:=@count+1;
+update cakd7_erp.material set material.mateId = @count:=@count+1;
 
-alter table cakd_erp.recipe AUTO_INCREMENT=1;
+alter table cakd7_erp.recipe AUTO_INCREMENT=1;
 set @count=0;
-update cakd_erp.recipe set recipe.id = @count:=@count+1;
+update cakd7_erp.recipe set recipe.id = @count:=@count+1;
 
-alter table cakd_erp.cusOrd AUTO_INCREMENT=1;
+alter table cakd7_erp.cusOrd AUTO_INCREMENT=1;
 set @count=0;
-update cakd_erp.cusOrd set cusOrd.cusOrdNum = @count:=@count+1;
+update cakd7_erp.cusOrd set cusOrd.cusOrdNum = @count:=@count+1;
 
-alter table cakd_erp.inStock AUTO_INCREMENT=1;
+alter table cakd7_erp.inStock AUTO_INCREMENT=1;
 set @count=0;
-update cakd_erp.inStock set inStock.inNum = @count:=@count+1;
+update cakd7_erp.inStock set inStock.inNum = @count:=@count+1;
 
-alter table cakd_erp.ord AUTO_INCREMENT=1;
+alter table cakd7_erp.ord AUTO_INCREMENT=1;
 set @count=0;
-update cakd_erp.ord set ord.ordNum = @count:=@count+1;
+update cakd7_erp.ord set ord.ordNum = @count:=@count+1;
 
-alter table cakd_erp.outStock AUTO_INCREMENT=1;
+alter table cakd7_erp.outStock AUTO_INCREMENT=1;
 set @count=0;
-update cakd_erp.outStock set outStock.outNum  = @count:=@count+1;
+update cakd7_erp.outStock set outStock.outNum  = @count:=@count+1;
 
 -- manager Table
 INSERT INTO manager VALUES (null,'중앙정보처리가든','1234','02-313-1711','서울특별시 마포구 신촌로 176 중앙빌','infoprotect@choongang.co.kr',1.2,'105-91-95789');
