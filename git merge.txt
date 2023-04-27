@@ -1,0 +1,15 @@
+< 브런치 작업하는 법>
+
+1. Git checkout main
+
+2. Git pull
+
+[3. Git branch <작업할 브런치>
+
+4. Git checkout <작업할 브런치>] >> 내가 작업
+
+5. Git push
+
+6. Git merge origin/<받을 브런치>
+
+7. Git push
