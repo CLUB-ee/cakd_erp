@@ -57,7 +57,7 @@
 **웹 서비스** :
 <img src="https://img.shields.io/badge/Django-7D929E??style=plastic&logo=Django&logoColor=092E20"/>
 <img src="https://img.shields.io/badge/jQuery-7D929E??style=plastic&logo=jquery&logoColor=0769AD"/>
-<img src="https://img.shields.io/badge/BootStrap-7D929E??style=plastic&logo=bootstrap&logoColor=#7952B3"/>
+<img src="https://img.shields.io/badge/BootStrap-7D929E??style=plastic&logo=bootstrap&logoColor=#7952B3"/></br>
 </br>
 **적재** :
 <img src="https://img.shields.io/badge/MySQL-7D929E??style=flat-square&logo=MySQL&logoColor=4479A1"/></br>
