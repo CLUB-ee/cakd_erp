@@ -1,4 +1,9 @@
-django
+Pandas
+numpypip 
+joblib
+scikit-learn 
+Pillow
+Django
 django-allauth
 django-upgrade
 djangorestframework
