@@ -91,6 +91,12 @@ $ pip install -r requirements.txt
 ```
 
 ### DB
+#### config.py 파일 수정
 
+#### DB_Query 실행
+```
+cakd_erp_cusOrd_ dummy_data.sql
+cakd_erp_input_data.sql
+```
 
 
