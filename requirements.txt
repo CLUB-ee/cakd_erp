@@ -2,6 +2,7 @@ Pandas
 numpypip 
 joblib
 scikit-learn 
+numpy
 Pillow
 Django
 django-allauth
@@ -10,7 +11,3 @@ djangorestframework
 djangorestframework-queryfields
 joblib
 mysqlclient
-numpy
-pandas
-pillow
-scikit-learn
