@@ -8,38 +8,30 @@ from bisect import insort
 from gc import get_objects
 from pipes import Template
 from sqlite3 import Cursor
-# from termios import TIOCPKT_FLUSHREAD
 from urllib import request
 from django.shortcuts import render, redirect
 # from django.views.generic import ListView, DetailView, CreateView, UpdateView, TemplateView
 # from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from erp.models import Cusord, Instock, Manager, Material, Menu, Ord, Outstock, Recipe
 from erp.serializers import CusordSerializer, InstockSerializer, OutstockSerializer, ManagerSerializer
-# from rest_framework import generics
-# from rest_framework import viewsets
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db.models import Q
 from django.db.models import Max, Min, Avg, Sum, Count
 import pandas as pd
-# import json
-from django.http import JsonResponse
 from django.contrib import messages
 import joblib
 import pandas as pd
-import pickle
-from datetime import datetime, date
 from django.core.exceptions import ObjectDoesNotExist
-from collections import Counter
 import joblib
 import pandas as pd
-import pickle
-from django.core.exceptions import ObjectDoesNotExist
 from sklearn.linear_model import ElasticNet
 from datetime import datetime, timedelta
 import calendar
 from django.db.models import Count
+from django.db.models import Sum, Count, F
+from django.db.models.functions import TruncMonth
 
 
 def stock(request):
@@ -54,11 +46,6 @@ def register(request):
     return render(request, 'register.html')
 
 
-"""코드 개선"""
-# from .models import Material, Menu, Cusord
-# from .utils import ML
-
-
 def validate_date(date_text):
     try:
         datetime.strptime(date_text, "%Y-%m-%d")
@@ -68,10 +55,6 @@ def validate_date(date_text):
 
 
 def dash(request):
-    from django.db.models import Sum, Count, F
-    from django.db.models.functions import TruncMonth
-    from datetime import datetime, timedelta
-    from dateutil.relativedelta import relativedelta
 
     material = Material.objects.all()
     today = datetime.now().date()
